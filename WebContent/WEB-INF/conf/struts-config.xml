@@ -2,12 +2,12 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache//DTD Struts Configuration 1.1//EN" "./struts-config_1_1.dtd">
 <struts-config>
 	<form-beans>
-		
+		<form-bean name="enrollmentForm" type="bt.gov.moh.eet.web.actionform.EnrollmentForm"></form-bean>
 	</form-beans>
 	
 	<global-forwards>
 		<forward name="GLOBAL_REDIRECT_LOGIN" path="/login.jsp" redirect="false" />	
-		<forward name="GLOBAL_REDIRECT_ERROR" path="/pages/common/error.jsp" redirect="false" />	
+		<forward name="GLOBAL_REDIRECT_ERROR" path="/pages/common/error.jsp" redirect="false" />
 	</global-forwards>
 	
 	<action-mappings>
@@ -23,6 +23,10 @@
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
 			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>
+			<forward name="MANAGE_ENROLLMENT" path="/pages/eet/guest.jsp"></forward>
+		</action>
+		
+		<action input="/" path="/enrollment" scope="request" type="bt.gov.moh.eet.web.action.EnrollmentAction" name="enrollmentForm">
 		</action>
 		
 	</action-mappings>
