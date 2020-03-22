@@ -3,6 +3,5 @@
 
 .settings/
 build/
-.project
 .classpath
 /WebContent/META-INF/context.xml
