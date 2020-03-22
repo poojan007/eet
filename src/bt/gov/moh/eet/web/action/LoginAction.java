@@ -20,8 +20,7 @@ public class LoginAction extends Action
 		HttpSession session = request.getSession(true);
 		
 		try {
-			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("");
-			
+			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
 			if(vo != null && vo.getRole() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {	
 				
 				String q = request.getParameter("q");
