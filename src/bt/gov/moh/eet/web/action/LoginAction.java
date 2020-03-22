@@ -21,16 +21,11 @@ public class LoginAction extends Action
 		
 		try {
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
-			if(vo != null && vo.getRole() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {	
-				
-				String q = request.getParameter("q");
-				
-				if(q != null){
-					forwarder = "SUCCESS";
-				} else {
-					forwarder = "FAILURE";
-					request.setAttribute("FAILURE", forwarder);
-				}
+			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {	
+				forwarder = "success";
+			} else {
+				forwarder = "failure";
+				request.setAttribute("FAILURE", forwarder);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

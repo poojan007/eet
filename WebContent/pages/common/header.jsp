@@ -43,11 +43,8 @@
 	if(session.getAttribute("userdetails")!=null)
 	{
 		userDetails = (UserDetailsVO) session.getAttribute("userdetails");
-		userName = userDetails.getUserName().toUpperCase();
-		role = userDetails.getRole();
-		flag = userDetails.getUserFlag();
-		agencyName = userDetails.getAgencyName();
-		agencyId = userDetails.getAgencySerialNo();
+		userName = userDetails.getFull_name().toUpperCase();
+		role = userDetails.getRole_name();
 	}
 	
 %>

@@ -9,11 +9,8 @@
 	if(session.getAttribute("userdetails")!=null)
 	{
 		userDetails = (UserDetailsVO) session.getAttribute("userdetails");
-		userName = userDetails.getUserName().toUpperCase();
-		role = userDetails.getRole();
-		flag = userDetails.getUserFlag();
-		agencyName = userDetails.getAgencyName();
-		privilege = userDetails.getPrivilege();
+		userName = userDetails.getFull_name().toUpperCase();
+		role = userDetails.getRole_name();
 	}
 %>
 
@@ -53,12 +50,7 @@
 		        </span>
 		      </a>
 		      <ul class="treeview-menu">
-		      		<li><a href="#" onclick="loadPage('MANAGE_AGENCY')"><i class="fa fa-circle-o"></i> Manage Agent</a></li>
-		        	<li><a href="#" onclick="loadPage('MANAGE_BRANCH')"><i class="fa fa-circle-o"></i> Manage Branch</a></li>
-		        	<li><a href="#" onclick="loadPage('MANAGE_NATIONALITY')"><i class="fa fa-circle-o"></i> Manage Nationality</a></li>
-		        	<li><a href="#" onclick="loadPage('MANAGE_LOAN_PURPOSE')"><i class="fa fa-circle-o"></i> Manage Purpose of Loan</a></li>
-		        	<li><a href="#" onclick="loadPage('MANAGE_COLLATERAL_TYPE')"><i class="fa fa-circle-o"></i> Manage Collateral Type</a></li>
-		        	<li><a href="#" onclick="loadPage('MANAGE_SEARCH_PURPOSE')"><i class="fa fa-circle-o"></i> Manage Search Purpose</a></li>
+		      		<li><a href="#" onclick="loadPage('MANAGE_EXIT_REASONS')"><i class="fa fa-circle-o"></i> Manage Exit Reasons</a></li>
 		      </ul>
 		    </li>
 		    <li>

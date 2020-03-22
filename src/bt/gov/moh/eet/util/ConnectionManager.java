@@ -1,3 +1,5 @@
+package bt.gov.moh.eet.util;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +8,8 @@ import java.sql.SQLException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import bt.org.crs.framework.common.logger.Log;
+
+import bt.gov.moh.framework.common.Log;
 
 public class ConnectionManager {
 	

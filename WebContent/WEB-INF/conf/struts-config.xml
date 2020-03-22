@@ -2,7 +2,7 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache//DTD Struts Configuration 1.1//EN" "./struts-config_1_1.dtd">
 <struts-config>
 	<form-beans>
-		<form-bean name="registrtionForm" type="bt.org.crs.rma.web.actionform.endUser.RegistrationForm"></form-bean>
+		
 	</form-beans>
 	
 	<global-forwards>
@@ -12,169 +12,16 @@
 	
 	<action-mappings>
 	
-		<action input="/" path="/login" scope="request" type="bt.org.crs.rma.web.action.LoginAction">
+		<action input="/" path="/login" scope="request" type="bt.gov.moh.eet.web.action.LoginAction">
 			<forward name="success" path="/pages/common/index.jsp" redirect="false"/>
-			<forward name="failure" path="/login.jsp" redirect="false"/>
-			<forward name="changePassword" path="/pages/common/change-password.jsp" redirect="false"/>
+			<forward name="failure" path="/pages/common/login.jsp" redirect="false"/>
 		</action>
 		  
-		<action input="/" path="/logout" scope="request" type="bt.org.crs.rma.web.action.LogoutAction">
-			<forward name="success" path="/login.jsp" redirect="false"/>
+		<action input="/" path="/logout" scope="request" type="bt.gov.moh.eet.web.action.LogoutAction">
+			<forward name="success" path="/pages/common/login.jsp" redirect="false"/>
 		</action>
 		
-		<action input="/" path="/redirect" scope="request" type="bt.org.crs.rma.web.action.RequestForwarderAction">
-			<forward name="comingsoon" path="/pages/common/coming-soon.jsp" redirect="false"></forward>
-			<forward name="register" path="/pages/common/public-registration.jsp" redirect="false"></forward>
-			<forward name="BANK_MERGE" path="/pages/crs/superAdmin/bank-merge.jsp" redirect="false"/>
-			<forward name="MANAGE_USERS" path="/pages/crs/superAdmin/user-management.jsp" redirect="false"/>
-			<forward name="master-management" path="/pages/crs/superAdmin/master-management.jsp" redirect="false"/>
-			<forward name="forgotpassword" path="/pages/common/forgot-password.jsp" redirect="false"/>
-			<forward name="AMENDMENT" path="/pages/crs/endUser/registration-amendment-search.jsp" redirect="false"/>
-			<forward name="CONTINUATION" path="/pages/crs/endUser/registration-continuation.jsp" redirect="false"/>
-			<forward name="REGISTRATION" path="/pages/crs/endUser/registration/registration-details.jsp" redirect="false"/>
-			<forward name="DISCHARGE" path="/pages/crs/endUser/registration-discharge.jsp" redirect="false"/>
-			<forward name="MANAGE_SEAL_SIGNATURE" path="/pages/crs/superAdmin/manage-seal-signature.jsp" redirect="false"/>
-			<forward name="SEARCH_INDIVIDUAL" path="/pages/crs/search/search-individual.jsp" redirect="false"/>
-			<forward name="SEARCH_INSTITUTION" path="/pages/crs/search/search-institution.jsp" redirect="false"/>
-			<forward name="GENERATE_MONTHLY_INVOICE" path="/pages/crs/invoice/generate-monthly-invoice.jsp" redirect="false"/>
-			<forward name="SEARCH_REG_NO" path="/pages/crs/search/search-registration.jsp" redirect="false"/>
-			<forward name="SEARCH_COLLATERAL" path="/pages/crs/search/search-collateral.jsp" redirect="false"/>
-			<forward name="continuation_due" path="/pages/common/continuation-due-list.jsp" redirect="false"/>
-			<forward name="VIEW_AGENT_ADMIN_INVOICE" path="/pages/crs/invoice/invoice.jsp" redirect="false"/>
-			<forward name="AGENT_ADMIN_INVOICE" path="/pages/crs/invoice/agent-admin-invoice-list.jsp" redirect="false"/>
-			<forward name="SUPER_ADMIN_INVOICE" path="/pages/crs/invoice/super-admin-invoice-list.jsp" redirect="false"/>
-			<forward name="END_USER_INVOICE" path="/pages/crs/invoice/end-user-invoice-list.jsp" redirect="false"/>
-			<forward name="REPORT-PAGE" path="/pages/crs/reports/report.jsp" redirect="false"/>
-			<forward name="PROFILE" path="/pages/common/profile.jsp" redirect="false"/>
-			<forward name="SEARCH_REGISTRATION_NUMBER" path="/pages/crs/endUser/search-registration-no.jsp" redirect="false"/>
-			<forward name="publicsearch" path="/pages/crs/public/search/search-index.jsp" redirect="false"/>
-			<forward name="MANAGE_ONLINE_USERS" path="/pages/crs/superAdmin/manage-online-user.jsp"></forward>
-		</action>
-		
-		<action input="/" path="/public_redirect" scope="request" type="bt.org.crs.rma.web.PublicRedirectionAction">
-			<forward name="PUBLICSERVICES" path="/pages/crs/public/publicCommon/servicesIndex.jsp" redirect="false"/>
-			<forward name="public-amendment-search" path="/pages/crs/public/amendment/public-amendment-search.jsp"/>
-			<forward name="public-continuation-search" path="/pages/crs/public/continuation/public-continuation-search.jsp"/>
-		</action>
-		
-		<action path="/servicesRedirectionForPublic"  validate="false" scope="request" parameter="method" name="registrtionForm" input="/" type="bt.org.crs.rma.web.action.publicAction.PublicAction">
-			<forward name="ARRedirection" path="/pages/crs/public/publicCommon/ARRedirection.jsp" redirect="false"/>
-			<forward name="PUBLICSERVICES" path="/pages/crs/public/publicCommon/servicesIndex.jsp" redirect="false"/>
-			<forward name="REGISTRATION" path="/pages/crs/public/registration/registration-details.jsp" redirect="false"/>
-			<forward name="confirm" path="/pages/crs/public/registration/registrationAcknowldgement.jsp" redirect="false"/>
-			<forward name="success" path="/pages/crs/public/registration/print-page.jsp" ></forward>
-			<forward name="CONTINUATION" path="/pages/crs/public/continuation/registration-continuation-details.jsp" redirect="false"/>
-			<forward name="continued" path="/pages/crs/public/continuation/registration-continuation-print.jsp"></forward>
-			<forward name="continuedprint" path="/pages/crs/public/continuation/print.jsp"></forward>
-			<forward name="SEARCH_INDIVIDUAL" path="/pages/crs/search/search-individual.jsp" redirect="false"/>
-			<forward name="SEARCH_INSTITUTION" path="/pages/crs/search/search-institution.jsp" redirect="false"/>
-			<forward name="SEARCH_COLLATERAL" path="/pages/crs/search/search-collateral.jsp" redirect="false"/>
-			<forward name="AMENDMENT" path="/amendment.html?method=fetchAllLoanDtls"></forward>		
-		</action>
-		
-		<action path="/public" scope="request" parameter="method" input="/" name="registrtionForm" type="bt.org.crs.rma.web.action.publicAction.PublicAction">
-			<forward name="ARRedirection" path="/pages/crs/public/publicCommon/ARRedirection.jsp"></forward>
-			<forward name="PUBLICSERVICES" path="/pages/crs/public/publicCommon/servicesIndex.jsp" redirect="false"/>
-			<forward name="REGISTRATION" path="/pages/crs/public/registration/registration-details.jsp" redirect="false"/>
-			<forward name="confirm" path="/pages/crs/public/registration/registrationAcknowldgement.jsp" redirect="false"/>
-			<forward name="success" path="/pages/crs/public/registration/print-page.jsp" ></forward>
-			<forward name="continuation-page" path="/pages/crs/public/continuation/registration-continuation-details.jsp" redirect="false"/>
-			<forward name="continued" path="/pages/crs/public/continuation/registration-continuation-print.jsp"></forward>
-			<forward name="continuedprint" path="/pages/crs/public/continuation/print.jsp"></forward>
-			<forward name="AMENDMENT" path="/public.html?method=fetchAllLoanDtls"></forward>		
-			<forward name="SEARCH_INDIVIDUAL" path="/pages/crs/public/search/public-search-individual.jsp" redirect="false"/>
-			<forward name="SEARCH_INSTITUTION" path="/pages/crs/public/search/public-search-institution.jsp" redirect="false"/>
-			<forward name="SEARCH_COLLATERAL" path="/pages/crs/public/search/public-search-collateral.jsp" redirect="false"/>
-			<forward name="notification-modal" path="/pages/crs/public/publicCommon/notification-modal.jsp"/>
-			<forward name="TXN_REDIRECTOR" path="/pages/common/transaction-redirect.jsp"></forward>
-			<forward name="message" path="/pages/crs/endUser/message.jsp" />
-			<forward name="CONTINUATION" path="/public.html?method=fetchAllLoanDtls" redirect="false"/>
-			<forward name="amendment-page" path="/pages/crs/public/amendment/registration-amendment-details.jsp"></forward>
-			<forward name="modal-page" path="/pages/crs/public/amendment/amendment-modals.jsp"></forward>
-			<forward name="valid" path="/public.html?method=fetchAllLoanDtls"></forward>			
-			<forward name="invalid" path="/pages/crs/endUser/message.jsp"></forward>
-		</action>
-		
-		<action input="/" path="/user" scope="request" parameter="method" type="bt.org.crs.rma.web.action.UserAction">
-			<forward name="MESSAGE" path="/pages/common/message.jsp"></forward>
-			<forward name="user-management-branch-wise" path="/pages/crs/superAdmin/user-management-branch.jsp"></forward>
-		</action>
-		
-		<action input="/" path="/master" scope="request" parameter="method" type="bt.org.crs.rma.web.action.MasterAction">
-			<forward name="message" path="/pages/common/message.jsp"></forward>
-			<forward name="branch-list" path="/pages/crs/superAdmin/branch-list.jsp"></forward>
-		</action>
-		
-		<action input="/" path="/admin" scope="request" parameter="method" type="bt.org.crs.rma.web.action.superAdmin.AdministrationAction">
-			<forward name="message" path="/pages/crs/superAdmin/message.jsp"></forward>
-		</action>
-		
-		<action input="/" path="/updatePassword" scope="request" type="bt.org.crs.framework.common.web.action.UpdateUserPasswordAction">
-		</action>
-		
-		<action input="/" path="/updateLoggedInFlag" scope="request" type="bt.org.crs.framework.common.web.action.UpdateLoggedInFlag">
-		</action>
-		
-		<action path="/registrationAction"  validate="false" scope="request" parameter="method" name="registrtionForm" input="/" type="bt.org.crs.rma.web.action.endUser.ServiceAction">
-			<forward name="confirm" path="/pages/crs/endUser/registration/registrationAcknowldgement.jsp" redirect="false"/>
-			<forward name="message" path="/pages/crs/endUser/message.jsp" />
-		</action>
-		
-		<action path="/print" validate="false" scope="request" parameter="method" name="registrationForm" input="/" type="bt.org.crs.rma.web.action.endUser.ServiceAction">
-			<forward name="success" path="/pages/crs/endUser/print-page.jsp"></forward>
-		</action>
-		
-		<action path="/amendment"  validate="false" scope="request" parameter="method" name="registrtionForm" input="/" type="bt.org.crs.rma.web.action.endUser.ServiceAction">
-			<forward name="valid" path="/amendment.html?method=fetchAllLoanDtls"></forward>			
-			<forward name="invalid" path="/pages/crs/endUser/message.jsp"></forward>
-			<forward name="success" path="/pages/crs/endUser/registration-amendment-details.jsp"></forward>
-			<forward name="modal-page" path="/pages/crs/endUser/amendment-modals.jsp"></forward>
-			<forward name="failure" path="/pages/crs/endUser/message.jsp" />
-			<forward name="message" path="/pages/crs/endUser/message.jsp" />
-		</action>
-		
-		<action path="/continuation"  validate="false" scope="request" parameter="method" name="registrtionForm" input="/" type="bt.org.crs.rma.web.action.endUser.ServiceAction">
-			<forward name="valid" path="/continuation.html?method=fetchAllLoanDtls"></forward>			
-			<forward name="invalid" path="/pages/crs/endUser/message.jsp"></forward>
-			<forward name="success" path="/pages/crs/endUser/registration-continuation-details.jsp"></forward>
-			<forward name="continued" path="/pages/crs/endUser/registration-continuation-print.jsp"></forward>
-			<forward name="failure" path="/pages/crs/endUser/message.jsp" />
-			<forward name="message" path="/pages/crs/endUser/message.jsp" />
-		</action>
-		
-		<action path="/discharge"  validate="false" scope="request" parameter="method" name="registrtionForm" input="/" type="bt.org.crs.rma.web.action.endUser.ServiceAction">
-			<forward name="valid" path="/discharge.html?method=fetchAllLoanDtls"></forward>			
-			<forward name="invalid" path="/pages/crs/endUser/message.jsp"></forward>
-			<forward name="success" path="/pages/crs/endUser/registration-discharge-details.jsp"></forward>
-			<forward name="loadDischargePage" path="/discharge.html?method=fetchDischargedDtls"></forward>
-			<forward name="discharged" path="/pages/crs/endUser/registration-discharge-print.jsp"></forward>
-			<forward name="failure" path="/pages/crs/endUser/message.jsp" />
-			<forward name="message" path="/pages/crs/endUser/message.jsp" />
-		</action>
-		
-		<action path="/searchList" validate="false" scope="request" parameter="method" input="/" type="bt.org.crs.rma.web.search.SearchAction">
-			<forward name="success" path="/pages/crs/search/search-list.jsp"></forward>
-			<forward name="failure" path="/pages/crs/endUser/message.jsp" />
-		</action>
-		
-		<action path="/search" validate="false" scope="request" parameter="method" input="/" type="bt.org.crs.rma.web.search.SearchAction">
-			<forward name="registration-no-list" path="/pages/crs/search/registration-no-list.jsp"></forward>
-			<!-- <forward name="reportDetails" path="/pages/crs/search/search-report-latest.jsp"></forward> -->
-			<forward name="reportDetails" path="/pages/crs/search/search-hit-report.jsp"></forward>
-			<forward name="noHitReport" path="/pages/crs/search/search-noHitReport.jsp"></forward>
-		</action>
-		
-		<action path="/invoice" validate="false" scope="request" parameter="method" input="/" type="bt.org.crs.rma.web.invoice.InvoiceAction">
-			<forward name="agency_wise_invoice" path="/pages/crs/invoice/agency-wise-invoice.jsp"></forward>
-			<forward name="branch_wise_invoice" path="/pages/crs/invoice/branch-wise-invoice.jsp"></forward>
-			<forward name="user_wise_invoice" path="/pages/crs/invoice/user-wise-invoice.jsp"></forward>
-			<forward name="overall_invoice" path="/pages/crs/invoice/overall-invoice.jsp"></forward>
-			<forward name="agency_wise_invoice_for_print" path="/pages/crs/invoice/agency-wise-invoice-for-print.jsp"></forward>
-		</action>
-		
-		<action path="/report" validate="false" parameter="method" scope="request" input="/" type="bt.org.crs.rma.web.reports.ReportAction">
-			<forward name="report-result" path="/pages/crs/reports/report-result-page.jsp"></forward>
-			<forward name="search-hit-report-data" path="/pages/crs/search/search-report.jsp"></forward>
+		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
 		</action>
 		
 	</action-mappings>

@@ -3,35 +3,40 @@ package bt.gov.moh.eet.vo;
 public class UserDetailsVO implements java.io.Serializable 
 {
 	private static final long serialVersionUID = 6647518571149081230L;
-	private String role;
-	private String userId;
-	private String userName;
-	private String userType;
-	private int userBranchSerialNo;
-	private int agencySerialNo;
-	private String privilege;
-	private int privId;
-	private String userCheck;
-	private String userFlag;
-	private String agencyName;
-	private String password;
-	private String userCode;
+	private String cid;
+	private String full_name;
+	private String mobile_number;
 	private String designation;
-	private String branchName;
-	private String agencyCode;
-	private String phoneNo;
+	private String working_address;
+	private String user_type_id;
+	private String role_id;
+	private String user_type;
+	private String role_name;
+	private String userCheck;
 	
-	public String getPhoneNo() {
-		return phoneNo;
+	public String getUserCheck() {
+		return userCheck;
 	}
-	public void setPhoneNo(String phoneNo) {
-		this.phoneNo = phoneNo;
+	public void setUserCheck(String userCheck) {
+		this.userCheck = userCheck;
 	}
-	public String getAgencyCode() {
-		return agencyCode;
+	public String getCid() {
+		return cid;
 	}
-	public void setAgencyCode(String agencyCode) {
-		this.agencyCode = agencyCode;
+	public void setCid(String cid) {
+		this.cid = cid;
+	}
+	public String getFull_name() {
+		return full_name;
+	}
+	public void setFull_name(String full_name) {
+		this.full_name = full_name;
+	}
+	public String getMobile_number() {
+		return mobile_number;
+	}
+	public void setMobile_number(String mobile_number) {
+		this.mobile_number = mobile_number;
 	}
 	public String getDesignation() {
 		return designation;
@@ -39,88 +44,36 @@ public class UserDetailsVO implements java.io.Serializable
 	public void setDesignation(String designation) {
 		this.designation = designation;
 	}
-	public String getBranchName() {
-		return branchName;
+	public String getWorking_address() {
+		return working_address;
 	}
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
+	public void setWorking_address(String working_address) {
+		this.working_address = working_address;
 	}
-	public String getUserCode() {
-		return userCode;
+	public String getUser_type_id() {
+		return user_type_id;
 	}
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setUser_type_id(String user_type_id) {
+		this.user_type_id = user_type_id;
 	}
-	public String getPassword() {
-		return password;
+	public String getRole_id() {
+		return role_id;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setRole_id(String role_id) {
+		this.role_id = role_id;
 	}
-	public String getAgencyName() {
-		return agencyName;
+	public String getUser_type() {
+		return user_type;
 	}
-	public void setAgencyName(String agencyName) {
-		this.agencyName = agencyName;
+	public void setUser_type(String user_type) {
+		this.user_type = user_type;
 	}
-	public String getUserFlag() {
-		return userFlag;
+	public String getRole_name() {
+		return role_name;
 	}
-	public void setUserFlag(String userFlag) {
-		this.userFlag = userFlag;
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
 	}
-	public String getUserCheck() {
-		return userCheck;
-	}
-	public void setUserCheck(String userCheck) {
-		this.userCheck = userCheck;
-	}
-	public int getPrivId() {
-		return privId;
-	}
-	public void setPrivId(int privId) {
-		this.privId = privId;
-	}
-	public String getPrivilege() {
-		return privilege;
-	}
-	public void setPrivilege(String privilege) {
-		this.privilege = privilege;
-	}
-	public int getAgencySerialNo() {
-		return agencySerialNo;
-	}
-	public void setAgencySerialNo(int agencySerialNo) {
-		this.agencySerialNo = agencySerialNo;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public String getUserType() {
-		return userType;
-	}
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
-	public int getUserBranchSerialNo() {
-		return userBranchSerialNo;
-	}
-	public void setUserBranchSerialNo(int userBranchSerialNo) {
-		this.userBranchSerialNo = userBranchSerialNo;
-	}
+	
+	
 }
