@@ -5,8 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
+import bt.gov.moh.eet.dto.DropDownDTO;
 import bt.gov.moh.eet.util.ConnectionManager;
-import bt.gov.moh.framework.dto.DropDownDTO;
 
 public class PopulateDropDownDAO {
 	

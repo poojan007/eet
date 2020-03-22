@@ -2,7 +2,7 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache//DTD Struts Configuration 1.1//EN" "./struts-config_1_1.dtd">
 <struts-config>
 	<form-beans>
-		
+		<form-bean name="EntryExitForm" type="bt.gov.moh.eet.web.action.EntryExitForm" />
 	</form-beans>
 	
 	<global-forwards>
@@ -23,6 +23,12 @@
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
 			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>
+			<forward name="MANAGE_ENTRY_EXIT" path="/pages/eet/entry-exit.jsp"></forward>
+		</action>
+		
+		<action input="/" path="/entryExit" scope="request" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">				
+					<forward name="MANAGE_ENTRY_EXIT" path="/pages/eet/entry-exit.jsp"></forward>
+					<forward name="SUCCESS" path="/pages/eet/entry-exit.jsp"/>
 		</action>
 		
 	</action-mappings>
