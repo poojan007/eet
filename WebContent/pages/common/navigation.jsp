@@ -86,7 +86,7 @@
 	            color: '#fff' 
         	} 
         });
- 		var url = "<%=request.getContextPath()%>/redirect.html?param="+identifier
+ 		var url = "<%=request.getContextPath()%>/redirect.html?q="+identifier
 		$("#contentDisplayDiv").load(url);
 		$('#contentDisplayDiv').show();
 		setTimeout($.unblockUI, 1000); 

@@ -22,8 +22,11 @@ public class RedirectionAction extends Action {
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
 			String param = request.getParameter("q");
 			
-			if(vo != null && vo.getRole() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
-				
+			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
+				if(param.equalsIgnoreCase("MANAGE_USERS")) {
+					//pull list of user here
+					actionForward = param;
+				}
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";

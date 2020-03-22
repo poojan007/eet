@@ -1,30 +1,32 @@
-  <!-- Favicon -->
-  <%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
-<link rel="icon" href="<%=request.getContextPath() %>/img/favicon.ico">
+ <%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
+<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.ico">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.min.css">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/select2.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/ionicons.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/app.css">
   <!-- AdminLTE Skins -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/_all-skins.min.css">
   <!-- Date Picker -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap-datepicker.min.css">
+  <!-- Select 2 -->
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/select2.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap3-wysihtml5.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/google-font.css">
-  <!-- Custom App Css -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/crst.css">
+  <!-- Sweet Alert -->
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/sweetalert.css">
+  <!-- Summer Note -->
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/summernote.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

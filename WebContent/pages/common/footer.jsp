@@ -37,7 +37,7 @@
 <!-- Bootstrap WYSIHTML5 -->
 <script src="<%=request.getContextPath() %>/js/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- AdminLTE App -->
-<script src="<%=request.getContextPath() %>/js/adminlte.min.js"></script>
+<script src="<%=request.getContextPath() %>/jslte.min.js"></script>
 <!-- jQuery Block UI -->
 <script src="<%=request.getContextPath() %>/js/jquery-blockUI.js"></script>
 <!--Ajax form submit -->
@@ -49,14 +49,15 @@
 <!-- Idle Timer -->
 <script src="<%=request.getContextPath() %>/js/jquery.idletimer.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath() %>/js/jquery.idletimeout.js" type="text/javascript"></script>
-<!-- Application Common Util JS -->
-<script src="<%=request.getContextPath() %>/js/app/common-util.js"></script>
-<script>
-	function downloadFile(uuid)
-	{
-		//alert(uuid);
-		document.forms[0].action = '<%=request.getContextPath() %>/FileDownloadServlet?uuid='+uuid;
-		document.forms[0].submit();
-	}
-	
-</script>
+<script src="<%=request.getContextPath() %>/js/select2.full.min.js"></script>
+<!-- Jquery Highcharts -->
+<script src="<%=request.getContextPath() %>/js/highcharts.js"></script>
+<script src="<%=request.getContextPath() %>/js/data.js"></script>
+<script src="<%=request.getContextPath() %>/js/exporting.js"></script>
+<!-- Sweet Alert -->
+<script src="<%=request.getContextPath() %>/js/sweetalert.min.js"></script>
+<!-- Summer Note -->
+<script src="<%=request.getContextPath() %>/js/summernote.min.js"></script>
+<!-- Jquery clock timepicker -->
+<script src="<%=request.getContextPath() %>/js/jquery-clock-timepicker.js"></script>
+<script src="<%=request.getContextPath() %>/js/app.js"></script>
