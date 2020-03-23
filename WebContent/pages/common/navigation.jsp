@@ -42,17 +42,22 @@
 				</a>
 			</li>
 			<li class="treeview">
-		      <a href="#">
-		        <i class="fa fa-table"></i>
-		        <span>Master Management</span>
-		        <span class="pull-right-container">
-		          <i class="fa fa-angle-left pull-right"></i>
-		        </span>
-		      </a>
-		      <ul class="treeview-menu">
-		      		<li><a href="#" onclick="loadPage('MANAGE_EXIT_REASONS')"><i class="fa fa-circle-o"></i> Manage Exit Reasons</a></li>
-		      </ul>
-		    </li>
+		    	<a href="#">
+		    	   <i class="fa fa-users"></i>
+		           <span>Master Management</span>
+		           <span class="pull-right-container">
+		             <i class="fa fa-angle-left pull-right"></i>
+		           </span>	
+		    	</a>
+		    	<ul class="treeview-menu">
+		           <li><a href="#" onclick="loadPage('MASTER_MANAGEMENT_GATES')"><i class="fa fa-circle-o"></i><span> Gates</span></a></li>
+		           <li><a href="#" onclick="loadPage('MASTER_MANAGEMENT_IDENTIFICATION_TYPES')"><i class="fa fa-circle-o"></i> Identification Types</a></li>
+		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_NATIONALITY')"><i class="fa fa-circle-o"></i> Nationality</a></li>
+		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_USERTYPES')"><i class="fa fa-circle-o"></i> User Types</a></li>
+		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_EXITREASONS')"><i class="fa fa-circle-o"></i> Exit Reasons</a></li>
+		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_AVERAGE_TIME')"><i class="fa fa-circle-o"></i> Average Travel Time</a></li>
+		    	</ul>
+		   	</li>
 		    <li>
 				<a href="#" onclick="loadPage('MANAGE_ENROLLMENT')">
 					<i class="fa fa-users"></i>
