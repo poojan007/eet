@@ -1,11 +1,13 @@
 package bt.gov.moh.eet.web.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
@@ -53,8 +55,14 @@ public class DrivingLicenseServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/xml");
+		PrintWriter out = response.getWriter();
+		StringBuffer buffer = new StringBuffer();
+		
 		try {
 			String licenseNo = request.getParameter("licenseNo");
+			
+			ResourceBundle bundle = ResourceBundle.getBundle("eet");
 			
 			OkHttpClient httpClient = new OkHttpClient();
 			httpClient.setConnectTimeout(10000, TimeUnit.MILLISECONDS);
@@ -62,7 +70,7 @@ public class DrivingLicenseServlet extends HttpServlet {
 			
 			org.wso2.client.api.ApiClient apiClient = new org.wso2.client.api.ApiClient();
 			apiClient.setHttpClient(httpClient);
-			apiClient.setBasePath("https://staging-datahub-apim.dit.gov.bt/rsta_licenseandvehicleinformationapi/1.0.0");
+			apiClient.setBasePath(bundle.getString("getRSTADetailsAPI.endPointURL"));
 			
 			apiClient.setAccessToken("1c57772f-1829-3576-b9f0-d722083fb65c");
 			org.wso2.client.api.RSTA_LicenseAndVehicleInformationAPI.DefaultApi rstaapi = new org.wso2.client.api.RSTA_LicenseAndVehicleInformationAPI.DefaultApi(apiClient);
@@ -87,9 +95,18 @@ public class DrivingLicenseServlet extends HttpServlet {
 				LocalDate now1 = LocalDate.now();
 				Period diff1 = Period.between(l1, now1);
 				dto.setAge(Integer.toString(diff1.getYears()));
+				
+				buffer.append("<xml-response>");
+					buffer.append("<name>"+dto.getCitizenName()+"</name>");
+					buffer.append("<gender>"+dto.getGender()+"</gender>");
+					buffer.append("<age>"+dto.getAge()+"</age>");
+				buffer.append("</xml-response>");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		out.println(buffer);
+		out.flush();
 	}
 }

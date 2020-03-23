@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
@@ -63,13 +64,15 @@ public class CitizenDetailsServlet extends HttpServlet {
 		try {
 			String cidNo = request.getParameter("cidNo");
 			
+			ResourceBundle bundle = ResourceBundle.getBundle("eet");
+			
 			OkHttpClient httpClient = new OkHttpClient();
 			httpClient.setConnectTimeout(10000, TimeUnit.MILLISECONDS);
 			httpClient.setReadTimeout(10000, TimeUnit.MILLISECONDS);
 			
 			org.wso2.client.api.ApiClient apiClient = new org.wso2.client.api.ApiClient();
 			apiClient.setHttpClient(httpClient);
-			apiClient.setBasePath("https://staging-datahub-apim.dit.gov.bt/dcrc_citizen_details_api/1.0.0");
+			apiClient.setBasePath(bundle.getString("getCitizenDetailsAPI.endPointURL"));
 			
 			/*
 			 * HttpSession session = request.getSession(); TokenDTO tokendto = (TokenDTO)
