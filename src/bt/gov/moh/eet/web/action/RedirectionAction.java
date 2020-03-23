@@ -52,6 +52,17 @@ public class RedirectionAction extends Action {
 					request.setAttribute("masterType", param);
 					actionForward = "master-management";
 				}
+				if(param.equalsIgnoreCase("MANAGE_ENROLLMENT")) {
+			          //pull list of master here
+			          List<DropDownDTO> identificationTypeList = PopulateDropDownDAO.getInstance().getDropDownList("IDENTIFICATIONTYPELIST", null);
+			          request.setAttribute("IDENTIFICATIONTYPELIST", identificationTypeList);
+			          List<DropDownDTO> nationalityList = PopulateDropDownDAO.getInstance().getDropDownList("NATIONALITYLIST", null);
+			          request.setAttribute("NATIONALITYLIST", nationalityList);
+			          
+//			          List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATELIST", null);
+//			          request.setAttribute("GATELIST", gateList);
+			          actionForward = param;
+			        }
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";
