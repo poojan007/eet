@@ -5,3 +5,4 @@
 build/
 .classpath
 /WebContent/META-INF/context.xml
+/bin/
