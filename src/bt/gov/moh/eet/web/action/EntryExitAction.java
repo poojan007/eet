@@ -12,10 +12,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import bt.gov.moh.eet.dao.GuestDao;
-import bt.gov.moh.eet.dao.UserDAO;
-import bt.gov.moh.eet.dto.GuestDTO;
-import bt.gov.moh.eet.dto.GuestLogDTO;
-import bt.gov.moh.eet.dto.UserDTO;
+import bt.gov.moh.eet.dto.*;
 import bt.gov.moh.eet.util.ConnectionManager;
 import bt.gov.moh.eet.util.FlagGuestHelper;
 
