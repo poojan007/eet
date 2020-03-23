@@ -10,6 +10,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import bt.gov.moh.eet.dao.MasterDAO;
+import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dao.PopulateDropDownDAO;
 import bt.gov.moh.eet.dao.UserDAO;
 import bt.gov.moh.eet.dto.DropDownDTO;
@@ -41,8 +43,14 @@ public class RedirectionAction extends Action {
 					request.setAttribute("userTypeList", userTypeList);
 					request.setAttribute("roleList", roleList);
 					actionForward = param;
-					
-					
+				} else if(param.equalsIgnoreCase("MASTER_MANAGEMENT_GATES") || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES")
+						 || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")
+						 || param.equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_EXITREASONS") 
+						 || param.equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
+					List<MasterDTO> masterList = MasterDAO.getInstance().getMasterList(param);
+					request.setAttribute("masterList", masterList);
+					request.setAttribute("masterType", param);
+					actionForward = "master-management";
 				}
 			}
 			else {

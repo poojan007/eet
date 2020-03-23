@@ -7,6 +7,8 @@
 	
 	<global-forwards>
 		<forward name="GLOBAL_REDIRECT_LOGIN" path="/login.jsp" redirect="false" />	
+		<forward name="GLOBAL_REDIRECT_ERROR" path="/pages/common/error.jsp" redirect="false" />	
+		<forward name="GLOBAL_REDIRECT_MESSAGE" path="/pages/common/message.jsp" redirect="false" />	
 		<forward name="GLOBAL_REDIRECT_ERROR" path="/pages/common/error.jsp" redirect="false" />
 	</global-forwards>
 	
@@ -22,11 +24,15 @@
 		</action>
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
-			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>		
+			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>	
+			<forward name="master-management" path="/pages/eet/master-management.jsp"></forward>	
 		</action>
 			
 		<action input="/" path="/user" scope="request" type="bt.gov.moh.eet.web.action.UserAction" name="userForm">
 			<forward name="USERS" path="/pages/eet/user-management.jsp"></forward>		
+		</action>
+		
+		<action input="/" path="/master" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.MasterAction">
 		</action>
 		
 	</action-mappings>
