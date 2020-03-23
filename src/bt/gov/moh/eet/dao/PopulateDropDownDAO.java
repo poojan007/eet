@@ -8,7 +8,7 @@ import java.util.List;
 import bt.gov.moh.eet.dto.DropDownDTO;import bt.gov.moh.eet.util.ConnectionManager;
 import bt.gov.moh.eet.dto.*;
 
-
+import bt.gov.moh.eet.util.ConnectionManager;
 public class PopulateDropDownDAO {
 	
 	private static PopulateDropDownDAO dao = null;
@@ -24,6 +24,19 @@ public class PopulateDropDownDAO {
 		ResultSet rs = null;
 		String query = null;
 		ArrayList<DropDownDTO> dropDownList = new ArrayList<DropDownDTO>();
+		
+		if (CommonWebConstant.IDENTIFICATION_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+			query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
+		}
+		if (CommonWebConstant.NATIONALITY_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+			query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
+		}
+		if (CommonWebConstant.REASON_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+			query = "SELECT reason_id AS HEADER_ID, reason AS HEADER_NAME FROM exitreasons";
+		}
+		if (CommonWebConstant.GATE_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+			query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
+		}
 		
 		try {
 			conn = ConnectionManager.getConnection();

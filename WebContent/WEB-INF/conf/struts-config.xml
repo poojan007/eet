@@ -24,6 +24,7 @@
 		</action>
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
-			</action-mappings>
-		
+			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>		
+		</action>
+		</action-mappings>			
 </struts-config>
