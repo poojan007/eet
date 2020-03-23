@@ -50,12 +50,12 @@
 	       				<div class="form-group">
 		                   		<label class="control-label col-sm-2">Identification No.<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="identificationNoDiv">
-	                   				<html:text property="identification_no" styleClass="form-control" styleId="identification_no"></html:text>
+	                   				<html:text property="identification_no" styleClass="form-control" styleId="identification_no" onchange="getCitizenDetails(this.value);"/>
 	                   				<span class="help-block" id="identificationNoErrorMsg"></span>
                    				</div>
 	       					<label class="control-label col-sm-2">Name<font color='red'>*</font></label>
 	       					<div class="col-sm-4">
-	       						<html:text property="guest_name" styleClass="form-control" styleId="name" readonly="true"></html:text>
+	       						<html:text property="guest_name" styleClass="form-control" styleId="guest_name" readonly="true"></html:text>
 	       					</div>
 	       				</div>
 	       				<div class="form-group">
@@ -139,7 +139,6 @@
 	var context = "<%=request.getContextPath()%>";
 	function changeNextEntry(value)
 	{
-		alert(value);
 		if(value=="2")
 		{
 			$('#travelDIv').show();
@@ -149,8 +148,137 @@
 			$('#travelDIv').hide();
 		}
 	}
+	function getCitizenDetails(){
+		var identificationType = $('#identificationType').val();
+		var identification_no = $("#identification_no").val();
+		
+		if(identificationType == 1){
+			$.ajax({
+		        async: false,
+		        cache: false,
+		        type: 'GET',
+		        dataType : "xml",
+		        url: '<%=request.getContextPath()%>/getCitizenDetails?cidNo='+identification_no,
+		        success: function(xml)
+		        {
+		            $(xml).find('xml-response').each(function()
+		            { 
+		                 var name = $(this).find('name').text();
+				          var gender = $(this).find('gender').text();
+				          var age = $(this).find('age').text();
+				          
+				          $('#guest_name').val(name);
+				          $('#gender').val(gender);
+				          $('#age').val(age);
+		             });
+		        }, error: function(data, textStatus, errorThrown) {
+		          
+	          	}
+		    });
+		} else if(identificationType == 2){
+			$.ajax({
+		        async: false,
+		        cache: false,
+		        type: 'GET',
+		        dataType : "xml",
+		        url: '<%=request.getContextPath()%>/getImmigrationDetails?workPermitNo='+identification_no,
+		        success: function(xml)
+		        {
+		            $(xml).find('xml-response').each(function()
+		            { 
+		                 var name = $(this).find('name').text();
+				          var gender = $(this).find('gender').text();
+				          var mobileNo = $(this).find('contactno').text();
+				          var worklocation = $(this).find('worklocation').text();
+				          
+				          $('#guest_name').val(name);
+				          $('#gender').val(gender);
+				          $('#contact_no').val(mobileNo);
+				          $('#present_address').val(worklocation);
+				          
+				          $('#age').attr('readonly', false);
+		             });
+		        }, error: function(data, textStatus, errorThrown) {
+		          
+	          	}
+		    });
+		} else if(identificationType == 3){
+			$.ajax({
+		        async: false,
+		        cache: false,
+		        type: 'GET',
+		        dataType : "xml",
+		        url: '<%=request.getContextPath()%>/DrivingLicenseServlet?licenseNo='+identification_no,
+		        success: function(xml)
+		        {
+		            $(xml).find('xml-response').each(function()
+		            { 
+		                 var name = $(this).find('name').text();
+				          var gender = $(this).find('gender').text();
+				          var age = $(this).find('age').text();
+				          
+				          $('#guest_name').val(name);
+				          $('#gender').val(gender);
+				          $('#age').val(age);
+		             });
+		        }, error: function(data, textStatus, errorThrown) {
+		          
+	          	}
+		    });
+		} else if(identificationType == 4){
+			$.ajax({
+		        async: false,
+		        cache: false,
+		        type: 'GET',
+		        dataType : "xml",
+		        url: '<%=request.getContextPath()%>/getPassportDetails?passportNo='+identification_no,
+		        success: function(xml)
+		        {
+		            $(xml).find('xml-response').each(function()
+		            { 
+		                 var name = $(this).find('name').text();
+				          var gender = $(this).find('gender').text();
+				          var age = $(this).find('age').text();
+				          
+				          $('#guest_name').val(name);
+				          $('#gender').val(gender);
+				          $('#age').val(age);
+		             });
+		        }, error: function(data, textStatus, errorThrown) {
+		          
+	          	}
+		    });
+		} else if(identificationType == 5){
+			$.ajax({
+		        async: false,
+		        cache: false,
+		        type: 'GET',
+		        dataType : "xml",
+		        url: '<%=request.getContextPath()%>/getBarcodeEnrollmentDetails?barcodeNo='+identification_no,
+		        success: function(xml)
+		        {
+		            $(xml).find('xml-response').each(function()
+		            { 
+		                 var name = $(this).find('name').text();
+				          var gender = $(this).find('gender').text();
+				          var age = $(this).find('age').text();
+				          
+				          $('#guest_name').val(name);
+				          $('#gender').val(gender);
+				          $('#age').val(age);
+		             });
+		        }, error: function(data, textStatus, errorThrown) {
+		          
+	          	}
+		    });
+		}
+	}
+/* 	function fetchDetail(val) {
+		
+		
+	} */
 	
-	function submitApplication(){
+	/* function submitApplication(){
 		if ($('#identification_type_id').val() == "" ) 
 		{
 			$('#identificationTypeDiv').addClass('has-error');
@@ -246,5 +374,5 @@
 				 		}
 				 		});
 				}
-	} 
+	}  */
 </script>

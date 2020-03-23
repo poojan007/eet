@@ -46,17 +46,17 @@ public class PasswordEncryptionUtil {
 			spec.clearPassword(); 
 		} 
 	}
-	/*
-	 * 
-	 * public static void main(String[] args) { String password = "test"; String
-	 * salt = PasswordEncryptionUtil.generateSalt(512).get();
-	 * System.out.println(salt); String hashPassword =
-	 * PasswordEncryptionUtil.hashPassword(password, salt).get();
-	 * System.out.println(hashPassword);
-	 * 
-	 * String enteredPassword = "test"; String enteredHashPassword =
-	 * PasswordEncryptionUtil.hashPassword(enteredPassword, salt).get();
-	 * if(hashPassword.equals(enteredHashPassword)) System.out.println("TRUE"); else
-	 * System.out.println("FALSE"); }
-	 */
+	
+	  
+	  public static void main(String[] args) { String password = "test"; String
+	  salt = PasswordEncryptionUtil.generateSalt(512).get();
+	  System.out.println("Salt:"+salt); String hashPassword =
+	  PasswordEncryptionUtil.hashPassword(password, salt).get();
+	  System.out.println("Hash:"+hashPassword);
+	  
+	  String enteredPassword = "test"; String enteredHashPassword =
+	  PasswordEncryptionUtil.hashPassword(enteredPassword, salt).get();
+	  if(hashPassword.equals(enteredHashPassword)) System.out.println("TRUE"); else
+	  System.out.println("FALSE"); }
+	 
 }
