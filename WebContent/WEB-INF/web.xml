@@ -116,6 +116,28 @@
     <session-timeout>20</session-timeout>
   </session-config>
   
+  <servlet>
+  	<servlet-name>Jersey REST Service</servlet-name>
+  	<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <context-param>
+       <param-name>resteasy.scan</param-name>
+       <param-value>false</param-value>
+  </context-param>
+  <context-param>
+      <param-name>resteasy.scan.providers</param-name>
+      <param-value>false</param-value>
+  </context-param>
+  <context-param>
+  		<param-name>resteasy.scan.resources</param-name>
+   		<param-value>false</param-value>
+  </context-param>
+  <servlet-mapping>
+  	<servlet-name>Jersey REST Service</servlet-name>
+  	<url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+  
   <resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/EETDB</res-ref-name>
