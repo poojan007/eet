@@ -31,6 +31,15 @@ public class PopulateDropDownDAO {
 		
 		if ("USER".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_ROLE_LIST_QUERY;
+		if ("IDENTIFICATIONTYPELIST".equalsIgnoreCase(fieldConstructor)) {
+		      query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
+		    }
+		    if ("NATIONALITYLIST".equalsIgnoreCase(fieldConstructor)) {
+		      query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
+		    }
+		    if ("GATELIST".equalsIgnoreCase(fieldConstructor)) {
+		      query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
+		    }
 		
 		try {
 			conn = ConnectionManager.getConnection();
@@ -46,6 +55,7 @@ public class PopulateDropDownDAO {
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception(e.getMessage());
 		} finally {
 			ConnectionManager.close(conn, rs, pst);
