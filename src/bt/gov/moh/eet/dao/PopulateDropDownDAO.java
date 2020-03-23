@@ -9,6 +9,7 @@ import java.util.List;
 import bt.gov.moh.eet.dto.DropDownDTO;
 import bt.gov.moh.eet.util.ConnectionManager;
 
+
 public class PopulateDropDownDAO {
 	
 	private static PopulateDropDownDAO dao = null;
@@ -24,6 +25,12 @@ public class PopulateDropDownDAO {
 		ResultSet rs = null;
 		String query = null;
 		ArrayList<DropDownDTO> dropDownList = new ArrayList<DropDownDTO>();
+		
+		if ("USER".equalsIgnoreCase(fieldConstructor)) 
+			query = GET_USER_TYPE_LIST_QUERY;
+		
+		if ("USER".equalsIgnoreCase(fieldConstructor)) 
+			query = GET_ROLE_LIST_QUERY;
 		
 		try {
 			conn = ConnectionManager.getConnection();
@@ -46,4 +53,18 @@ public class PopulateDropDownDAO {
 		
 		return dropDownList;
 	}
+	
+	private static final String GET_USER_TYPE_LIST_QUERY = "SELECT "
+			+ "  a.`user_type_id` AS HEADER_ID, "
+			+ "  a.`user_type` AS HEADER_NAME "
+			+ "FROM "
+			+ "  `usertypes` a";
+	
+	private static final String GET_ROLE_LIST_QUERY = "SELECT "
+			+ "  a.`role_id` AS HEADER_ID, "
+			+ "  a.`role_name` AS HEADER_NAME "
+			+ "FROM "
+			+ " `roles` a";
+	
+	
 }
