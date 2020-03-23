@@ -1,4 +1,4 @@
-package bt.gov.moh.eet.web.action;
+package bt.gov.moh.eet.web.actionform;
 
 public class EntryExitForm {
 	
@@ -16,6 +16,11 @@ public class EntryExitForm {
 	private String reasonId;
 	private String reason;
 	private String thermometerReading;
+	private String gate;
+	private String contactNo;
+	
+	
+	//setter and getter region
 	public String getEntryexit() {
 		return entryexit;
 	}
@@ -82,9 +87,16 @@ public class EntryExitForm {
 	public void setThermometerReading(String thermometerReading) {
 		this.thermometerReading = thermometerReading;
 	}
-	
-	//setter and getter region
-	
-	
-
+	public String getGate() {
+		return gate;
+	}
+	public void setGate(String gate) {
+		this.gate = gate;
+	}
+	public String getContactNo() {
+		return contactNo;
+	}
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
 }
