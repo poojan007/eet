@@ -37,7 +37,7 @@
 <!-- Bootstrap WYSIHTML5 -->
 <script src="<%=request.getContextPath() %>/js/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- AdminLTE App -->
-<script src="<%=request.getContextPath() %>/jslte.min.js"></script>
+<script src="<%=request.getContextPath() %>/js/adminlte.min.js"></script>
 <!-- jQuery Block UI -->
 <script src="<%=request.getContextPath() %>/js/jquery-blockUI.js"></script>
 <!--Ajax form submit -->

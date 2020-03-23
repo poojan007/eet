@@ -1,5 +1,4 @@
  <%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
-<link rel="icon" href="<%=request.getContextPath() %>/images/favicon.ico">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.min.css">
   <!-- Font Awesome -->

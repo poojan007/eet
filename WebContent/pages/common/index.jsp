@@ -73,7 +73,7 @@
 				              <p>Total Exits</p>
 				            </div>
 				            <div class="icon">
-				              <i class="ion ion-ios-search"></i>
+				              <i class="ion ion-exit"></i>
 				            </div>
 				          </div>
 				        </div>
