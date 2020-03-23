@@ -24,10 +24,10 @@
 		</action>
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
+			<forward name="entry_exit" path="/pages/eet/entry-exit.jsp"></forward>
 		</action>
 
-		<action input="/" path="/entryExit" scope="request" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">				
-			<forward name="MANAGE_ENTRY_EXIT" path="/pages/eet/entry-exit.jsp"></forward>
+		<action input="/" path="/entryExit" scope="request" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">
 			<forward name="SUCCESS" path="/pages/eet/entry-exit.jsp"></forward>
 		</action>
 	</action-mappings>

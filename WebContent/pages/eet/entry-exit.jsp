@@ -17,7 +17,7 @@
      </ol>
 </section>
 
-<html:form styleClass="form-horizontal" styleId="entryExitForm" method="post" action="/entryExit">
+<html:form styleClass="form-horizontal" styleId="EntryExitForm" method="post" action="/entryExit">
 	<section class="content">
 		<div class="row">
 			<div class="col-lg-12">
@@ -36,30 +36,26 @@
 									  <label class="custom-control-label" for="exit">Exit</label>
 									</div>
                    				</div>
-                   				<div class="form-group">
-			       					<label class="control-label col-sm-2">Identification Type<font color='red'>*</font></label>
-			       					<div class="col-sm-4" id="identificationTypeDiv">
-			       						<html:select property="identificationType" styleClass="form-control" styleId="identificationType">
-								    		<html:option value="">--Select--</html:option>
-								    		<html:options collection ="IDENTIFICATIONTYPELIST" property="headerId" labelProperty="headerName"/>
-								    	</html:select>
-								        <span class="help-block" id="identificationTypeErrorMsg"></span>
-			       					</div>
-			       					<label class="control-label col-sm-2">Identification No.<font color='red'>*</font></label>
-	                   			<div class="col-sm-4" id="identificationNoDiv">
-	                   				<html:text property="identificationNo" styleClass="form-control" styleId="identificationNo" onchange=getCitizenDetail();></html:text>
-	                   				<span class="help-block" id="identificationNoErrorMsg"></span>
-                   				</div>
+                   		</div>
+	       				<div class="form-group">
+	       					<label class="control-label col-sm-2">Identification Type<font color='red'>*</font></label>
+	       					<div class="col-sm-4" id="identificationTypeDiv">
+	       						<html:select property="identification_type_id" styleClass="form-control" styleId="identificationType">
+						    		<html:option value="">--Select--</html:option>
+						    		<html:options collection ="IDENTIFICATIONTYPELIST" property="headerId" labelProperty="headerName"/>
+						    	</html:select>
+						        <span class="help-block" id="identificationTypeErrorMsg"></span>
+	       					</div>
 	       				</div>
 	       				<div class="form-group">
 		                   		<label class="control-label col-sm-2">Identification No.<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="identificationNoDiv">
-	                   				<html:text property="identificationNo" styleClass="form-control" styleId="identificationNo"></html:text>
+	                   				<html:text property="identification_no" styleClass="form-control" styleId="identification_no"></html:text>
 	                   				<span class="help-block" id="identificationNoErrorMsg"></span>
                    				</div>
 	       					<label class="control-label col-sm-2">Name<font color='red'>*</font></label>
 	       					<div class="col-sm-4">
-	       						<html:text property="name" styleClass="form-control" styleId="name" readonly="true"></html:text>
+	       						<html:text property="guest_name" styleClass="form-control" styleId="name" readonly="true"></html:text>
 	       					</div>
 	       				</div>
 	       				<div class="form-group">
@@ -79,66 +75,51 @@
 	       				<div class="form-group">
 		                   		<label class="control-label col-sm-2">Nationality<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="nationalityDiv">
-	                   				<html:select property="nationality" styleClass="form-control" styleId="nationality">
+	                   				<html:select property="nationality_id" styleClass="form-control" styleId="nationality_id">
 						    			<html:option value="">--Select--</html:option>
 						    			<html:options collection ="NATIONALITYLIST" property="headerId" labelProperty="headerName"/>
 						    		</html:select>
 						        <span class="help-block" id="nationalityErrorMsg"></span>
                    				</div>
-	       					<label class="control-label col-sm-2" id="presentAddressDiv">Present Address<font color='red'>*</font></label>
-	       					<div class="col-sm-4">
-	       						<textarea class="form-control" rows="5" id="presentAddress"></textarea>
+	       					<label class="control-label col-sm-2">Present Address<font color='red'>*</font></label>
+	       					<div class="col-sm-4" id="presentAddressDiv">
+	       						<textarea class="form-control" rows="5" id="present_address" name="present_address"></textarea>
 	       						<span class="help-block" id="presentAddressErrorMsg"></span>
 	       					</div>
 	       				</div>
 	       				<div class="form-group">
 		                   		<label class="control-label col-sm-2">Reason<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="reasonIdDiv">
-	                   				<html:select property="reasonId" styleClass="form-control" styleId="reasonId">
+	                   				<html:select property="reason_id" styleClass="form-control" styleId="reason_id" onchange="changeNextEntry(this.value);">
 						    			<html:option value="">--Select--</html:option>
 						    			<html:options collection ="REASONLIST" property="headerId" labelProperty="headerName"/>
 						    		</html:select>
 						    		<span class="help-block" id="reasonIdErrorMsg"></span>
-	                   			<div class="col-sm-4">
-	                   				<html:select property="reason" styleClass="form-control" styleId="reason">
-						    			<html:option value="">--Select--</html:option>
-						    			<html:options collection ="REASONLIST" property="headerId" labelProperty="headerName"/>
-						    		</html:select>
                    				</div>
 	       					<label class="control-label col-sm-2">Reason<font color='red'>*</font></label>
 	       					<div class="col-sm-4" id="reasonDiv">
-	       						<textarea class="form-control" rows="5" id="reason"></textarea>
+	       						<textarea class="form-control" rows="5" id="reason" name="reason"></textarea>
 	       						<span class="help-block" id="reasonErrorMsg"></span>
 	       					</div>
 	       				</div>
-	       				<%-- <div id="travelDIv" style="display: none" class="form-group">
-                   				<label class="control-label col-sm-2">Next Entry Gate<font color='red'>*</font></label>
-	                   			<div class="col-sm-4" id="gateDiv">
 	       				<div id="travelDIv" style="display: none" class="form-group">
                    				<label class="control-label col-sm-2">Next Entry Gate<font color='red'>*</font></label>
-	                   			<div class="col-sm-4">
-	                   				<html:select property="gate" styleClass="form-control" styleId="gate" onchange="changeNextEntry(this.value);">
+	                   			<div class="col-sm-4" id="gateDiv">
+	                   				<html:select property="gate_id" styleClass="form-control" styleId="gate_id">
 						    			<html:option value="">--Select--</html:option>
 						    			<html:options collection ="GATELIST" property="headerId" labelProperty="headerName"/>
 						    		</html:select>
 						    		<span class="help-block" id="gateErrorMsg"></span>
                    				</div>
-                   				</div> --%>
-	       				<div class="form-group">
-	       				<label class="control-label col-sm-2">Contact No<font color='red'>*</font></label>
-	                   			<div class="col-sm-4" id="contactNoDiv">
-	                   					<html:text property="contactNo" styleClass="form-control" styleId="contactNo"></html:text>
-	                   					<span class="help-block" id="contactNoErrorMsg"></span>
-                   				</div>
-                   				</div>
+                   		</div>
 	       				<div class="form-group">
 	       				<label class="control-label col-sm-2">Contact No<font color='red'>*</font></label>
 	                   			<div class="col-sm-4">
-	                   					<html:text property="contactNo" styleClass="form-control" styleId="contactNo"></html:text>
+	                   					<html:text property="contact_no" styleClass="form-control" styleId="contact_no"></html:text>
                    				</div>
 		                   		<label class="control-label col-sm-2">Thermometer Reading<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="thermometerReadingDiv">
-	                   					<html:text property="thermometerReading" styleClass="form-control" styleId="thermometerReading"></html:text>
+	                   					<html:text property="temperature" styleClass="form-control" styleId="temperature"></html:text>
 	                   					<span class="help-block" id="thermometerReadingErrorMsg"></span>
                    				</div>
 	       				</div>
@@ -168,8 +149,9 @@
 			$('#travelDIv').hide();
 		}
 	}
+	
 	function submitApplication(){
-		if ($('#identificationType').val() == "" ) 
+		if ($('#identification_type_id').val() == "" ) 
 		{
 			$('#identificationTypeDiv').addClass('has-error');
 			$('#identificationTypeErrorMsg').html('Please select Identification type');
@@ -178,7 +160,7 @@
 			setTimeout('$("#identificationTypeErrorMsg").hide()',8000);
 			return false;	
 		}
-		if ($('#identificationNo').val() == "" ) 
+		if ($('#identification_no').val() == "" ) 
 		{
 			$('#identificationNoDiv').addClass('has-error');
 			$('#identificationNoErrorMsg').html('Please enter Identification no.');
@@ -187,16 +169,7 @@
 			setTimeout('$("#identificationNoErrorMsg").hide()',8000);
 			return false;	
 		}
-		if ($('#identificationType').val() == "" ) 
-		{
-			$('#identificationTypeDiv').addClass('has-error');
-			$('#identificationTypeErrorMsg').html('Please select identification type.');
-			$('#religionErrorMsg').show();
-			setTimeout('$("#identificationTypeDiv").removeClass("has-error")',8000);
-			setTimeout('$("#identificationTypeErrorMsg").hide()',8000);
-			return false;	
-		}
-		if ($('#nationality').val() == "" ) 
+		if ($('#nationality_id').val() == "" ) 
 		{
 			$('#nationalityDiv').addClass('has-error');
 			$('#nationalityErrorMsg').html('Please select nationality.');
@@ -205,7 +178,7 @@
 			setTimeout('$("#nationalityErrorMsg").hide()',8000);
 			return false;	
 		}
-		if ($('#presentAddress').val() == "" ) 
+		if ($('#present_address').val() == "" ) 
 		{
 			$('#presentAddressDiv').addClass('has-error');
 			$('#presentAddressErrorMsg').html('Persent address requried.');
@@ -214,7 +187,7 @@
 			setTimeout('$("#presentAddressErrorMsg").hide()',8000);
 			return false;	
 		}
-		if ($('#reasonId').val() == "" ) 
+		if ($('#reason_id').val() == "" ) 
 		{
 			$('#reasonIdDiv').addClass('has-error');
 			$('#reasonIdErrorMsg').html('Please select the reason.');
@@ -232,6 +205,15 @@
 			setTimeout('$("#reasonErrorMsg").hide()',8000);
 			return false;	
 		}
+		if ($('#gate_id').val() == "" ) 
+		{
+			$('#gateDiv').addClass('has-error');
+			$('#gateErrorMsg').html('Please select the gate.');
+			$('#gateErrorMsg').show();
+			setTimeout('$("#gateDiv").removeClass("has-error")',8000);
+			setTimeout('$("#gateErrorMsg").hide()',8000);
+			return false;	
+		}
 		if ($('#contactNo').val() == "" ) 
 		{
 			$('#contactNoDiv').addClass('has-error');
@@ -241,7 +223,7 @@
 			setTimeout('$("#contactNoErrorMsg").hide()',8000);
 			return false;	
 		}
-		if ($('#thermometerReading').val() == "" ) 
+		if ($('#temperature').val() == "" ) 
 		{
 			$('#thermometerReadingDiv').addClass('has-error');
 			$('#thermometerReadingErrorMsg').html('Thermometer reading is requried');
@@ -251,7 +233,10 @@
 			return false;	
 		}
 		var options = {
-				 target:'#showResult',url:context+'/entryExit.html?method=entryExit',type:'POST',data: $("#entryExitForm").serialize()}; 
+				 target:'#showResult',
+				 url:context+'/entryExit.html?method=entryExit',
+				 type:'POST',
+				 data: $("#entryExitForm").serialize();
 				 	$("#entryExitForm").ajaxSubmit(options);
 				 	$('#submitBtn').hide();
 				 	 var progress = $(".submit-progress").progressTimer({
@@ -261,4 +246,5 @@
 				 		}
 				 		});
 				}
+	} 
 </script>

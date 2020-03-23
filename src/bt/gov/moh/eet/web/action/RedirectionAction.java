@@ -52,7 +52,7 @@ public class RedirectionAction extends Action {
 					request.setAttribute("REASONLIST", reasonList);
 					List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATELIST", null);
 					request.setAttribute("GATELIST", gateList);
-					actionForward = param;
+					actionForward = "entry_exit";
 				}
 			}
 			else {
@@ -60,6 +60,7 @@ public class RedirectionAction extends Action {
 				request.setAttribute("FAILURE", "UNAUTHORIZED");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			Log.error("###Redirection Error at RequestForwarderAction[execute] ----> ", e);
 			request.setAttribute("ERROR", e.getMessage());
 			actionForward = "GLOBAL_REDIRECT_ERROR";
