@@ -4,8 +4,6 @@ import bt.gov.moh.eet.dao.GuestDao;
 import bt.gov.moh.eet.dto.*;
 
 public class FlagGuestHelper {
-	private GuestDao guestDao;
-
 	public GuestLogDTO run(GuestLogDTO guestLogDTO) throws Exception {
 		guestLogDTO = determineEntryOrExit(guestLogDTO);
 		guestLogDTO = determineAlertFlag(guestLogDTO);
@@ -13,9 +11,8 @@ public class FlagGuestHelper {
 	}
 
 	private GuestLogDTO determineEntryOrExit(GuestLogDTO guestLogDTO) throws Exception {
-		guestDao = new GuestDao();
-		GuestDTO guestDTO = guestDao.getInstance().fetchGuestDetail(guestLogDTO.getGuest_id());
-		GuestLogDTO lastGuestLogDTO = guestDao.getInstance().fetchLastGuestLogDetails(guestLogDTO.getGuest_id());
+		GuestDTO guestDTO = GuestDao.getInstance().fetchGuestDetail(guestLogDTO.getGuest_id());
+		GuestLogDTO lastGuestLogDTO = GuestDao.getInstance().fetchLastGuestLogDetails(guestLogDTO.getGuest_id());
 
 		if (guestDTO == null && lastGuestLogDTO == null && guestLogDTO.getEntry_or_exit() == null) {
 			throw new Exception("For the guest registering for the first time should set exit or entry manually");

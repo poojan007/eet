@@ -36,8 +36,7 @@ public class EntryExitAction extends Action {
 				GuestDTO dto = new GuestDTO();
 				BeanUtils.copyProperties(dto, formBean);
 
-				GuestDao guestDao = new GuestDao();
-				String result = guestDao.getInstance().addGuest(dto, conn);
+				String result = GuestDao.getInstance().addGuest(dto, conn);
 				request.setAttribute("MESSAGE", result);
 
 				actionForward = "message";
@@ -62,12 +61,11 @@ public class EntryExitAction extends Action {
 			if (conn != null) {
 				GuestLogDTO dto = new GuestLogDTO();
 				FlagGuestHelper flagGuestHelper = new FlagGuestHelper();
-				GuestDao guestDao = new GuestDao();
 
 				BeanUtils.copyProperties(dto, formBean);
 				dto = flagGuestHelper.run(dto);
 
-				String result = guestDao.getInstance().addGuestLog(dto, conn);
+				String result = GuestDao.getInstance().addGuestLog(dto, conn);
 				request.setAttribute("MESSAGE", result);
 
 				actionForward = "message";
@@ -94,8 +92,7 @@ public class EntryExitAction extends Action {
 				GuestLogDTO dto = new GuestLogDTO();
 				BeanUtils.copyProperties(dto, formBean);
 
-				GuestDao guestDao = new GuestDao();
-				String result = guestDao.getInstance().editGuestLog(dto, conn);
+				String result = GuestDao.getInstance().editGuestLog(dto, conn);
 				request.setAttribute("MESSAGE", result);
 
 				actionForward = "message";
