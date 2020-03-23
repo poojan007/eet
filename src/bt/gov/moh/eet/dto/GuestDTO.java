@@ -2,7 +2,7 @@ package bt.gov.moh.eet.dto;
 
 public class GuestDTO {
     private Integer guest_id;
-    private Integer identification_no;
+    private String identification_no;
     private Integer identification_type_id;
     private Integer nationality_id;
     private String guest_name;
@@ -20,11 +20,11 @@ public class GuestDTO {
         this.guest_id = guest_id;
     }
 
-    public Integer getIdentification_no() {
+    public String getIdentification_no() {
         return identification_no;
     }
 
-    public void setIdentification_no(Integer identification_no) {
+    public void setIdentification_no(String identification_no) {
         this.identification_no = identification_no;
     }
 
