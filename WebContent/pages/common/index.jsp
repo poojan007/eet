@@ -15,8 +15,7 @@
 <head>
  <meta charset="utf-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <title>Central Registry</title>
- <link rel="icon" href="<%=request.getContextPath() %>/img/favicon.ico">
+ <title>EET</title>
  <!-- Tell the browser to be responsive to screen width -->
  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 </head>
@@ -73,7 +72,7 @@
 				              <p>Total Exits</p>
 				            </div>
 				            <div class="icon">
-				              <i class="ion ion-ios-search"></i>
+				              <i class="ion ion-exit"></i>
 				            </div>
 				          </div>
 				        </div>

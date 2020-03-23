@@ -8,8 +8,6 @@
 	<title>EET | Log In</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	
-	<link rel="icon" href="<%=request.getContextPath() %>/img/favicon.ico">
 	<!-- Bootstrap 3.3.7 -->
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.min.css">
 	<!-- Font Awesome -->
@@ -32,7 +30,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-  	<%-- <img src="<%=request.getContextPath() %>/img/rma-logo-black.png" style="width:100px;height:99px"/><br> --%>
+  	<img src="<%=request.getContextPath() %>/img/app-logo.png" style="width:100px;height:99px"/><br>
     <a href="#" style="font-size:30px;"><b>Entry Exit Tracker</b></a>
   </div>
   <!-- /.login-logo -->
