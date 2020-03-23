@@ -1,4 +1,4 @@
-package bt.gov.moh.eet.web.action;
+package bt.gov.moh.eet.web.actionform;
 
 import java.util.Date;
 

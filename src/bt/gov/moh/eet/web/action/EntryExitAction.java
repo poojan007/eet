@@ -16,6 +16,8 @@ import bt.gov.moh.eet.dto.*;
 import bt.gov.moh.eet.util.ConnectionManager;
 import bt.gov.moh.eet.util.FlagGuestHelper;
 
+import bt.gov.moh.eet.web.actionform.EntryExitForm;
+
 public class EntryExitAction extends Action {
 	EntryExitForm entryExitForm = new EntryExitForm();
 
