@@ -28,7 +28,7 @@
 			<forward name="master-management" path="/pages/eet/master-management.jsp"></forward>	
 		</action>
 			
-		<action input="/" path="/user" scope="request" type="bt.gov.moh.eet.web.action.UserAction" name="userForm">
+		<action input="/" path="/user" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.UserAction" name="userForm">
 			<forward name="USERS" path="/pages/eet/user-management.jsp"></forward>		
 		</action>
 		
