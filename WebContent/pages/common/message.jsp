@@ -9,17 +9,8 @@
 				Entry successfully saved.
 			</p>
 		</div>
-<%
-	}
-%>
 
-
-
-=======
-	<div class="alert alert-success" role="alert">
-	  <h4 class="alert-heading">Success!</h4>
-	  <p>Data has been successfully saved.</p>
-	</div>
+	
 <%
 	} else if(message.equalsIgnoreCase("SAVE_FAILURE")){
 %>
@@ -58,4 +49,3 @@
 <%
 	}
 %>
->>>>>>> master
