@@ -5,11 +5,18 @@ import bt.gov.moh.eet.dto.GuestLogDTO;
 import bt.gov.moh.eet.util.ConnectionManager;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class GuestDao {
+	private static GuestDao guestDao;
+
+	public static GuestDao getInstance() {
+		if (guestDao == null)
+			guestDao = new GuestDao();
+		return guestDao;
+	}
+
 	public GuestDTO fetchGuestDetail(Integer guestID) throws Exception {
 		Connection conn = null;
 		PreparedStatement pst = null;
@@ -28,7 +35,7 @@ public class GuestDao {
 
 				while (rs.next()) {
 					vo.setGuest_id(rs.getInt("guest_id"));
-					vo.setIdentification_no(rs.getInt("identification_no"));
+					vo.setIdentification_no(rs.getString("identification_no"));
 					vo.setIdentification_type_id(rs.getInt("identification_type_id"));
 					vo.setNationality_id(rs.getInt("nationality_id"));
 					vo.setGuest_name(rs.getString("working_address"));
@@ -130,13 +137,13 @@ public class GuestDao {
 			pst.setInt(1, dto.getGuest_id());
 			pst.setInt(2, dto.getTemperature());
 			pst.setString(3, dto.getEntry_or_exit());
-			pst.setDate(4, (Date) dto.getTransaction_date_time());
+			pst.setDate(4, new java.sql.Date(System.currentTimeMillis()));
 			pst.setInt(5, dto.getReason_id());
 			pst.setInt(6, dto.getRequested_gate_id());
 			pst.setString(7, dto.getReason());
 			pst.setInt(8, dto.getGate_id());
 			pst.setString(9, dto.getCreated_by());
-			pst.setDate(10, (Date) dto.getCreated_on());
+			pst.setDate(10, new java.sql.Date(System.currentTimeMillis()));
 			pst.setInt(11, dto.getAlert_flag());
 
 			int count = pst.executeUpdate();
@@ -153,6 +160,41 @@ public class GuestDao {
 		return result;
 	}
 
+	public String editGuestLog(GuestLogDTO dto, Connection conn) {
+		PreparedStatement pst = null;
+		String result = "GUESTLOG_EDIT_FAILURE";
+
+		try {
+			pst = conn.prepareStatement(EDIT_INTO_GUESTLOG);
+			pst.setInt(1, dto.getGuest_id());
+			pst.setInt(2, dto.getTemperature());
+			pst.setString(3, dto.getEntry_or_exit());
+			pst.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			pst.setInt(5, dto.getReason_id());
+			pst.setInt(6, dto.getRequested_gate_id());
+			pst.setString(7, dto.getReason());
+			pst.setInt(8, dto.getGate_id());
+			pst.setString(9, dto.getCreated_by());
+			pst.setDate(10, new java.sql.Date(System.currentTimeMillis()));
+			pst.setInt(11, dto.getAlert_flag());
+			pst.setString(12, dto.getAlert_remarks());
+			pst.setDate(13, new java.sql.Date(System.currentTimeMillis()));
+			pst.setInt(14, dto.getLog_id());
+
+			int count = pst.executeUpdate();
+
+			if (count > 0) {
+				result = "GUESTLOG_EDIT_SUCCESS";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = "GUESTLOG_EDIT_FAILURE";
+		} finally {
+			ConnectionManager.close(null, null, pst);
+		}
+		return result;
+	}
+
 	private static final String GET_GUEST_DETAILS = "SELECT * FROM guests WHERE cid=?";
 	private static final String GET_LAST_GUEST_DETAILS = "SELECT * FROM guestlog\n"
 			+ "WHERE guest_id = ? order by entry_or_exit desc limit 1";
@@ -163,4 +205,8 @@ public class GuestDao {
 			+ "entry_or_exit,\n" + "transaction_date_time,\n" + "reason_id,\n" + "requested_gate_id,\n" + "reason,\n"
 			+ "gate_id,\n" + "created_by,\n" + "created_on,\n" + "alert_flag)\n"
 			+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String EDIT_INTO_GUESTLOG = "insert into guestlog(guest_id,\n" + "temperature,\n"
+			+ "entry_or_exit,\n" + "transaction_date_time,\n" + "reason_id,\n" + "requested_gate_id,\n" + "reason,\n"
+			+ "gate_id,\n" + "created_by,\n" + "created_on,\n" + "alert_flag, alert_remarks, alert_update_time)\n"
+			+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) where log_id=?\n";
 }
