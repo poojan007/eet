@@ -28,7 +28,6 @@
 		
 		<action input="/" path="/master" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.MasterAction">
 		</action>
-			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>		</action>
 		
 	</action-mappings>
 		
