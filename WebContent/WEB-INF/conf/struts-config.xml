@@ -24,7 +24,11 @@
 		</action>
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
-			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>		
 		</action>
-		</action-mappings>			
+
+		<action input="/" path="/entryExit" scope="request" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">				
+			<forward name="MANAGE_ENTRY_EXIT" path="/pages/eet/entry-exit.jsp"></forward>
+			<forward name="SUCCESS" path="/pages/eet/entry-exit.jsp"></forward>
+		</action>
+	</action-mappings>
 </struts-config>

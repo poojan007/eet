@@ -36,7 +36,6 @@
 									  <label class="custom-control-label" for="exit">Exit</label>
 									</div>
                    				</div>
-                   				</div>
                    				<div class="form-group">
 			       					<label class="control-label col-sm-2">Identification Type<font color='red'>*</font></label>
 			       					<div class="col-sm-4" id="identificationTypeDiv">
@@ -53,8 +52,12 @@
                    				</div>
 	       				</div>
 	       				<div class="form-group">
-		                   		
-	       					<label class="control-label col-sm-2">Name</label>
+		                   		<label class="control-label col-sm-2">Identification No.<font color='red'>*</font></label>
+	                   			<div class="col-sm-4" id="identificationNoDiv">
+	                   				<html:text property="identificationNo" styleClass="form-control" styleId="identificationNo"></html:text>
+	                   				<span class="help-block" id="identificationNoErrorMsg"></span>
+                   				</div>
+	       					<label class="control-label col-sm-2">Name<font color='red'>*</font></label>
 	       					<div class="col-sm-4">
 	       						<html:text property="name" styleClass="form-control" styleId="name" readonly="true"></html:text>
 	       					</div>
@@ -96,6 +99,11 @@
 						    			<html:options collection ="REASONLIST" property="headerId" labelProperty="headerName"/>
 						    		</html:select>
 						    		<span class="help-block" id="reasonIdErrorMsg"></span>
+	                   			<div class="col-sm-4">
+	                   				<html:select property="reason" styleClass="form-control" styleId="reason">
+						    			<html:option value="">--Select--</html:option>
+						    			<html:options collection ="REASONLIST" property="headerId" labelProperty="headerName"/>
+						    		</html:select>
                    				</div>
 	       					<label class="control-label col-sm-2">Reason<font color='red'>*</font></label>
 	       					<div class="col-sm-4" id="reasonDiv">
@@ -106,6 +114,9 @@
 	       				<%-- <div id="travelDIv" style="display: none" class="form-group">
                    				<label class="control-label col-sm-2">Next Entry Gate<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="gateDiv">
+	       				<div id="travelDIv" style="display: none" class="form-group">
+                   				<label class="control-label col-sm-2">Next Entry Gate<font color='red'>*</font></label>
+	                   			<div class="col-sm-4">
 	                   				<html:select property="gate" styleClass="form-control" styleId="gate" onchange="changeNextEntry(this.value);">
 						    			<html:option value="">--Select--</html:option>
 						    			<html:options collection ="GATELIST" property="headerId" labelProperty="headerName"/>
@@ -118,6 +129,12 @@
 	                   			<div class="col-sm-4" id="contactNoDiv">
 	                   					<html:text property="contactNo" styleClass="form-control" styleId="contactNo"></html:text>
 	                   					<span class="help-block" id="contactNoErrorMsg"></span>
+                   				</div>
+                   				</div>
+	       				<div class="form-group">
+	       				<label class="control-label col-sm-2">Contact No<font color='red'>*</font></label>
+	                   			<div class="col-sm-4">
+	                   					<html:text property="contactNo" styleClass="form-control" styleId="contactNo"></html:text>
                    				</div>
 		                   		<label class="control-label col-sm-2">Thermometer Reading<font color='red'>*</font></label>
 	                   			<div class="col-sm-4" id="thermometerReadingDiv">
