@@ -28,14 +28,6 @@ public class EntryExitForm extends ActionForm {
 	private Integer reason_id;
 	private Integer requested_gate_id;
 	private String reason;
-	private String thermometerReading;
-	private String gate;
-	private String contactNo;
-	
-	
-	//setter and getter region
-	public String getEntryexit() {
-		return entryexit;
 	private Integer gate_id;
 	private String created_by;
 	private Date created_on;
@@ -226,16 +218,5 @@ public class EntryExitForm extends ActionForm {
 	public void setAlert_remarks(String alert_remarks) {
 		this.alert_remarks = alert_remarks;
 	}
-	public String getGate() {
-		return gate;
-	}
-	public void setGate(String gate) {
-		this.gate = gate;
-	}
-	public String getContactNo() {
-		return contactNo;
-	}
-	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
-	}
+
 }
