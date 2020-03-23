@@ -26,12 +26,7 @@ public class RedirectionAction extends Action {
 				if(param.equalsIgnoreCase("MANAGE_USERS")) {
 					//pull list of user here
 					actionForward = param;
-				}
-				else if(param.equalsIgnoreCase("MANAGE_ENROLLMENT")) {
-					//pull list of user here
-					actionForward = param;
-				}
-			}
+				}			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";
 				request.setAttribute("FAILURE", "UNAUTHORIZED");
