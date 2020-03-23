@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 
 import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.util.ConnectionManager;
+import bt.gov.moh.eet.util.PasswordEncryptionUtil;
 
 
 public class UserDAO {
@@ -34,7 +35,7 @@ public class UserDAO {
 		try {
 	    	connection = ConnectionManager.getConnection();
 	    	//query = "GET_LEAVEAPPLICATION_LIST";
-	    	 prepareStatement = connection.prepareStatement(GET_LEAVEAPPLICATION_LIST);
+	    	 prepareStatement = connection.prepareStatement(GET_USER_LIST);
 	    	 resultSet = prepareStatement.executeQuery();
 	    	
 	    	while(resultSet.next()){
@@ -75,10 +76,13 @@ public class UserDAO {
 		
 		try 
 		{
+			String salt = PasswordEncryptionUtil.generateSalt(512).get();
+			String hashPassword = PasswordEncryptionUtil.hashPassword(dto.getCid(), salt).get();
+			
 			pst = conn.prepareStatement(INSERT_INTO_USER_MASTER);
 			pst.setString(1, dto.getCid());
-			pst.setString(2, dto.getPassword());
-			pst.setString(3, dto.getPasswordsalt());
+			pst.setString(2, hashPassword);
+			pst.setString(3, salt);
 			pst.setString(4, dto.getFull_name());
 			pst.setString(5, dto.getMobile_number());
 			pst.setString(6, dto.getDesignation());
@@ -148,7 +152,7 @@ public String edit_user(UserDTO dto, Connection conn)
 		return result;
 	}
 
-	private static final String GET_LEAVEAPPLICATION_LIST="SELECT "
+	private static final String GET_USER_LIST="SELECT "
 			+ "  a.`cid`, "
 			+ "  a.`full_name`, "
 			+ "  a.`mobile_number`, "

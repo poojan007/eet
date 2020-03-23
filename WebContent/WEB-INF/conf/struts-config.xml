@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="windows-1252" ?>
 <!DOCTYPE struts-config PUBLIC "-//Apache//DTD Struts Configuration 1.1//EN" "./struts-config_1_1.dtd">
 <struts-config>
-	<form-beans>	</form-beans>
+	<form-beans>	
+	<form-bean name="userForm" type="bt.gov.moh.eet.web.actionform.UserForm" />
+	</form-beans>
 	
 	<global-forwards>
 		<forward name="GLOBAL_REDIRECT_LOGIN" path="/login.jsp" redirect="false" />	
@@ -20,7 +22,12 @@
 		</action>
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
-			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>		</action>
+			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>		
+		</action>
+			
+		<action input="/" path="/user" scope="request" type="bt.gov.moh.eet.web.action.UserAction" name="userForm">
+			<forward name="USERS" path="/pages/eet/user-management.jsp"></forward>		
+		</action>
 		
 	</action-mappings>
 		

@@ -47,7 +47,7 @@ public class UserAction extends DispatchAction {
 			String result = userDao.getInstance().add_user(dto,conn);
 			request.setAttribute("MESSAGE", result);
 			
-			actionForward = "message";
+			actionForward = "USERS";
 				}
 			}
 			catch(Exception e){
