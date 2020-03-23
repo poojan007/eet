@@ -22,18 +22,37 @@
 				<div id="messageDiv" style="display: none;"></div>
 	       		<div class="box box-primary">
 	       			<div class="box-body">
-	       				<div class="form-group">
-		                   		<label class="control-label col-sm-2">Test&nbsp;<font color='red'>*</font></label>
-	                   			<div class="col-sm-4">
-	                   				<select class="form-control" id="agentId">
-	                   				</select>
-                   				</div>
-	       					<label class="control-label col-sm-2">Date of Journey<font color='red'>*</font></label>
-	       					<div class="col-sm-4">
-	       						<html:text property="test" styleClass="form-control datepicker" styleId="test" readonly="true"></html:text>
-	       					</div>
-	       				</div>
+	       				    <div class="row">
+						        <div class="col-4">
+						            <div class="row">
+						                <div class="col-2">
+						                    </div>
+						                <div class="col-4">
+						                    <div class="custom-control custom-radio custom-control-inline">
+						                        <input type="radio" class="custom-control-input" id="entry" name="entry" value="Entry">
+						                        <label class="custom-control-label" for="entry">Entry</label>
+						                    </div>
+						                </div>
+						                <div class="col-4">
+						                    <div class="custom-control custom-radio custom-control-inline">
+						                        <input type="radio" class="custom-control-input" id="exit" name="entry" value="Exit" checked>
+						                        <label class="custom-control-label" for="entry">Exit</label>
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						        <div class="col-4">
+						            asd
+						        </div>
+						        <div class="col-4">
+						            <%-- <jsp:include page="imagecapture.jsp"></jsp:include>
+						            <input type="text" id="imageURL" name="imageURL"> --%>
+						
+						        </div>
+						    </div>
+	                   	
 	       			</div>
+	       			
 	       			<div class="box-footer">
 	       				<div class="text-right">
 	       					<button class="btn btn-primary" type="button"><i class="fa fa-search"></i>&nbsp;Search</button>
