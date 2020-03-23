@@ -129,7 +129,7 @@
                   			</div>
                   			<label class="control-label col-sm-2">User Type&nbsp;<font color='red'>*</font></label>
                    			<div class="col-sm-4">
-                   				<html:select property="user_type_id" styleClass="form-control" styleId="add_role">
+                   				<html:select property="user_type_id" styleClass="form-control" styleId="add_user_type">
            								<html:option value="">--SELECT--</html:option>
             							<html:optionsCollection name="userTypeList" label="headerName" value="headerId"/>
             					</html:select>
@@ -166,6 +166,8 @@
 		  </div>
 	</div>
 </div>
+</html:form>
+<html:form action="/user.html" styleClass="form-horizontal" method="post" styleId="masterBean">
 <div id="edit-modal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -276,7 +278,110 @@
 	        ]
 	    });
 	});
-	
+	$(document).ready(function() {
+	 		$('#masterFormBean').validate({
+		 		  invalidHandler: function(form, validator) {
+		            var errors = validator.numberOfInvalids();
+		            if (errors) {                    
+		                var firstInvalidElement = $(validator.errorList[0].element);
+		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+		                firstInvalidElement.focus();
+		            }
+		        	  },
+		 		  rules: {
+		 			'add_cid':{
+		 				  required:true
+		 			  },
+		 			'add_full_name':{
+		 				  required:true
+		 			  },
+		 			  'add_mobile_number':{
+		 				  required:true
+		 			  },
+		 			  'add_designation':{
+		 				  required:true
+		 			  },
+		 			  'add_user_type':{
+		 				  required:true
+		 			  },
+		 			  'add_role':{
+		 				  required:true
+		 			  }
+		 		  },
+		 		  messages: {
+		 			  'add_cid':{
+		 				  required:"Please provide CID"
+		 			  },
+		 			 'add_full_name':{
+		 				  required:"Please provide full name"
+		 			  },
+		 			 'add_mobile_number':{
+		 				  required:"Please provide mobile number"
+		 			  },
+		 			 'add_designation':{
+		 				  required:"Please provide designation"
+		 			  },
+		 			 'add_user_type':{
+		 				  required:"Please provide user type"
+		 			  },
+		 			 'add_role':{
+		 				  required:"Please provide role"
+		 			  }
+		 		  }
+		 	  });
+	 		
+	 		  $('#masterBean').validate({
+		 		  invalidHandler: function(form, validator) {
+		            var errors = validator.numberOfInvalids();
+		            if (errors) {                    
+		                var firstInvalidElement = $(validator.errorList[0].element);
+		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+		                firstInvalidElement.focus();
+		            }
+		        	  },
+		        	  rules: {
+				 			'edit_cid':{
+				 				  required:true
+				 			  },
+				 			'edit_full_name':{
+				 				  required:true
+				 			  },
+				 			  'edit_mobile_number':{
+				 				  required:true
+				 			  },
+				 			  'edit_designation':{
+				 				  required:true
+				 			  },
+				 			  'edit_user_type':{
+				 				  required:true
+				 			  },
+				 			  'edit_role':{
+				 				  required:true
+				 			  }
+				 		  },
+				 		  messages: {
+				 			  'edit_cid':{
+				 				  required:"Please provide CID"
+				 			  },
+				 			 'edit_full_name':{
+				 				  required:"Please provide full name"
+				 			  },
+				 			 'edit_mobile_number':{
+				 				  required:"Please provide mobile number"
+				 			  },
+				 			 'edit_designation':{
+				 				  required:"Please provide designation"
+				 			  },
+				 			 'edit_user_type':{
+				 				  required:"Please provide user type"
+				 			  },
+				 			 'edit_role':{
+				 				  required:"Please provide role"
+				 			  }
+				 		  }
+				 	  });
+		 	  });
+	 	});
 	function addUser(){
 		$.ajax({
 			type : "POST",
@@ -285,10 +390,10 @@
 			cache : false,
 			dataType : "html",
 			success : function(responseText) {
-				
+				$('#messageDiv').html(responseText);
 				$('#messageDiv').show();
 				setTimeout('hideStatus("messageDiv")',2000);
-				//setTimeout('reloadPage("MASTER_MANAGEMENT_GATES")', 3000);
+				setTimeout('reloadPage("USER")', 3000);
 			}
 		});
 	}
@@ -335,11 +440,18 @@
 					cache : false,
 					dataType : "html",
 					success : function(responseText) {
-						
+						$('#messageDiv').html(responseText);
 						$('#messageDiv').show();
 						setTimeout('hideStatus("messageDiv")',2000);
+						setTimeout('reloadPage("USER")', 3000);
 					}
 				});
 			} 
+	
+	function reloadPage(userType){
+		var url = "<%=request.getContextPath()%>/redirect.html?q="+masterType
+		$("#contentDisplayDiv").load(url);
+		$('#contentDisplayDiv').show();
+	}
 	
 </script>

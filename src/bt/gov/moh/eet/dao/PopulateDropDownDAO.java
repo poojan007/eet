@@ -32,6 +32,8 @@ public class PopulateDropDownDAO {
 		if ("ROLE".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_ROLE_LIST_QUERY;
 		
+		
+		
 		try {
 			conn = ConnectionManager.getConnection();
 			if(conn != null) {
@@ -65,6 +67,7 @@ public class PopulateDropDownDAO {
 			+ "  a.`role_name` AS HEADER_NAME "
 			+ "FROM "
 			+ " `roles` a";
+	
 	
 	
 }

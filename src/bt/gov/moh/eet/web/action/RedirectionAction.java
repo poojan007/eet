@@ -50,6 +50,9 @@ public class RedirectionAction extends Action {
 					List<MasterDTO> masterList = MasterDAO.getInstance().getMasterList(param);
 					request.setAttribute("masterList", masterList);
 					request.setAttribute("masterType", param);
+					
+					List<MasterDTO> gateList = MasterDAO.getInstance().getGateList();
+					request.setAttribute("gateList", gateList);
 					actionForward = "master-management";
 				}
 			}
