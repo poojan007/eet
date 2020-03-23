@@ -25,7 +25,7 @@
 		
 		<action input="/" path="/redirect" scope="request" type="bt.gov.moh.eet.web.action.RedirectionAction">
 			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>
-			<forward name="MANAGE_ENROLLMENT" path="/pages/eet/guest.jsp"></forward>		
+			<forward name="MANAGE_ENROLLMENT" path="/pages/eet/guest.jsp"></forward>
 			<forward name="master-management" path="/pages/eet/master-management.jsp"></forward>
 		</action>
 		
