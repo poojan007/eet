@@ -10,8 +10,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import bt.gov.moh.eet.dao.MasterDAO;
-import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dao.PopulateDropDownDAO;
 import bt.gov.moh.eet.dao.UserDAO;
 import bt.gov.moh.eet.dto.DropDownDTO;
@@ -43,21 +41,37 @@ public class RedirectionAction extends Action {
 					request.setAttribute("userTypeList", userTypeList);
 					request.setAttribute("roleList", roleList);
 					actionForward = param;
-				} else if(param.equalsIgnoreCase("MASTER_MANAGEMENT_GATES") || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES")
-						 || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")
-						 || param.equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_EXITREASONS") 
-						 || param.equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
-					List<MasterDTO> masterList = MasterDAO.getInstance().getMasterList(param);
-					request.setAttribute("masterList", masterList);
-					request.setAttribute("masterType", param);
-					actionForward = "master-management";
 				}
+				if(param.equalsIgnoreCase("MANAGE_ENTRY_EXIT")) {
+					//pull list of master here
+					List<DropDownDTO> identificationTypeList = PopulateDropDownDAO.getInstance().getIdentificationDropDownList("IDENTIFICATIONTYPELIST", null);
+					request.setAttribute("IDENTIFICATIONTYPELIST", identificationTypeList);
+					List<DropDownDTO> nationalityList = PopulateDropDownDAO.getInstance().getNationalityDropDownList("NATIONALITYLIST", null);
+					request.setAttribute("NATIONALITYLIST", nationalityList);
+					List<DropDownDTO> reasonList = PopulateDropDownDAO.getInstance().getDropDownList("REASONLIST", null);
+					request.setAttribute("REASONLIST", reasonList);
+					List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getGateDropDownList("GATELIST", null);
+					request.setAttribute("GATELIST", gateList);
+					actionForward = "entry_exit";
+				}
+				if(param.equalsIgnoreCase("MANAGE_ENROLLMENT")) {
+			          //pull list of master here
+			          List<DropDownDTO> identificationTypeList = PopulateDropDownDAO.getInstance().getDropDownList("IDENTIFICATIONTYPELIST", null);
+			          request.setAttribute("IDENTIFICATIONTYPELIST", identificationTypeList);
+			          List<DropDownDTO> nationalityList = PopulateDropDownDAO.getInstance().getDropDownList("NATIONALITYLIST", null);
+			          request.setAttribute("NATIONALITYLIST", nationalityList);
+			          
+//			          List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATELIST", null);
+//			          request.setAttribute("GATELIST", gateList);
+			          actionForward = param;
+			        }
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";
 				request.setAttribute("FAILURE", "UNAUTHORIZED");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			Log.error("###Redirection Error at RequestForwarderAction[execute] ----> ", e);
 			request.setAttribute("ERROR", e.getMessage());
 			actionForward = "GLOBAL_REDIRECT_ERROR";
