@@ -168,7 +168,7 @@ public class MasterDAO {
 				count = pst.executeUpdate();
 				if(count > 0)
 					result = "SAVE_SUCCESS";
-			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_TRAVEL_TIME")) {
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
 				pst = conn.prepareStatement(INSERT_INTO_AVERAGE_TRAVEL_TIME);
 				pst.setString(1,dto.getPointTwo() );
 				pst.setString(2,dto.getPointOne());

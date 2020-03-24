@@ -206,6 +206,7 @@
                   			</div>
                   			<label class="control-label col-sm-2">User Type&nbsp;<font color='red'>*</font></label>
                    			<div class="col-sm-4">
+                   				<html:select property="edituser_type_id" styleClass="form-control" styleId="edit_user_type">
                    				<html:select property="edituser_type" styleClass="form-control" styleId="edit_user_type">
           								<html:option value="">--SELECT--</html:option>
            							<html:optionsCollection name="userTypeList" label="headerName" value="headerId"/>
@@ -215,6 +216,7 @@
                    		<div class="form-group">
 	                   		<label class="control-label col-sm-2">Role&nbsp;<font color='red'>*</font></label>
                    			<div class="col-sm-4">
+                   				<html:select property="editrole_id" styleClass="form-control" styleId="edit_role">
                    				<html:select property="editrole_name" styleClass="form-control" styleId="edit_role">
           								<html:option value="">--SELECT--</html:option>
            							<html:optionsCollection name="roleList" label="headerName" value="headerId"/>
@@ -360,6 +362,22 @@
 				 			  }
 				 		  },
 				 		  messages: {
+				 			  'add_cid':{
+				 				  required:"Please provide CID"
+				 			  },
+				 			 'add_full_name':{
+				 				  required:"Please provide full name"
+				 			  },
+				 			 'add_mobile_number':{
+				 				  required:"Please provide mobile number"
+				 			  },
+				 			 'add_designation':{
+				 				  required:"Please provide designation"
+				 			  },
+				 			 'add_user_type':{
+				 				  required:"Please provide user type"
+				 			  },
+				 			 'add_role':{
 				 			  'edit_cid':{
 				 				  required:"Please provide CID"
 				 			  },
@@ -382,6 +400,7 @@
 				 	  });
 		 	  });
 	 	});
+  
 	function addUser(){
 		$.ajax({
 			type : "POST",

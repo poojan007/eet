@@ -296,8 +296,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="addForm">
 		                   					<div class="form-group">
-		                   						<label class="control-label col-sm-6">Identification Type<font color='red'>*</font></label>
-		                   						<div class="col-sm-6">
+		                   						<label class="control-label col-sm-2">Identification Type<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   							<input type="text" class="form-control" id="identificationType" name="identificationType" placeholder="Identification Type"/>
 		                   						</div>
 		                   					</div>
@@ -331,8 +331,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="editForm">
 		                   					<div class="form-group">
-		                   						<label class="control-label col-sm-6">Identification Type<font color='red'>*</font></label>
-		                   						<div class="col-sm-6">
+		                   						<label class="control-label col-sm-2">Identification Type<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   							<input type="text" class="form-control" id="editIdentificationType" name="editIdentificationType" placeholder="Identification Type"/>
 		                   						</div>
 		                   					</div>
@@ -511,8 +511,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="addForm">
 		                   					<div class="form-group">
-		                   						<label class="control-label col-sm-6">Nationality<font color='red'>*</font></label>
-		                   						<div class="col-sm-6">
+		                   						<label class="control-label col-sm-2">Nationality<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   							<input type="text" class="form-control" id="nationality" name="nationality" placeholder="Nationality"/>
 		                   						</div>
 		                   					</div>
@@ -546,8 +546,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="editForm">
 		                   					<div class="form-group">
-		                   						<label class="control-label col-sm-6">Nationality<font color='red'>*</font></label>
-		                   						<div class="col-sm-6">
+		                   						<label class="control-label col-sm-2">Nationality<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   							<input type="text" class="form-control" id="editNationality" name="editNationality" placeholder="Nationality"/>
 		                   						</div>
 		                   					</div>
@@ -727,8 +727,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="addForm">
 		                   					<div class="form-group">
-		                   						<label class="control-label col-sm-6">User Type<font color='red'>*</font></label>
-		                   						<div class="col-sm-6">
+		                   						<label class="control-label col-sm-2">User Type<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   							<input type="text" class="form-control" id="userType" name="userType" placeholder="User Type"/>
 		                   						</div>
 		                   						
@@ -763,8 +763,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="editForm">
 		                   					<div class="form-group">
-		                   						<label class="control-label col-sm-6">User Type<font color='red'>*</font></label>
-		                   						<div class="col-sm-6">
+		                   						<label class="control-label col-sm-2">User Type<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   							<input type="text" class="form-control" id="editUserType" name="editUserType" placeholder="User Type"/>
 		                   						</div>
 		                   						
@@ -944,6 +944,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="addForm">
 		                   					<div class="form-group">
+		                   						<label class="control-label col-sm-2">Exit Reason<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   						<label class="control-label col-sm-6">Exit Reason<font color='red'>*</font></label>
 		                   						<div class="col-sm-6">
 		                   							<input type="text" class="form-control" id="reason" name="reason" placeholder="Reason"/>
@@ -979,6 +981,8 @@
 									<div class="col-xs-12"> 
 		                   				<form class="form-horizontal" role="form" id="editForm">
 		                   					<div class="form-group">
+		                   						<label class="control-label col-sm-2">Exit Reason<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
 		                   						<label class="control-label col-sm-6">User Type<font color='red'>*</font></label>
 		                   						<div class="col-sm-6">
 		                   							<input type="text" class="form-control" id="editreason" name="editreason" placeholder="Reason"/>
@@ -1140,6 +1144,7 @@
 				                			<td align="center">
 												<div class="box-tools pull-right">
 													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="populateEditForm('<bean:write name="master" property="pointOne"/>','<bean:write name="master" property="pointTwo"/>','<bean:write name="master" property="id"/>','<bean:write name="master" property="averageTime"/>')"><i class="fa fa-pencil-square-o"></i></button>
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_AVERAGE_TIME')"><i class="fa fa-trash"></i></button>
 													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_TRAVEL_TIME')"><i class="fa fa-trash"></i></button>
 												</div>
 											</td>

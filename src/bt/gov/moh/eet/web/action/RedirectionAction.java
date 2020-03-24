@@ -10,9 +10,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import bt.gov.moh.eet.dao.MasterDAO;
 import bt.gov.moh.eet.dao.PopulateDropDownDAO;
 import bt.gov.moh.eet.dao.UserDAO;
 import bt.gov.moh.eet.dto.DropDownDTO;
+import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
 import bt.gov.moh.framework.common.Log;
@@ -31,8 +33,7 @@ public class RedirectionAction extends Action {
 			String parentId=null;
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
 				if(param.equalsIgnoreCase("MANAGE_USERS")) {
-					//public static final String USER_DROP_DOWN_FIELD_CONSTRUCTOR;
-					//pull list of user here
+					
 					List<UserDTO> userDetails = UserDAO.getInstance().getUserDetails();
 					request.setAttribute("userDetails", userDetails);
 					List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
@@ -76,6 +77,13 @@ public class RedirectionAction extends Action {
 //			          request.setAttribute("GATELIST", gateList);
 			          actionForward = param;
 			        }
+				
+				if(param.equalsIgnoreCase("getTotalCounts")) {
+					
+					List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
+					request.setAttribute("TOTALLIST", TOTALLIST);
+					actionForward = "COUNT";
+				}
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";
