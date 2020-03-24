@@ -402,7 +402,7 @@
 	
 	function getEditUsers(cid)
 	{
-	alert(cid);
+	
 		var url;
 		 url = "";
 		 $.ajax({

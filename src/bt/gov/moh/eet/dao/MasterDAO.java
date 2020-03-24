@@ -296,7 +296,7 @@ public class MasterDAO {
 				count = pst.executeUpdate();
 				if(count > 0)
 					result = "DELETE_SUCCESS";
-			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_TRAVEL_TIME")) {
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
 				pst = conn.prepareStatement(DELETE_TRAVEL_TIME);
 				pst.setString(1, dto.getId());
 				count = pst.executeUpdate();
