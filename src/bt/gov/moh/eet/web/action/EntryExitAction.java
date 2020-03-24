@@ -87,31 +87,25 @@ public class EntryExitAction extends DispatchAction {
 		return mapping.findForward(actionForward);
 	}
 
-	public ActionForward editGuestLog(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String actionForward = null;
-
-		EntryExitForm formBean = (EntryExitForm) form;
-		try {
-			conn = ConnectionManager.getConnection();
-			conn.setAutoCommit(false);
-
-			if (conn != null) {
-				GuestLogDTO dto = new GuestLogDTO();
-				BeanUtils.copyProperties(dto, formBean);
-
-				GuestDao guestDao = new GuestDao();
-				String result = guestDao.getInstance().editGuestLog(dto, conn);
-				request.setAttribute("MESSAGE", result);
-
-				actionForward = "message";
-			}
-		} catch (Exception e) {
-
-		} finally {
-			ConnectionManager.close(conn);
-		}
-
-		return mapping.findForward(actionForward);
-	}
+	/*
+	 * public ActionForward editGuestLog(ActionMapping mapping, ActionForm form,
+	 * HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 * String actionForward = null;
+	 * 
+	 * EntryExitForm formBean = (EntryExitForm) form; try { conn =
+	 * ConnectionManager.getConnection(); conn.setAutoCommit(false);
+	 * 
+	 * if (conn != null) { GuestLogDTO dto = new GuestLogDTO();
+	 * BeanUtils.copyProperties(dto, formBean);
+	 * 
+	 * GuestDao guestDao = new GuestDao(); String result =
+	 * guestDao.getInstance().editGuestLog(dto, conn);
+	 * request.setAttribute("MESSAGE", result);
+	 * 
+	 * actionForward = "message"; } } catch (Exception e) {
+	 * 
+	 * } finally { ConnectionManager.close(conn); }
+	 * 
+	 * return mapping.findForward(actionForward); }
+	 */
 }

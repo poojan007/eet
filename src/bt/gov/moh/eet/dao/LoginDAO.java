@@ -63,6 +63,9 @@ public class LoginDAO {
 					vo.setRole_id(rs.getString("role_id"));
 					vo.setUser_type(rs.getString("user_type"));
 					vo.setRole_name(rs.getString("role_name"));
+					vo.setGateId(rs.getString("gate_id"));
+					vo.setGateCode(rs.getString("gate_code"));
+					vo.setGateName(rs.getString("gate_name"));
 					vo.setUserCheck("ok");
 				}
 			}
@@ -90,13 +93,18 @@ public class LoginDAO {
 			+ "  a.`user_type_id`, "
 			+ "  a.`role_id`, "
 			+ "  b.`user_type`, "
-			+ "  c.`role_name` "
+			+ "  c.`role_name`, "
+			+ "  e.`gate_id`, "
+			+ "  e.`gate_code`, "
+			+ "  e.`gate_name` "
 			+ "FROM "
-			+ "  users a "
+			+ "   users a "
 			+ "  LEFT JOIN usertypes b "
 			+ "    ON a.`user_type_id` = b.`user_type_id` "
 			+ "  LEFT JOIN roles c "
 			+ "    ON a.`role_id` = c.`role_id` "
+			+ "  left join `usergatemapping` d on a.`cid`=d.`cid` "
+			+ "  left join gates e on d.`gate_id`=e.`gate_id` "
 			+ "WHERE a.`cid` = ?";
 
 }

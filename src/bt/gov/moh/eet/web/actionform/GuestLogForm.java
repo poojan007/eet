@@ -1,6 +1,10 @@
-package bt.gov.moh.eet.dto;
+package bt.gov.moh.eet.web.actionform;
 
-public class GuestLogDTO {
+import org.apache.struts.action.ActionForm;
+
+public class GuestLogForm extends ActionForm {
+
+	private static final long serialVersionUID = 1L;
 	private String entryOrExit;
 	private String identificationType;
 	private String identificationNo;
@@ -14,34 +18,13 @@ public class GuestLogDTO {
 	private String presentAddress;
 	private String remarks;
 	private String nextEntryGate;
-	private String transactionStatus;
 	private String guestId;
-	private String identificationTypeDesc;
-	private String endPointUrl;
 	
-	public String getIdentificationTypeDesc() {
-		return identificationTypeDesc;
-	}
-	public void setIdentificationTypeDesc(String identificationTypeDesc) {
-		this.identificationTypeDesc = identificationTypeDesc;
-	}
-	public String getEndPointUrl() {
-		return endPointUrl;
-	}
-	public void setEndPointUrl(String endPointUrl) {
-		this.endPointUrl = endPointUrl;
-	}
 	public String getGuestId() {
 		return guestId;
 	}
 	public void setGuestId(String guestId) {
 		this.guestId = guestId;
-	}
-	public String getTransactionStatus() {
-		return transactionStatus;
-	}
-	public void setTransactionStatus(String transactionStatus) {
-		this.transactionStatus = transactionStatus;
 	}
 	public String getNextEntryGate() {
 		return nextEntryGate;
