@@ -1,11 +1,13 @@
-package bt.gov.moh.eet.dto;
+package bt.gov.moh.eet.web.actionform;
 
-import java.io.Serializable;
+import org.apache.struts.action.ActionForm;
 
-public class UserDTO implements Serializable{
+public class UserForm extends ActionForm {
 	private static final long serialVersionUID = 1L;
 	
 	private String cid;
+	
+	
 	private String password;
 	private String passwordsalt;
 	private String full_name;
@@ -33,12 +35,6 @@ public class UserDTO implements Serializable{
 	
 	
 	
-	public String getCidedit() {
-		return cidedit;
-	}
-	public void setCidedit(String cidedit) {
-		this.cidedit = cidedit;
-	}
 	public String getEditfull_name() {
 		return editfull_name;
 	}
@@ -92,6 +88,12 @@ public class UserDTO implements Serializable{
 	}
 	public void setEditrole_name(String editrole_name) {
 		this.editrole_name = editrole_name;
+	}
+	public String getCidedit() {
+		return cidedit;
+	}
+	public void setCidedit(String cidedit) {
+		this.cidedit = cidedit;
 	}
 	public String getCid() {
 		return cid;
@@ -153,9 +155,6 @@ public class UserDTO implements Serializable{
 	public void setGate_id(String gate_id) {
 		this.gate_id = gate_id;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	public String getUser_type() {
 		return user_type;
 	}
@@ -168,8 +167,6 @@ public class UserDTO implements Serializable{
 	public void setRole_name(String role_name) {
 		this.role_name = role_name;
 	}
-	
-	
 	
 	
 }
