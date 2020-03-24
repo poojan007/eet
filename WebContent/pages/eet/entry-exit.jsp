@@ -273,11 +273,6 @@
 		    });
 		}
 	}
-/* 	function fetchDetail(val) {
-		
-		
-	} */
-	
 	/* function submitApplication(){
 		if ($('#identification_type_id').val() == "" ) 
 		{

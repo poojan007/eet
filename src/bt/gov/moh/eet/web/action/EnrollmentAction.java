@@ -19,8 +19,13 @@ public class EnrollmentAction extends Action {
 		EnrollmentForm enrollmentForm = (EnrollmentForm) form;
 		String result = "";
 		try {
+			String duplicate = EnrollmentDAO.checkDuplicate(enrollmentForm.getIdentificationNo());
+			if(duplicate.equalsIgnoreCase("1")){
 			result = EnrollmentDAO.insertEnrollmentData(enrollmentForm, request);
 			request.setAttribute("message", "SAVE_SUCCESS");
+			} else{
+				request.setAttribute("message", "DUPLICATE_ENTRY");
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

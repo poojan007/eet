@@ -7,19 +7,19 @@
 	  <h4 class="alert-heading">Success!</h4>
 	  <p>Data has been successfully saved.</p>
 	</div>
-		<div class="alert alert-success">
-			<h4>Success!</h4>
-			<p>
-				Entry successfully saved.
-			</p>
-		</div>
-
 <%
 	} else if(message.equalsIgnoreCase("SAVE_FAILURE")){
 %>
 	<div class="alert alert-danger" role="alert">
 	  <h4 class="alert-heading">Failure!</h4>
 	  <p>Data save failed, please try again later.</p>
+	</div>
+	<%
+	}else if(message.equalsIgnoreCase("DUPLICATE_ENTRY")){
+%>
+	<div class="alert alert-danger" role="alert">
+	  <h4 class="alert-heading">Failure!</h4>
+	  <p>Data already exist.Please try with new identification number</p>
 	</div>
 <%
 	} if(message.equalsIgnoreCase("UPDATE_SUCCESS")){
