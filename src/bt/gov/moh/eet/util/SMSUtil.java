@@ -52,7 +52,8 @@ public final class SMSUtil implements Runnable {
 			String SMSBody = SMSObj.getSmsContent();
 			if (SMSBody != null && !SMSBody.trim().equals("")) 
 			{
-				SMSBody = SMSBody.replaceAll("#ACTIVATION_LINK#", SMSObj.getActivationLink());
+				SMSBody = SMSBody.replaceAll("#GATE_NAME#", SMSObj.getGateName());
+				SMSBody = SMSBody.replaceAll("#TRANSACTION_TIME#", SMSObj.getTransactionTime());
 				SMSObj.setSmsContent(SMSBody);
 			}
 
@@ -265,7 +266,8 @@ public final class SMSUtil implements Runnable {
 			smsObject = new SMSModelVO();
 			smsObject.setRecipentList(smsObj.getRecipentList());
 			smsObject.setSmsContent(smsObj.getSmsContent());
-			smsObject.setActivationLink(smsObj.getActivationLink());
+			smsObject.setGateName(smsObj.getGateName());
+			smsObject.setTransactionTime(smsObj.getTransactionTime());
 			
 			Thread thread = new Thread(new SMSUtil(smsObject));
 			thread.start();
@@ -374,7 +376,7 @@ public final class SMSUtil implements Runnable {
 
 	/** The Constant GET_SMS_TEMPLATES_BY_ID. */
 	private static final String GET_SMS_TEMPLATES_BY_ID = new StringBuffer(
-			"SELECT TEMPLATE_SMS_BODY,TEMPLATE_ID ")
-			.append(" FROM t_sms_template ")
-			.append(" WHERE TEMPLATE_MODULE =?").toString();
+			"SELECT `sms_body`,`sms_template_id` ")
+			.append(" FROM `smstemplate` ")
+			.append(" WHERE `sms_template` =?").toString();
 }

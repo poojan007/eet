@@ -2,7 +2,9 @@
 <!DOCTYPE struts-config PUBLIC "-//Apache//DTD Struts Configuration 1.1//EN" "./struts-config_1_1.dtd">
 <struts-config>
 	<form-beans>	
-	<form-bean name="userForm" type="bt.gov.moh.eet.web.actionform.UserForm" />
+	  <form-bean name="userForm" type="bt.gov.moh.eet.web.actionform.UserForm" />
+		<form-bean name="EntryExitForm" type="bt.gov.moh.eet.web.actionform.EntryExitForm" />
+		<form-bean name="EnrollmentForm" type="bt.gov.moh.eet.web.actionform.EnrollmentForm"></form-bean>
 	</form-beans>
 	
 	<global-forwards>
@@ -30,11 +32,21 @@
 			
 		<action input="/" path="/user" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.UserAction" name="userForm">
 			<forward name="USERS" path="/pages/eet/user-management.jsp"></forward>		
+			<forward name="entry_exit" path="/pages/eet/entry-exit.jsp"></forward>
+			<forward name="MANAGE_USERS" path="/pages/eet/user-management.jsp"></forward>
+			<forward name="MANAGE_ENROLLMENT" path="/pages/eet/guest.jsp"></forward>
+			<forward name="master-management" path="/pages/eet/master-management.jsp"></forward>
+		</action>
+
+		<action input="/" path="/entryExit" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">
+			<forward name="SUCCESS" path="/pages/eet/entry-exit.jsp"></forward>
+		</action>
+		
+		<action input="/" path="/enrollment" scope="request" type="bt.gov.moh.eet.web.action.EnrollmentAction" name="EnrollmentForm">
+			<forward name="success" path="/pages/common/message.jsp" redirect="false"/>
 		</action>
 		
 		<action input="/" path="/master" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.MasterAction">
 		</action>
-		
 	</action-mappings>
-		
 </struts-config>
