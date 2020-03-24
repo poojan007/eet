@@ -1140,7 +1140,7 @@
 				                			<td align="center">
 												<div class="box-tools pull-right">
 													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="populateEditForm('<bean:write name="master" property="pointOne"/>','<bean:write name="master" property="pointTwo"/>','<bean:write name="master" property="id"/>','<bean:write name="master" property="averageTime"/>')"><i class="fa fa-pencil-square-o"></i></button>
-													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_TRAVEL_TIME')"><i class="fa fa-trash"></i></button>
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_AVERAGE_TIME')"><i class="fa fa-trash"></i></button>
 												</div>
 											</td>
 				                		</tr>
