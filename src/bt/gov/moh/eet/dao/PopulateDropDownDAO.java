@@ -29,8 +29,9 @@ public class PopulateDropDownDAO {
 		if ("USER".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_USER_TYPE_LIST_QUERY;
 		
-		if ("USER".equalsIgnoreCase(fieldConstructor)) 
+		if ("ROLE".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_ROLE_LIST_QUERY;
+		
 		if ("IDENTIFICATIONTYPELIST".equalsIgnoreCase(fieldConstructor)) {
 		      query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
 		    }

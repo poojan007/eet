@@ -3,6 +3,7 @@
 <struts-config>
 	<form-beans>	
 		<form-bean name="EnrollmentForm" type="bt.gov.moh.eet.web.actionform.EnrollmentForm"></form-bean>
+		<form-bean name="userForm" type="bt.gov.moh.eet.web.actionform.UserForm" />
 	</form-beans>
 	
 	<global-forwards>
@@ -31,6 +32,10 @@
 		
 		<action input="/" path="/enrollment" scope="request" type="bt.gov.moh.eet.web.action.EnrollmentAction" name="EnrollmentForm">
 			<forward name="success" path="/pages/common/message.jsp" redirect="false"/>
+		</action>
+		
+		<action input="/" path="/user" parameter="method" scope="request" type="bt.gov.moh.eet.web.action.UserAction" name="userForm">
+			<forward name="USERS" path="/pages/eet/user-management.jsp"></forward>		
 		</action>
 		
 		<action input="/" path="/master" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.MasterAction">

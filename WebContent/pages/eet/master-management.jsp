@@ -691,6 +691,7 @@
 	                				<tr>
 					                	<th>Sl.No.</th>
 					                	<th>User Type</th>
+					                	<th>Description</th>
 										<th></th>
 	                				</tr>
 	                			</thead>
@@ -730,6 +731,7 @@
 		                   						<div class="col-sm-6">
 		                   							<input type="text" class="form-control" id="userType" name="userType" placeholder="User Type"/>
 		                   						</div>
+		                   						
 		                   					</div>
 		                   				</form>
 			 						</div>
@@ -765,6 +767,7 @@
 		                   						<div class="col-sm-6">
 		                   							<input type="text" class="form-control" id="editUserType" name="editUserType" placeholder="User Type"/>
 		                   						</div>
+		                   						
 		                   					</div>
 		                   				</form>
 			 						</div>
@@ -798,12 +801,12 @@
 			 		            }
 			 		        	  },
 			 		 		  rules: {
-			 		 			  'userTYpe':{
+			 		 			  'userType':{
 			 		 				  required:true
 			 		 			  }
 			 		 		  },
 			 		 		  messages: {
-			 		 			  'userTYpe':{
+			 		 			  'userType':{
 			 		 				  required:"Please provide a user type"
 			 		 			  }
 			 		 		  }
@@ -856,7 +859,7 @@
 		 		 	
 		 		 	function populateEditForm(id, name){
 		 		 		$('#id').val(id);
-		 		 		$('#editNationality').val(name);
+		 		 		$('#editUserType').val(name);
 		 		 		$('#edit-modal').modal('show');
 		 		 	}
 		 		 	
@@ -881,6 +884,496 @@
 		 		 					setTimeout('reloadPage("MASTER_MANAGMENT_USERTYPES")', 3000);
 		 		 				}
 		 		 			});
+			 		 	 }
+	 		 		}
+		 		
+		 		</script>
+			</logic:equal>
+			
+			<logic:equal value="MASTER_MANAGMENT_EXITREASONS" name="masterType">
+				<input type="hidden" value="List of nationality" id="exportFileName"/>
+				<div class="box box-primary">
+	            	<div class="box-header">
+	              		<h3 class="box-title">&nbsp;</h3>
+			  			<div class="pull-right box-tools">
+			                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-modal" title="Add New User Type">
+			                  <i class="fa fa-plus"></i>
+							  &nbsp; Add New Exit Reason
+							</button>
+	              		</div>
+	            	</div>
+	            	<div class="box-body">
+	            		<div class="table-responsive">
+	            			<table id="master-table" class="table table-bordered table-striped">
+	                			<thead>
+	                				<tr>
+					                	<th>Sl.No.</th>
+					                	<th>Exit Reason</th>
+										<th></th>
+	                				</tr>
+	                			</thead>
+	                			<tbody>
+				            		<logic:iterate id="master" name="masterList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
+				                		<% int a = index.intValue(); %>
+				                		<tr>
+				                			<td><%=++a %></td>
+				                			<td><bean:write name="master" property="reason"/></td>
+				                			<td align="center">
+												<div class="box-tools pull-right">
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="populateEditForm('<bean:write name="master" property="reasonId"/>','<bean:write name="master" property="reason"/>')"><i class="fa fa-pencil-square-o"></i></button>
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="reasonId"/>','MASTER_MANAGMENT_EXIT_REASONS')"><i class="fa fa-trash"></i></button>
+												</div>
+											</td>
+				                		</tr>
+			                		</logic:iterate>
+			                	</tbody>
+			                </table>
+	            		</div>
+	            	</div>
+	            </div>
+	            
+	            <div id="add-modal" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="blue bigger">Add New Exit Reason</h4>
+							</div>
+		 					<div class="modal-body">
+		 						<div class="row">
+									<div class="col-xs-12"> 
+		                   				<form class="form-horizontal" role="form" id="addForm">
+		                   					<div class="form-group">
+		                   						<label class="control-label col-sm-6">Exit Reason<font color='red'>*</font></label>
+		                   						<div class="col-sm-6">
+		                   							<input type="text" class="form-control" id="reason" name="reason" placeholder="Reason"/>
+		                   						</div>
+		                   					</div>
+		                   				</form>
+			 						</div>
+			 					</div>
+			 				</div>
+			 				<div class="modal-footer">
+								<button type="button" class="btn btn-flat btn-primary" name="add" onclick="addMaster()">
+									<i class="ace-icon fa fa-plus"></i>
+									Add
+								</button>
+								<button class="btn btn-flat btn-danger" data-dismiss="modal">
+									<i class="ace-icon fa fa-times"></i>
+									Cancel
+								</button>
+				 			</div>
+			 			</div>
+		 			</div>
+		 		</div>
+		 		
+		 		<div id="edit-modal" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="blue bigger">Update Exit Reason Details</h4>
+							</div>
+		 					<div class="modal-body">
+		 						<div class="row">
+									<div class="col-xs-12"> 
+		                   				<form class="form-horizontal" role="form" id="editForm">
+		                   					<div class="form-group">
+		                   						<label class="control-label col-sm-6">User Type<font color='red'>*</font></label>
+		                   						<div class="col-sm-6">
+		                   							<input type="text" class="form-control" id="editreason" name="editreason" placeholder="Reason"/>
+		                   						</div>
+		                   					</div>
+		                   				</form>
+			 						</div>
+			 					</div>
+			 				</div>
+			 				<div class="modal-footer">
+			 					<input type="hidden" id="id"/>
+								<button type="button" class="btn btn-flat btn-primary" name="edit" onclick="updateMaster()">
+									<i class="ace-icon fa fa-pencil-square-o"></i>
+									Update
+								</button>
+								<button class="btn btn-flat btn-danger" data-dismiss="modal">
+									<i class="ace-icon fa fa-times"></i>
+									Cancel
+								</button>
+				 			</div>
+			 			</div>
+		 			</div>
+		 		</div>
+		 		
+		 		<script>
+		 		
+			 		$(document).ready(function() {
+		 		 		$('#addForm').validate({
+			 		 		  invalidHandler: function(form, validator) {
+			 		            var errors = validator.numberOfInvalids();
+			 		            if (errors) {                    
+			 		                var firstInvalidElement = $(validator.errorList[0].element);
+			 		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+			 		                firstInvalidElement.focus();
+			 		            }
+			 		        	  },
+			 		 		  rules: {
+			 		 			  'reason':{
+			 		 				  required:true
+			 		 			  }
+			 		 		  },
+			 		 		  messages: {
+			 		 			  'reason':{
+			 		 				  required:"Please provide a exit reason"
+			 		 			  }
+			 		 		  }
+			 		 	  });
+		 		 		
+		 		 		  $('#editForm').validate({
+			 		 		  invalidHandler: function(form, validator) {
+			 		            var errors = validator.numberOfInvalids();
+			 		            if (errors) {                    
+			 		                var firstInvalidElement = $(validator.errorList[0].element);
+			 		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+			 		                firstInvalidElement.focus();
+			 		            }
+			 		        	  },
+			 		 		  rules: {
+			 		 			  'editreason':{
+			 		 				  required:true
+			 		 			  }
+			 		 		  },
+			 		 		  messages: {
+			 		 			  'editreason':{
+			 		 				  required:"Please provide a exit reason"
+			 		 			  }
+			 		 		  }
+			 		 	  });
+		 		 	});
+		 		 	
+		 		 	function addMaster(){
+		 		 		if($('#addForm').valid()) 
+			 		 	{
+		 		 			var name = $('#reason').val();
+		 		 			
+		 		 		  	$.ajax
+			 		 			({
+			 		 				type : "POST",
+			 		 				url : "<%=request.getContextPath()%>/master.html?method=addMaster&masterType=MASTER_MANAGMENT_USERTYPES&name="+name,
+			 		 				data : $('form').serialize(),
+			 		 				cache : false,
+			 		 				dataType : "html",
+			 		 				success : function(responseText) 
+			 		 				{
+			 		 					$("#messageDiv").html(responseText);
+			 		 					$("#messageDiv").show();
+			 		 					$('#add-modal').modal('hide');
+			 		 					setTimeout('reloadPage("MASTER_MANAGMENT_USERTYPES")', 3000);
+			 		 				}
+			 		 			});
+			 		 	 }
+		 		 	}
+		 		 	
+		 		 	function populateEditForm(id, name){
+		 		 		$('#id').val(id);
+		 		 		$('#editreason').val(name);
+		 		 		$('#edit-modal').modal('show');
+		 		 	}
+		 		 	
+		 		 	function updateMaster(){
+		 		 		if($('#editForm').valid()) 
+			 		 	{
+		 		 			var id = $('#id').val();
+		 		 			var name = $('#editreason').val();
+		 		 			
+		 		 		  	$.ajax
+		 		 			({
+		 		 				type : "POST",
+		 		 				url : "<%=request.getContextPath()%>/master.html?method=updateMaster&masterType=MASTER_MANAGMENT_USERTYPES&name="+name+"&id="+id,
+		 		 				data : $('form').serialize(),
+		 		 				cache : false,
+		 		 				dataType : "html",
+		 		 				success : function(responseText) 
+		 		 				{
+		 		 					$("#messageDiv").html(responseText);
+		 		 					$("#messageDiv").show();
+		 		 					$('#edit-modal').modal('hide');
+		 		 					setTimeout('reloadPage("MASTER_MANAGMENT_USERTYPES")', 3000);
+		 		 				}
+		 		 			});
+			 		 	 }
+	 		 		}
+		 		
+		 		</script>
+			</logic:equal>
+			
+			<logic:equal value="MASTER_MANAGMENT_AVERAGE_TIME" name="masterType">
+				<input type="hidden" value="List of nationality" id="exportFileName"/>
+				<div class="box box-primary">
+	            	<div class="box-header">
+	              		<h3 class="box-title">&nbsp;</h3>
+			  			<div class="pull-right box-tools">
+			                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-modal" title="Add New User Type">
+			                  <i class="fa fa-plus"></i>
+							  &nbsp; Add New Average Time
+							</button>
+	              		</div>
+	            	</div>
+	            	<div class="box-body">
+	            		<div class="table-responsive">
+	            			<table id="master-table" class="table table-bordered table-striped">
+	                			<thead>
+	                				<tr>
+					                	<th>Sl.No.</th>
+					                	<th>Point One</th>
+					                	<th>Point Two</th>
+					                	<th>Average Travel Time</th>
+										<th></th>
+	                				</tr>
+	                			</thead>
+	                			<tbody>
+				            		<logic:iterate id="master" name="masterList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
+				                		<% int a = index.intValue(); %>
+				                		<tr>
+				                			<td><%=++a %></td>
+				                			<td><bean:write name="master" property="pointOne"/></td>
+				                			<td><bean:write name="master" property="pointTwo"/></td>
+				                			<td><bean:write name="master" property="averageTime"/></td>
+				                			<td align="center">
+												<div class="box-tools pull-right">
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="populateEditForm('<bean:write name="master" property="pointOne"/>','<bean:write name="master" property="pointTwo"/>','<bean:write name="master" property="id"/>','<bean:write name="master" property="averageTime"/>')"><i class="fa fa-pencil-square-o"></i></button>
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_TRAVEL_TIME')"><i class="fa fa-trash"></i></button>
+												</div>
+											</td>
+				                		</tr>
+			                		</logic:iterate>
+			                	</tbody>
+			                </table>
+	            		</div>
+	            	</div>
+	            </div>
+	            
+	            <div id="add-modal" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="blue bigger">Add New Average Time</h4>
+							</div>
+		 					<div class="modal-body">
+		 						<div class="row">
+									<div class="col-xs-12"> 
+		                   				<form class="form-horizontal" role="form" id="addForm">
+		                   					<div class="form-group">
+	                   								<label class="control-label col-sm-2">Point One&nbsp;<font color='red'>*</font></label>
+                   									<div class="col-sm-4">
+														<select id="pointOne" name="pointOne" class="form-control">
+															<option value="">SELECT</option>
+															<logic:iterate id="master" name="gateList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
+															    <option value="<bean:write name="master" property="gateId"/>"><bean:write name="master" property="gateName"/></option>
+															</logic:iterate>
+														</select>
+                  									</div>
+                  									<label class="control-label col-sm-2">Point Two&nbsp;<font color='red'>*</font></label>
+                   									<div class="col-sm-4">
+                  										<select id="pointTwo" name="pointTwo" class="form-control">
+	                  										<option value="">SELECT</option>
+	                  										<logic:iterate id="master" name="gateList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
+															    <option value="<bean:write name="master" property="gateId"/>"><bean:write name="master" property="gateName"/></option>
+															</logic:iterate>
+														</select>
+                  									</div>
+                  							</div>
+		                   					<div class="form-group">
+		                   						<label class="control-label col-sm-2">Average Travel Time<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
+		                   							<input type="text" class="form-control" id="averageTime" name="averageTime" placeholder="Average Travel Time"/>
+		                   						</div>
+		                   					</div>
+		                   				</form>
+			 						</div>
+			 					</div>
+			 				</div>
+			 				<div class="modal-footer">
+								<button type="button" class="btn btn-flat btn-primary" name="add" onclick="addMaster()">
+									<i class="ace-icon fa fa-plus"></i>
+									Add
+								</button>
+								<button class="btn btn-flat btn-danger" data-dismiss="modal">
+									<i class="ace-icon fa fa-times"></i>
+									Cancel
+								</button>
+				 			</div>
+			 			</div>
+		 			</div>
+		 		</div>
+		 		
+		 		<div id="edit-modal" class="modal fade" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="blue bigger">Update Average Time</h4>
+							</div>
+		 					<div class="modal-body">
+		 						<div class="row">
+									<div class="col-xs-12"> 
+		                   				<form class="form-horizontal" role="form" id="editForm">
+		                   					<div class="form-group">
+               										<label class="control-label col-sm-2">Point One&nbsp;<font color='red'>*</font></label>
+                 									<div class="col-sm-4">
+														<select id="editpointOne" name="editpointOne" class="form-control">
+														    <logic:iterate id="master" name="gateList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
+												 	 		   	<option value="<bean:write name="master" property="gateId"/>"><bean:write name="master" property="gateName"/></option>
+															</logic:iterate>
+														</select>
+                									</div>
+                									<label class="control-label col-sm-2">Point Two&nbsp;<font color='red'>*</font></label>
+                 									<div class="col-sm-4">
+                										<select id="editpointTwo" name="editpointTwo" class="form-control">
+	                										<logic:iterate id="master" name="gateList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
+													  			<option value="<bean:write name="master" property="gateId"/>"><bean:write name="master" property="gateName"/></option>
+															</logic:iterate>
+														</select>
+                									</div>
+                  							 </div>
+		                   					<div class="form-group">
+		                   						<label class="control-label col-sm-2">Average Travel Time<font color='red'>*</font></label>
+		                   						<div class="col-sm-4">
+		                   							<input type="text" class="form-control" id="editaverageTime" name="editaverageTime" placeholder="Average Travel Time"/>
+		                   						</div>
+		                   					</div>
+		                   				</form>
+			 						</div>
+			 					</div>
+			 				</div>
+			 				<div class="modal-footer">
+			 					<input type="hidden" id="id"/>
+								<button type="button" class="btn btn-flat btn-primary" name="edit" onclick="updateMaster()">
+									<i class="ace-icon fa fa-pencil-square-o"></i>
+									Update
+								</button>
+								<button class="btn btn-flat btn-danger" data-dismiss="modal">
+									<i class="ace-icon fa fa-times"></i>
+									Cancel
+								</button>
+				 			</div>
+			 			</div>
+		 			</div>
+		 		</div>
+		 		
+		 		<script>
+		 		
+			 		$(document).ready(function() {
+		 		 		$('#addForm').validate({
+			 		 		  invalidHandler: function(form, validator) {
+			 		            var errors = validator.numberOfInvalids();
+			 		            if (errors) {                    
+			 		                var firstInvalidElement = $(validator.errorList[0].element);
+			 		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+			 		                firstInvalidElement.focus();
+			 		            }
+			 		        	  },
+			 		 		  rules: {
+			 		 			'pointOne':{
+			 		 				  required:true
+			 		 			  },
+			 		 			'pointTwo':{
+			 		 				  required:true
+			 		 			  },
+			 		 			  'averageTime':{
+			 		 				  required:true
+			 		 			  }
+			 		 		  },
+			 		 		  messages: {
+			 		 			  'averageTime':{
+			 		 				  required:"Please provide average time"
+			 		 			  }
+			 		 		  }
+			 		 	  });
+		 		 		
+		 		 		  $('#editForm').validate({
+			 		 		  invalidHandler: function(form, validator) {
+			 		            var errors = validator.numberOfInvalids();
+			 		            if (errors) {                    
+			 		                var firstInvalidElement = $(validator.errorList[0].element);
+			 		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+			 		                firstInvalidElement.focus();
+			 		            }
+			 		        	  },
+			 		 		  rules: {
+			 		 			'editpointOne':{
+			 		 				  required:true
+			 		 			  },
+			 		 			'editpointTwo':{
+			 		 				  required:true
+			 		 			  },
+			 		 			  'editaverageTime':{
+			 		 				  required:true
+			 		 			  }
+			 		 		  },
+			 		 		  messages: {
+			 		 			  'editaverageTime':{
+			 		 				  required:"Please provide average time"
+			 		 			  }
+			 		 		  }
+			 		 	  });
+		 		 	});
+		 		 	
+		 		 	function addMaster(){
+		 		 		if($('#addForm').valid()) 
+			 		 	{
+		 		 			var point = $('#pointOne').val();
+		 		 			var pointtwo = $('#pointTwo').val(); 
+		 		 			var name = $('#averageTime').val();
+		 		 			
+		 		 		  	$.ajax
+			 		 			({
+			 		 				type : "POST",
+			 		 				url : "<%=request.getContextPath()%>/master.html?method=addMaster&masterType=MASTER_MANAGMENT_AVERAGE_TIME&point="+point+"&pointtwo="+pointtwo+"&name="+name,
+			 		 				data : $('form').serialize(),
+			 		 				cache : false,
+			 		 				dataType : "html",
+			 		 				success : function(responseText) 
+			 		 				{
+			 		 					$("#messageDiv").html(responseText);
+			 		 					$("#messageDiv").show();
+			 		 					$('#add-modal').modal('hide');
+			 		 					setTimeout('reloadPage("MASTER_MANAGMENT_AVERAGE_TIME")', 3000);
+			 		 				}
+			 		 			});
+			 		 	 }
+		 		 	}
+		 		 	
+		 		 	function populateEditForm(pointOne,pointTwo,id, averageTime){
+		 		 		$('#id').val(id);
+		 		 		$('editpointOne').val(pointOne);
+		 		 		$('editpointTwo').val(pointTwo);
+		 		 		$('#editaverageTime').val(averageTime);
+		 		 		$('#edit-modal').modal('show');
+		 		 	}
+		 		 	
+		 		 	function updateMaster(){
+		 		 		if($('#editForm').valid()) 
+			 		 	{
+		 		 			var id = $('#id').val();
+		 		 			var name = $('#editaverageTime').val();
+		 		 			var pointOne = $('#editpointOne').val();
+		 		 			var pointTwo =$('#editpointTwo').val();
+		 		 				
+		 		 			$.ajax
+		 		 				({
+		 		 					type : "POST",
+		 		 					url : "<%=request.getContextPath()%>/master.html?method=updateMaster&masterType=MASTER_MANAGMENT_AVERAGE_TIME&pointOne="+pointOne+"&pointTwo="+pointTwo+"&name="+name+"&id="+id,
+		 		 					data : $('form').serialize(),
+		 		 					cache : false,
+		 		 					dataType : "html",
+		 		 					success : function(responseText) 
+		 		 					{
+		 		 						$("#messageDiv").html(responseText);
+		 		 						$("#messageDiv").show();
+		 		 						$('#edit-modal').modal('hide');
+		 		 						setTimeout('reloadPage("MASTER_MANAGMENT_AVERAGE_TIME")', 3000);
+		 		 					}
+		 		 				});
 			 		 	 }
 	 		 		}
 		 		

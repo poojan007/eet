@@ -33,8 +33,7 @@ public class RedirectionAction extends Action {
 			String parentId=null;
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
 				if(param.equalsIgnoreCase("MANAGE_USERS")) {
-					//public static final String USER_DROP_DOWN_FIELD_CONSTRUCTOR;
-					//pull list of user here
+					
 					List<UserDTO> userDetails = UserDAO.getInstance().getUserDetails();
 					request.setAttribute("userDetails", userDetails);
 					List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
@@ -50,6 +49,11 @@ public class RedirectionAction extends Action {
 					List<MasterDTO> masterList = MasterDAO.getInstance().getMasterList(param);
 					request.setAttribute("masterList", masterList);
 					request.setAttribute("masterType", param);
+					
+					List<MasterDTO> gateList = MasterDAO.getInstance().getGateList();
+					//List<MasterDTO> getGateList()
+					request.setAttribute("gateList", gateList);
+					
 					actionForward = "master-management";
 				}
 				if(param.equalsIgnoreCase("MANAGE_ENROLLMENT")) {
