@@ -31,7 +31,7 @@
 			<forward name="master-management" path="/pages/eet/master-management.jsp"></forward>
 		</action>
 
-		<action input="/" path="/entryExit" scope="request" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">
+		<action input="/" path="/entryExit" scope="request" parameter="method" type="bt.gov.moh.eet.web.action.EntryExitAction" name="EntryExitForm">
 			<forward name="SUCCESS" path="/pages/eet/entry-exit.jsp"></forward>
 		</action>
 		

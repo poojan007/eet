@@ -57,7 +57,7 @@
   
   <servlet>
   	<servlet-name>ApplicationTokenClient</servlet-name>
-  	<servlet-class>com.ngn.datahub.GetApplicationToken</servlet-class>
+  	<servlet-class>bt.gov.moh.eet.web.servlet.GetApplicationToken</servlet-class>
   	<init-param>
       <param-name>CONSUMER_KEY</param-name>
       <param-value>wkuvh4Pdu60mkHZlesOI1dfMNbka</param-value>
