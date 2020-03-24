@@ -79,6 +79,13 @@ public class RedirectionAction extends Action {
 //			          request.setAttribute("GATELIST", gateList);
 			          actionForward = param;
 			        }
+				
+				if(param.equalsIgnoreCase("getTotalCounts")) {
+					
+					List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
+					request.setAttribute("TOTALLIST", TOTALLIST);
+					actionForward = "COUNT";
+				}
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";

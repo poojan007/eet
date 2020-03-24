@@ -24,11 +24,34 @@ public class UserDTO implements Serializable{
 	private String editmobile_number;
 	private String editfull_name;
 	private String cidedit;
+	private String entrycount;
+	private String exitcount;
+	private String flagcount;
 	
 	
 	
 	
 	
+	
+	public String getExitcount() {
+		return exitcount;
+	}
+	public void setExitcount(String exitcount) {
+		this.exitcount = exitcount;
+	}
+	public String getEntrycount() {
+		return entrycount;
+	}
+	public void setEntrycount(String entrycount) {
+		this.entrycount = entrycount;
+	}
+	
+	public String getFlagcount() {
+		return flagcount;
+	}
+	public void setFlagcount(String flagcount) {
+		this.flagcount = flagcount;
+	}
 	public String getEdituser_type_id() {
 		return edituser_type_id;
 	}

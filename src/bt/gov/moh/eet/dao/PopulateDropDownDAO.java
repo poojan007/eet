@@ -55,7 +55,7 @@ public class PopulateDropDownDAO {
 		      query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
 		    }
 		
-		   
+		
 		try {
 			conn = ConnectionManager.getConnection();
 			if(conn != null) {
@@ -186,6 +186,8 @@ public class PopulateDropDownDAO {
 			+ "  a.`role_name` AS HEADER_NAME "
 			+ "FROM "
 			+ " `roles` a";
+	
+	
 	
 	
 }

@@ -1,5 +1,7 @@
 package bt.gov.moh.eet.web.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,6 +10,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import bt.gov.moh.eet.dao.UserDAO;
+import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
 import bt.gov.moh.framework.common.Log;
 
@@ -22,6 +26,8 @@ public class LoginAction extends Action
 		try {
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {	
+				List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
+				request.setAttribute("TOTALLIST", TOTALLIST);
 				forwarder = "success";
 			} else {
 				forwarder = "failure";
