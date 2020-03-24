@@ -93,6 +93,11 @@ public class CitizenDetailsServlet extends HttpServlet {
 				String gender = citizendetailsObj.getGender();
 				
 				CitizenDTO dto = new CitizenDTO();
+				
+				if(middleName.equals("null")){
+					middleName = "";
+				}
+				
 				dto.setCitizenName(firstName+" "+middleName+" "+lastName);
 				dto.setGender(gender);
 				

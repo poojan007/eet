@@ -3,6 +3,7 @@
 <%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
 <style>
 	#searchForm .error { color: red; }
+	p.groove {border-style: groove;}
 </style>
 
 <section class="content-header">
@@ -25,7 +26,7 @@
 	       				<div class="form-group">
 		                   		<label class="control-label col-sm-2">Identification No.<font color='red'>*</font></label>
 	                   			<div class="col-sm-4">
-	                   				<html:text property="identificationNo" styleClass="form-control" styleId="identificationNo"></html:text>
+	                   				<html:text property="identificationNo" styleClass="form-control" styleId="identificationNo"/>
                    				</div>
 	       					<label class="control-label col-sm-2">Name<font color='red'>*</font></label>
 	       					<div class="col-sm-4">
@@ -61,11 +62,20 @@
 		       					<div class="col-sm-4">
 		       						<html:text property="mobileNo" styleClass="form-control" styleId="mobileNo"></html:text>
 		       					</div>
-		       					
 	       				</div>
 	       			
+	       				
+	       				
+	       				<div class="row">
+	       				
+	       				<div class="col-sm-8">
+	       					  <label class="control-label col-sm-3">Present Address<font color='red'>*</font></label>
+	       						<div class="col-sm-9">
+	       							<html:textarea styleClass="form-control" property="presentAddress" rows="5" styleId="presentAddress"></html:textarea>
+	       						</div>
+	       						
 	       				<div class="form-group">
-		                   	<label class="control-label col-sm-2">Residing across border?<font color='red'>*</font></label>
+		                   	<label class="control-label col-sm-3">Residing across border?<font color='red'>*</font></label>
                    			<div class="col-sm-4">
                    				<div class="custom-control custom-radio">
 							  		<input type="radio" class="custom-control-input" id="entry" name="residenceFlag" value="Y">
@@ -76,27 +86,40 @@
 							  		<label class="custom-control-label" for="exit">No</label>
 								</div>
                   				</div>
-	       					<label class="control-label col-sm-2">Present Address<font color='red'>*</font></label>
-	       					<div class="col-sm-4">
-	       						<html:textarea styleClass="form-control" property="presentAddress" rows="5" styleId="presentAddress"></html:textarea>
-	       					</div>
+
 	       				</div>
 	       				
-	       				<div class="form-group">
-						    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-						    <div class="col-12">
-						        <div class="left">
+	       				</div>
+	       				
+	       				<div class="col-sm-4">
+	       				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+						 
 						            <div class="booth">
-						                <canvas id="canvas" width="200" height="200"></canvas>
+						               <p class="groove"> <canvas id="canvas" width="200" height="200"></canvas>
 						                <html:hidden property="imageData" styleId="imagePath" />
 						            </div>
-						            <div align="center">
+	       				</div>
+	       				</div>
+	       				
+	       				
+	       				
+	       				
+	       					<div class="row">
+	       				
+	       				<div class="col-sm-8">
+	       					  
+	       				
+	       				</div>
+	       				
+	       				<div class="col-sm-4">
+	       				 <div align="center">
 						                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#imageCaptureModal">
 						                    Capture Image 
 						                </button>
 						            </div>
-						        </div>
-						    </div>
+	       				</div>
+	       				</div>
+	       				
 							<div class="col-4">
 								<%-- <jsp:include page="imagecapture.jsp"></jsp:include> --%>
 								<div class="modal" tabindex="-1" role="dialog" id="imageCaptureModal">
@@ -136,7 +159,7 @@
 
 <script>
 
-	
+	$('#identificationNo').focus();
 	
 	function fnValidateLogin(){
 		var context = "<%=request.getContextPath()%>";
@@ -149,6 +172,8 @@
 			success : function(responseText) {
 				$("#msgDiv").html(responseText);
 				$("#msgDiv").show();
+				$('#searchForm').trigger("reset");
+				
 			}
 		});
 	}

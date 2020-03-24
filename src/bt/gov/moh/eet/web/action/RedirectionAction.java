@@ -11,10 +11,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import bt.gov.moh.eet.dao.MasterDAO;
-import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dao.PopulateDropDownDAO;
 import bt.gov.moh.eet.dao.UserDAO;
 import bt.gov.moh.eet.dto.DropDownDTO;
+import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
 import bt.gov.moh.framework.common.Log;
@@ -56,6 +56,18 @@ public class RedirectionAction extends Action {
 					
 					actionForward = "master-management";
 				}
+				if(param.equalsIgnoreCase("MANAGE_ENTRY_EXIT")) {
+					//pull list of master here
+					List<DropDownDTO> identificationTypeList = PopulateDropDownDAO.getInstance().getIdentificationDropDownList("IDENTIFICATIONTYPELIST", null);
+					request.setAttribute("IDENTIFICATIONTYPELIST", identificationTypeList);
+					List<DropDownDTO> nationalityList = PopulateDropDownDAO.getInstance().getNationalityDropDownList("NATIONALITYLIST", null);
+					request.setAttribute("NATIONALITYLIST", nationalityList);
+					List<DropDownDTO> reasonList = PopulateDropDownDAO.getInstance().getDropDownList("REASONLIST", null);
+					request.setAttribute("REASONLIST", reasonList);
+					List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getGateDropDownList("GATELIST", null);
+					request.setAttribute("GATELIST", gateList);
+					actionForward = "entry_exit";
+				}
 				if(param.equalsIgnoreCase("MANAGE_ENROLLMENT")) {
 			          //pull list of master here
 			          List<DropDownDTO> identificationTypeList = PopulateDropDownDAO.getInstance().getDropDownList("IDENTIFICATIONTYPELIST", null);
@@ -73,6 +85,7 @@ public class RedirectionAction extends Action {
 				request.setAttribute("FAILURE", "UNAUTHORIZED");
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			Log.error("###Redirection Error at RequestForwarderAction[execute] ----> ", e);
 			request.setAttribute("ERROR", e.getMessage());
 			actionForward = "GLOBAL_REDIRECT_ERROR";
