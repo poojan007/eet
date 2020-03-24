@@ -41,6 +41,17 @@ public class RedirectionAction extends Action {
 					request.setAttribute("userTypeList", userTypeList);
 					request.setAttribute("roleList", roleList);
 					actionForward = param;
+				} else if(param.equalsIgnoreCase("MASTER_MANAGEMENT_GATES") || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES")
+						 || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")
+						 || param.equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_EXITREASONS") 
+						 || param.equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
+					List<MasterDTO> masterList = MasterDAO.getInstance().getMasterList(param);
+					request.setAttribute("masterList", masterList);
+					request.setAttribute("masterType", param);
+					
+					List<MasterDTO> gateList = MasterDAO.getInstance().getGateList();
+					request.setAttribute("gateList", gateList);
+					actionForward = "master-management";
 				}
 				if(param.equalsIgnoreCase("MANAGE_ENTRY_EXIT")) {
 					//pull list of master here

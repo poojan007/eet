@@ -11,7 +11,6 @@
 	    border: 10px solid #ddd;
 	    margin: 0 auto;
 	}
-	
 </style>
 <section class="content-header">
   <h1>
@@ -26,7 +25,6 @@
 
 <section class="content">
 	<div class="row">
-	
 		<div class="col-md-3">
 			<div class="box box-primary">
 				<div class="box-body" align="center">
@@ -394,4 +392,5 @@
     }
 
 </script>
+</section>
           
