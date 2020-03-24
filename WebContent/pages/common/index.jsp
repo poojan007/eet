@@ -77,6 +77,17 @@
 				            </div>
 				          </div>
 				        </div>
+				        <div class="col-lg-3 col-xs-6">
+				          <div class="small-box bg-red">
+				            <div class="inner">
+				              <h3>150</h3>
+				              <p>Total Flag</p>
+				            </div>
+				            <div class="icon">
+				              <i class="ion ion-exit"></i>
+				            </div>
+				          </div>
+				        </div>
 					</div>
 				</section>
 			</div>
