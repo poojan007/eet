@@ -43,5 +43,19 @@
 	  <p>Data delete failed, please try again later.</p>
 	</div>
 <%
-	}
+	} if(message.equalsIgnoreCase("GUESTLOG_ADD_SUCCESS")){
+		%>
+		<div class="alert alert-success" role="alert">
+		  <h4 class="alert-heading">Success!</h4>
+		  <p>Data has been successfully saved.</p>
+		</div>
+	<%
+		} else if(message.equalsIgnoreCase("GUESTLOG_ADD_FAILURE")){
+	%>
+		<div class="alert alert-danger" role="alert">
+		  <h4 class="alert-heading">Failure!</h4>
+		  <p>Data save failed, please try again later.</p>
+		</div>
+	<%
+		}
 %>
