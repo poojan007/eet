@@ -2,12 +2,10 @@ package bt.gov.moh.eet.web.actionform;
 
 import org.apache.struts.action.ActionForm;
 
-public class UserForm extends ActionForm {
-	private static final long serialVersionUID = 1L;
+public class UserForm extends ActionForm{
+private static final long serialVersionUID = 1L;
 	
 	private String cid;
-	
-	
 	private String password;
 	private String passwordsalt;
 	private String full_name;
@@ -19,6 +17,15 @@ public class UserForm extends ActionForm {
 	private String gate_id;
 	private String user_type;
 	private String role_name;
+
+	private String edituser_type_id;
+	private String editrole_id;
+	private String editworking_address;
+	private String editdesignation;
+	private String editmobile_number;
+	private String editfull_name;
+	private String cidedit;
+
 	private String cidedit;
 	private String editfull_name;
 	private String editmobile_number;
@@ -95,6 +102,7 @@ public class UserForm extends ActionForm {
 	public void setCidedit(String cidedit) {
 		this.cidedit = cidedit;
 	}
+
 	public String getCid() {
 		return cid;
 	}
@@ -168,5 +176,46 @@ public class UserForm extends ActionForm {
 		this.role_name = role_name;
 	}
 	
-	
+	public String getEditworking_address() {
+		return editworking_address;
+	}
+	public void setEditworking_address(String editworking_address) {
+		this.editworking_address = editworking_address;
+	}
+	public String getEditdesignation() {
+		return editdesignation;
+	}
+	public void setEditdesignation(String editdesignation) {
+		this.editdesignation = editdesignation;
+	}
+	public String getEditmobile_number() {
+		return editmobile_number;
+	}
+	public void setEditmobile_number(String editmobile_number) {
+		this.editmobile_number = editmobile_number;
+	}
+	public String getEditfull_name() {
+		return editfull_name;
+	}
+	public void setEditfull_name(String editfull_name) {
+		this.editfull_name = editfull_name;
+	}
+	public String getCidedit() {
+		return cidedit;
+	}
+	public void setCidedit(String cidedit) {
+		this.cidedit = cidedit;
+	}
+	public String getEdituser_type_id() {
+		return edituser_type_id;
+	}
+	public void setEdituser_type_id(String edituser_type_id) {
+		this.edituser_type_id = edituser_type_id;
+	}
+	public String getEditrole_id() {
+		return editrole_id;
+	}
+	public void setEditrole_id(String editrole_id) {
+		this.editrole_id = editrole_id;
+	}
 }

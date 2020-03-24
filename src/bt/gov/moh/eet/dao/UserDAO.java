@@ -202,6 +202,59 @@ public String edit_user(UserDTO dto, Connection conn)
 		return result;
 	}
 
+public List<UserDTO> getTotalList()
+{
+	List<UserDTO> getTotalList = new ArrayList<UserDTO>();	 
+	Connection connection = null;
+	PreparedStatement prepareStatement = null;
+	ResultSet resultSet , resultSet1, resultSet2 = null;
+	//String query = null;
+	UserDTO dto = new UserDTO();
+	try {
+    	connection = ConnectionManager.getConnection();
+    	//query = "GET_LEAVEAPPLICATION_LIST";
+    	 prepareStatement = connection.prepareStatement(GET_ENTRY_LIST);
+    	 resultSet = prepareStatement.executeQuery();
+    	
+    	while(resultSet.next()){
+    		dto.setEntrycount(resultSet.getString("totalEntry"));
+    		
+    		prepareStatement = connection.prepareStatement(GET_EXIT_LIST);
+       	 	resultSet1 = prepareStatement.executeQuery();
+       	 	
+    		while(resultSet1.next()){
+    			dto.setExitcount(resultSet1.getString("totalExit"));
+    			
+    			prepareStatement = connection.prepareStatement(GET_FLAG_LIST);
+    	    	resultSet2 = prepareStatement.executeQuery();
+    	    	 
+    			while(resultSet2.next()){
+    	    	dto.setFlagcount(resultSet2.getString("totalFlag"));	
+    	    		
+    	    		getTotalList.add(dto);
+        		}
+        		
+    		}
+    		}
+    	}
+	
+	
+	catch (Exception e)
+	{
+		/*connection.rollback();
+		
+		throw new Exception("###Error at LeaveApplicationDAO[submitLeaveApplication]: exception:: "+e);*/
+	}
+	finally
+	{
+		
+		ConnectionManager.close(connection, null, prepareStatement);
+	}
+	
+	return getTotalList;
+	
+}
+
 	private static final String GET_USER_LIST = "SELECT "
 												+ "  a.`cid`, "
 												+ "  a.`full_name`, "
@@ -255,6 +308,24 @@ public String edit_user(UserDTO dto, Connection conn)
 															+ " ?, "
 															+ " ?)";
 	
+	private static final String EDIT_USER_MASTER="UPDATE "
+			+ "`users` "
+			+ "SET "
+			+ " cid =?, "
+			+ "`full_name`=?, "
+			+ "`mobile_number`=?, "
+			+ "`designation`=?, "
+			+ "`working_address`=?, "
+			+ "`user_type_id`=?, "
+			+ "`role_id`=? "
+			+ "WHERE cid=?";
+	
+	private static final String GET_ENTRY_LIST = "SELECT COUNT(*)totalEntry FROM `guestlog` WHERE entry_or_exit = 'ENTRY'";
+	
+	private static final String GET_EXIT_LIST = "SELECT COUNT(*)totalExit FROM `guestlog` WHERE entry_or_exit = 'EXIT'";
+	
+	private static final String GET_FLAG_LIST = "SELECT COUNT(*)totalFlag FROM `guestlog` WHERE alert_flag = 'Y'";
+
 	private static final String EDIT_USER_MASTER = "UPDATE "
 													+ "`users` "
 													+ "SET "

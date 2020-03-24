@@ -17,6 +17,18 @@ public class UserDTO implements Serializable{
 	private String gate_id;
 	private String user_type;
 	private String role_name;
+
+	private String edituser_type_id;
+	private String editrole_id;
+	private String editworking_address;
+	private String editdesignation;
+	private String editmobile_number;
+	private String editfull_name;
+	private String cidedit;
+	private String entrycount;
+	private String exitcount;
+	private String flagcount;
+
 	private String cidedit;
 	private String editfull_name;
 	private String editmobile_number;
@@ -27,12 +39,26 @@ public class UserDTO implements Serializable{
 	private String editgate_id;
 	private String edituser_type;
 	private String editrole_name;
+
+	public String getExitcount() {
+		return exitcount;
+	}
+	public void setExitcount(String exitcount) {
+		this.exitcount = exitcount;
+	}
+	public String getEntrycount() {
+		return entrycount;
+	}
+	public void setEntrycount(String entrycount) {
+		this.entrycount = entrycount;
+	}
 	
-	
-	
-	
-	
-	
+	public String getFlagcount() {
+		return flagcount;
+	}
+	public void setFlagcount(String flagcount) {
+		this.flagcount = flagcount;
+
 	public String getCidedit() {
 		return cidedit;
 	}
@@ -62,6 +88,7 @@ public class UserDTO implements Serializable{
 	}
 	public void setEditworking_address(String editworking_address) {
 		this.editworking_address = editworking_address;
+
 	}
 	public String getEdituser_type_id() {
 		return edituser_type_id;
@@ -75,6 +102,37 @@ public class UserDTO implements Serializable{
 	public void setEditrole_id(String editrole_id) {
 		this.editrole_id = editrole_id;
 	}
+
+	public String getEditworking_address() {
+		return editworking_address;
+	}
+	public void setEditworking_address(String editworking_address) {
+		this.editworking_address = editworking_address;
+	}
+	public String getEditdesignation() {
+		return editdesignation;
+	}
+	public void setEditdesignation(String editdesignation) {
+		this.editdesignation = editdesignation;
+	}
+	public String getEditmobile_number() {
+		return editmobile_number;
+	}
+	public void setEditmobile_number(String editmobile_number) {
+		this.editmobile_number = editmobile_number;
+	}
+	public String getEditfull_name() {
+		return editfull_name;
+	}
+	public void setEditfull_name(String editfull_name) {
+		this.editfull_name = editfull_name;
+	}
+	public String getCidedit() {
+		return cidedit;
+	}
+	public void setCidedit(String cidedit) {
+		this.cidedit = cidedit;
+
 	public String getEditgate_id() {
 		return editgate_id;
 	}
@@ -92,6 +150,7 @@ public class UserDTO implements Serializable{
 	}
 	public void setEditrole_name(String editrole_name) {
 		this.editrole_name = editrole_name;
+
 	}
 	public String getCid() {
 		return cid;

@@ -33,8 +33,7 @@ public class RedirectionAction extends Action {
 			String parentId=null;
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
 				if(param.equalsIgnoreCase("MANAGE_USERS")) {
-					//public static final String USER_DROP_DOWN_FIELD_CONSTRUCTOR;
-					//pull list of user here
+					
 					List<UserDTO> userDetails = UserDAO.getInstance().getUserDetails();
 					request.setAttribute("userDetails", userDetails);
 					List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
@@ -78,6 +77,13 @@ public class RedirectionAction extends Action {
 //			          request.setAttribute("GATELIST", gateList);
 			          actionForward = param;
 			        }
+				
+				if(param.equalsIgnoreCase("getTotalCounts")) {
+					
+					List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
+					request.setAttribute("TOTALLIST", TOTALLIST);
+					actionForward = "COUNT";
+				}
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";
