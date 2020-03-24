@@ -44,6 +44,8 @@ public class PopulateDropDownDAO {
 		
 		if ("USER".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_ROLE_LIST_QUERY;
+		else if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
+			query = GET_IDENTIFICATION_ENDPOINT_URL_LIST;
 		
 		   
 		try {
@@ -51,6 +53,10 @@ public class PopulateDropDownDAO {
 			if(conn != null) {
 				
 				pst = conn.prepareStatement(query);
+				
+				if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
+					pst.setString(1, parentId);
+				
 				rs = pst.executeQuery();
 				while(rs.next()) {
 					DropDownDTO dto = new DropDownDTO();
@@ -177,5 +183,6 @@ public class PopulateDropDownDAO {
 			+ "FROM "
 			+ " `roles` a";
 	
+	private static final String GET_IDENTIFICATION_ENDPOINT_URL_LIST = "SELECT a.`identification_type_desc` HEADER_ID,a.`end_point_url` HEADER_NAME FROM `identificationtypes` a WHERE a.`identification_type_id`=?";
 	
 }
