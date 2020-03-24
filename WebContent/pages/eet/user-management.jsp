@@ -207,6 +207,7 @@
                   			<label class="control-label col-sm-2">User Type&nbsp;<font color='red'>*</font></label>
                    			<div class="col-sm-4">
                    				<html:select property="edituser_type_id" styleClass="form-control" styleId="edit_user_type">
+                   				<html:select property="edituser_type" styleClass="form-control" styleId="edit_user_type">
           								<html:option value="">--SELECT--</html:option>
            							<html:optionsCollection name="userTypeList" label="headerName" value="headerId"/>
            						</html:select>
@@ -216,6 +217,7 @@
 	                   		<label class="control-label col-sm-2">Role&nbsp;<font color='red'>*</font></label>
                    			<div class="col-sm-4">
                    				<html:select property="editrole_id" styleClass="form-control" styleId="edit_role">
+                   				<html:select property="editrole_name" styleClass="form-control" styleId="edit_role">
           								<html:option value="">--SELECT--</html:option>
            							<html:optionsCollection name="roleList" label="headerName" value="headerId"/>
            						</html:select>
@@ -376,12 +378,29 @@
 				 				  required:"Please provide user type"
 				 			  },
 				 			 'add_role':{
+				 			  'edit_cid':{
+				 				  required:"Please provide CID"
+				 			  },
+				 			 'edit_full_name':{
+				 				  required:"Please provide full name"
+				 			  },
+				 			 'edit_mobile_number':{
+				 				  required:"Please provide mobile number"
+				 			  },
+				 			 'edit_designation':{
+				 				  required:"Please provide designation"
+				 			  },
+				 			 'edit_user_type':{
+				 				  required:"Please provide user type"
+				 			  },
+				 			 'edit_role':{
 				 				  required:"Please provide role"
 				 			  }
 				 		  }
 				 	  });
 		 	  });
-	 	
+	 	});
+  
 	function addUser(){
 		$.ajax({
 			type : "POST",

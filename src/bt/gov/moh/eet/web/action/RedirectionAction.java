@@ -51,9 +51,7 @@ public class RedirectionAction extends Action {
 					request.setAttribute("masterType", param);
 					
 					List<MasterDTO> gateList = MasterDAO.getInstance().getGateList();
-					//List<MasterDTO> getGateList()
 					request.setAttribute("gateList", gateList);
-					
 					actionForward = "master-management";
 				}
 				if(param.equalsIgnoreCase("MANAGE_ENTRY_EXIT")) {

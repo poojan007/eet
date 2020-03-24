@@ -255,7 +255,6 @@ public List<UserDTO> getTotalList()
 	
 }
 
-
 	private static final String GET_USER_LIST = "SELECT "
 												+ "  a.`cid`, "
 												+ "  a.`full_name`, "
@@ -285,29 +284,29 @@ public List<UserDTO> getTotalList()
 													+ "  users a "
 													+ "WHERE  a.`cid` =?";
 	
-	private static final String INSERT_INTO_USER_MASTER="INSERT INTO "
-			+ "`users` "
-			+ "( "
-			+ "`cid`, "
-			+ "`password`, "
-			+ "`password_salt`, "
-			+ "`full_name`, "
-			+ "`mobile_number`, "
-			+ "`designation`, "
-			+ "`working_address`, "
-			+ "`user_type_id`, "
-			+ "`role_id` "
-			+ ") "
-			+ "VALUES "
-			+ "(?, "
-			+ " ?, "
-			+ " ?, "
-			+ " ?, "
-			+ " ?, "
-			+ " ?, "
-			+ " ?, "
-			+ " ?, "
-			+ " ?)";
+	private static final String INSERT_INTO_USER_MASTER = "INSERT INTO "
+															+ "`users` "
+															+ "( "
+															+ "`cid`, "
+															+ "`password`, "
+															+ "`password_salt`, "
+															+ "`full_name`, "
+															+ "`mobile_number`, "
+															+ "`designation`, "
+															+ "`working_address`, "
+															+ "`user_type_id`, "
+															+ "`role_id` "
+															+ ") "
+															+ "VALUES "
+															+ "(?, "
+															+ " ?, "
+															+ " ?, "
+															+ " ?, "
+															+ " ?, "
+															+ " ?, "
+															+ " ?, "
+															+ " ?, "
+															+ " ?)";
 	
 	private static final String EDIT_USER_MASTER="UPDATE "
 			+ "`users` "
@@ -326,4 +325,16 @@ public List<UserDTO> getTotalList()
 	private static final String GET_EXIT_LIST = "SELECT COUNT(*)totalExit FROM `guestlog` WHERE entry_or_exit = 'EXIT'";
 	
 	private static final String GET_FLAG_LIST = "SELECT COUNT(*)totalFlag FROM `guestlog` WHERE alert_flag = 'Y'";
+
+	private static final String EDIT_USER_MASTER = "UPDATE "
+													+ "`users` "
+													+ "SET "
+													+ " cid =?, "
+													+ "`full_name`=?, "
+													+ "`mobile_number`=?, "
+													+ "`designation`=?, "
+													+ "`working_address`=?, "
+													+ "`user_type_id`=?, "
+													+ "`role_id`=? "
+													+ "WHERE cid=?";
 }

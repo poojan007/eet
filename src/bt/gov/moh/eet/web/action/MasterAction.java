@@ -68,12 +68,16 @@ public class MasterAction extends DispatchAction {
 				String gateName = request.getParameter("gateName");
 				String name = request.getParameter("name");
 				String id = request.getParameter("id");
+				String pointOne = request.getParameter("pointOne");
+				String pointTwo = request.getParameter("pointTwo");
 				
 				dto.setGateId(gateId);
 				dto.setMasterType(masterType);
 				dto.setGateName(gateName);
 				dto.setId(id);
 				dto.setName(name);
+				dto.setPointOne(pointOne);
+				dto.setPointTwo(pointTwo);
 				
 				String result = MasterDAO.getInstance().updateMaster(dto);
 				request.setAttribute("message", result);

@@ -44,23 +44,26 @@ public class PopulateDropDownDAO {
 		
 		if ("ROLE".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_ROLE_LIST_QUERY;
-		
 		if ("IDENTIFICATIONTYPELIST".equalsIgnoreCase(fieldConstructor)) {
-		      query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
-		    }
-		    if ("NATIONALITYLIST".equalsIgnoreCase(fieldConstructor)) {
-		      query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
-		    }
-		    if ("GATELIST".equalsIgnoreCase(fieldConstructor)) {
-		      query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
-		    }
-		
-		
+      query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
+    }
+    if ("NATIONALITYLIST".equalsIgnoreCase(fieldConstructor)) {
+      query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
+    }
+    if ("GATELIST".equalsIgnoreCase(fieldConstructor)) {
+      query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
+    } else if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
+			query = GET_IDENTIFICATION_ENDPOINT_URL_LIST;
+    
 		try {
 			conn = ConnectionManager.getConnection();
 			if(conn != null) {
 				
 				pst = conn.prepareStatement(query);
+				
+				if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
+					pst.setString(1, parentId);
+				
 				rs = pst.executeQuery();
 				while(rs.next()) {
 					DropDownDTO dto = new DropDownDTO();
@@ -186,6 +189,8 @@ public class PopulateDropDownDAO {
 			+ "  a.`role_name` AS HEADER_NAME "
 			+ "FROM "
 			+ " `roles` a";
+	
+	private static final String GET_IDENTIFICATION_ENDPOINT_URL_LIST = "SELECT a.`identification_type_desc` HEADER_ID,a.`end_point_url` HEADER_NAME FROM `identificationtypes` a WHERE a.`identification_type_id`=?";
 	
 	
 	

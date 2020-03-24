@@ -4,21 +4,18 @@ import java.sql.Connection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-
+import org.apache.struts.actions.DispatchAction;
 import bt.gov.moh.eet.dao.GuestDao;
 import bt.gov.moh.eet.dto.*;
 import bt.gov.moh.eet.util.ConnectionManager;
 import bt.gov.moh.eet.util.FlagGuestHelper;
-
 import bt.gov.moh.eet.web.actionform.EntryExitForm;
 
-public class EntryExitAction extends Action {
+public class EntryExitAction extends DispatchAction {
 	EntryExitForm entryExitForm = new EntryExitForm();
 
 	Connection conn = null;
@@ -38,9 +35,18 @@ public class EntryExitAction extends Action {
 
 				GuestDao guestDao = new GuestDao();
 				String result = guestDao.getInstance().addGuest(dto, conn);
-				request.setAttribute("MESSAGE", result);
+				BeanUtils.copyProperties(formBean, dto);
+				
+				
+				//GuestLogDTO dto2 = new GuestLogDTO();
+				//BeanUtils.copyProperties(dto2, formBean);
+				
+				result =  guestDao.getInstance().addGuestLog(formBean, conn);
+				conn.commit();
+				
+				request.setAttribute("message", result);
 
-				actionForward = "message";
+				actionForward = "GLOBAL_REDIRECT_MESSAGE";
 			}
 		} catch (Exception e) {
 
@@ -67,8 +73,8 @@ public class EntryExitAction extends Action {
 				BeanUtils.copyProperties(dto, formBean);
 				dto = flagGuestHelper.run(dto);
 
-				String result = guestDao.getInstance().addGuestLog(dto, conn);
-				request.setAttribute("MESSAGE", result);
+				//String result = guestDao.getInstance().addGuestLog(dto, conn);
+				//request.setAttribute("MESSAGE", result);
 
 				actionForward = "message";
 			}
@@ -81,31 +87,25 @@ public class EntryExitAction extends Action {
 		return mapping.findForward(actionForward);
 	}
 
-	public ActionForward editGuestLog(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		String actionForward = null;
-
-		EntryExitForm formBean = (EntryExitForm) form;
-		try {
-			conn = ConnectionManager.getConnection();
-			conn.setAutoCommit(false);
-
-			if (conn != null) {
-				GuestLogDTO dto = new GuestLogDTO();
-				BeanUtils.copyProperties(dto, formBean);
-
-				GuestDao guestDao = new GuestDao();
-				String result = guestDao.getInstance().editGuestLog(dto, conn);
-				request.setAttribute("MESSAGE", result);
-
-				actionForward = "message";
-			}
-		} catch (Exception e) {
-
-		} finally {
-			ConnectionManager.close(conn);
-		}
-
-		return mapping.findForward(actionForward);
-	}
+	/*
+	 * public ActionForward editGuestLog(ActionMapping mapping, ActionForm form,
+	 * HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 * String actionForward = null;
+	 * 
+	 * EntryExitForm formBean = (EntryExitForm) form; try { conn =
+	 * ConnectionManager.getConnection(); conn.setAutoCommit(false);
+	 * 
+	 * if (conn != null) { GuestLogDTO dto = new GuestLogDTO();
+	 * BeanUtils.copyProperties(dto, formBean);
+	 * 
+	 * GuestDao guestDao = new GuestDao(); String result =
+	 * guestDao.getInstance().editGuestLog(dto, conn);
+	 * request.setAttribute("MESSAGE", result);
+	 * 
+	 * actionForward = "message"; } } catch (Exception e) {
+	 * 
+	 * } finally { ConnectionManager.close(conn); }
+	 * 
+	 * return mapping.findForward(actionForward); }
+	 */
 }

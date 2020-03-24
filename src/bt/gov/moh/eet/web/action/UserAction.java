@@ -72,15 +72,17 @@ public class UserAction extends DispatchAction {
 				}
 			}
 			catch(Exception e){
-				
+				request.setAttribute("message", result);
+				actionForward = "GLOBAL_REDIRECT_MESSAGE";
 			}
-			finally
-			{
-				ConnectionManager.close(conn);
-			}
-			
-			return mapping.findForward(actionForward);
-			}
+		} catch(Exception e){
+					
+		} finally {
+			ConnectionManager.close(conn);
+		}
+	
+		return mapping.findForward(actionForward);
+	}
 	
 	public ActionForward getEditUserDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
@@ -121,6 +123,79 @@ public class UserAction extends DispatchAction {
 			  return null;
 				
 				
+			}
+      
+	public ActionForward editUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+			throws Exception
+			{
+			String actionForward = null;
+			UserDTO dto = new UserDTO();
+			//userFormBean formBean = (userFormBean) form;
+			try
+			{
+				UserForm userform = (UserForm) form;
+				
+				conn = ConnectionManager.getConnection();
+				conn.setAutoCommit(false);
+				
+				if(conn != null) {
+					
+					BeanUtils.copyProperties(dto, userform);
+			
+					String result = UserDAO.getInstance().edit_user(dto,conn);
+					request.setAttribute("message", result);
+					
+					actionForward = "GLOBAL_REDIRECT_MESSAGE";
+				}
+			}
+			catch(Exception e){
+				
+			}
+			finally
+			{
+				ConnectionManager.close(conn);
+			}
+			
+			return mapping.findForward(actionForward);
+			}
+	
+	public ActionForward getEditUserDetails(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		String actionForward = null;
+		UserDTO dto = new UserDTO();
+		
+		try
+		{
+			
+			conn = ConnectionManager.getConnection();
+			conn.setAutoCommit(false);
+			
+			if(conn != null) {
+				String cid= request.getParameter("cid");
+				String parentId=null;
+				//MasterDTO dtlDto = new MasterDTO();
+				dto =  UserDAO.getInstance().getEditUserDetails(cid);
+				List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
+				List<DropDownDTO> roleList = PopulateDropDownDAO.getInstance().getDropDownList("ROLE", parentId);
+				request.setAttribute("userTypeList", userTypeList);
+				request.setAttribute("roleList", roleList);
+				PrintWriter out = response.getWriter();
+		 	    response.setContentType("text/xml");
+		 	    StringBuffer buffer = new StringBuffer();
+		 	    
+		 	     buffer.append("<xml-response>");
+			 	 buffer.append("<cid>"+dto.getCid()+"</cid>");
+			 	 buffer.append("<name>"+dto.getFull_name()+"</name>");
+			 	 buffer.append("<mobile>"+dto.getMobile_number()+"</mobile>");
+		 		 buffer.append("<designation>"+dto.getDesignation()+"</designation>");
+		 		 buffer.append("<address>"+dto.getWorking_address()+"</address>");
+			 	 buffer.append("<usertype>"+dto.getUser_type()+"</usertype>");
+		 		 buffer.append("<rolename>"+dto.getRole_name()+"</rolename>");
+		 		 
+	 		     buffer.append("</xml-response>");
+		 	  out.println(buffer);
+		 	  //Log.debug(buffer);
+			  return null;
 			}
 		} catch(Exception e){
 					
