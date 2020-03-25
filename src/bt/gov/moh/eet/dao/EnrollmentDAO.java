@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 
+import bt.gov.moh.eet.dto.GuestLogDTO;
 import bt.gov.moh.eet.util.ConnectionManager;
 import bt.gov.moh.eet.util.PasswordEncryptionUtil;
 import bt.gov.moh.eet.web.actionform.EnrollmentForm;
@@ -94,5 +95,30 @@ public class EnrollmentDAO {
 		}
 		return result;
 	}
+
+	public static String checkDuplicate(String identificationNo) {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String result =null;
+		try {
+			conn = ConnectionManager.getConnection();
+			pst = conn.prepareStatement(GET_DUPLICATE_ENTRY);
+			pst.setString(1, identificationNo);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				result = rs.getString("duplicateIdNo");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			ConnectionManager.close(conn, rs, pst);
+		}
+
+		return result;
+	}
+	
+	private static final String GET_DUPLICATE_ENTRY = "SELECT COUNT(identification_no) AS duplicateIdNo FROM guests  WHERE identification_no = ? ";
 	
 }
