@@ -19,7 +19,21 @@ public class GuestLogForm extends ActionForm {
 	private String remarks;
 	private String nextEntryGate;
 	private String guestId;
+	private String dob;
+	private String residenceFlag;
 	
+	public String getResidenceFlag() {
+		return residenceFlag;
+	}
+	public void setResidenceFlag(String residenceFlag) {
+		this.residenceFlag = residenceFlag;
+	}
+	public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 	public String getGuestId() {
 		return guestId;
 	}

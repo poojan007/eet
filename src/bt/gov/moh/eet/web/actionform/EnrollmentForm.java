@@ -13,11 +13,18 @@ public class EnrollmentForm extends ActionForm {
 	private String name;
 	private String gender;
 	private String age;
+	private String dob;
 	private String nationality;
 	private String presentAddress;
 	private String mobileNo;
 	private String imageData;
 	
+	public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 	public String getImageData() {
 		return imageData;
 	}

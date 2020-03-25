@@ -25,21 +25,21 @@ public class UserDAO {
 		return userdao;
 	}
 	
-	public List<UserDTO> getUserDetails()
+	public List<UserDTO> getUserDetails() throws Exception
 	{
 		List<UserDTO> userDTO = new ArrayList<UserDTO>();	 
 		Connection connection = null;
 		PreparedStatement prepareStatement = null;
 		ResultSet resultSet = null;
-		//String query = null;
-		UserDTO dto = new UserDTO();
+		UserDTO dto = null;
+		
 		try {
 	    	connection = ConnectionManager.getConnection();
-	    	//query = "GET_LEAVEAPPLICATION_LIST";
 	    	 prepareStatement = connection.prepareStatement(GET_USER_LIST);
 	    	 resultSet = prepareStatement.executeQuery();
 	    	
 	    	while(resultSet.next()){
+	    		dto = new UserDTO();
 	    		dto.setCid(resultSet.getString("cid"));
 	    		dto.setFull_name(resultSet.getString("full_name"));
 	    		dto.setMobile_number(resultSet.getString("mobile_number"));
@@ -47,40 +47,26 @@ public class UserDAO {
 	    		dto.setWorking_address(resultSet.getString("working_address"));
 	    		dto.setUser_type(resultSet.getString("user_type"));
 	    		dto.setRole_name(resultSet.getString("role_name"));
-	    		
 	    		userDTO.add(dto);
-	    		}
-	    	}
-		
-		
-		catch (Exception e)
-		{
-			/*connection.rollback();
-			
-			throw new Exception("###Error at LeaveApplicationDAO[submitLeaveApplication]: exception:: "+e);*/
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+			throw new Exception();
 		}
-		finally
-		{
-			
+		finally {
 			ConnectionManager.close(connection, resultSet, prepareStatement);
 		}
-		
 		return userDTO;
-		
 	}
 	
-	
-	public UserDTO getEditUserDetails(String cid)
+	public UserDTO getEditUserDetails(String cid) throws Exception
 	{
-		//List<UserDTO> edituserDTO = new ArrayList<UserDTO>();	 
 		Connection connection = null;
 		PreparedStatement prepareStatement = null;
 		ResultSet resultSet = null;
-		//String query = null;
 		UserDTO dto = new UserDTO();
 		try {
 	    	connection = ConnectionManager.getConnection();
-	    	//query = "GET_LEAVEAPPLICATION_LIST";
 	    	 prepareStatement = connection.prepareStatement(GET_EDIT_USER_LIST);
 	    	 prepareStatement.setString(1, cid);
 	    	 resultSet = prepareStatement.executeQuery();
@@ -93,42 +79,30 @@ public class UserDAO {
 	    		dto.setWorking_address(resultSet.getString("working_address"));
 	    		dto.setUser_type(resultSet.getString("user_type_id"));
 	    		dto.setRole_name(resultSet.getString("role_id"));
-	    		
-	    		
-	    		}
-	    	}
-		
-		
-		catch (Exception e)
-		{
-			/*connection.rollback();
-			
-			throw new Exception("###Error at LeaveApplicationDAO[submitLeaveApplication]: exception:: "+e);*/
-		}
-		finally
-		{
-			
+	    		dto.setGate_id(resultSet.getString("gate_id"));
+    		}
+    	}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		} finally {
 			ConnectionManager.close(connection, resultSet, prepareStatement);
 		}
-		
 		return dto;
-		
 	}
 	
-	public String add_user(UserDTO dto, Connection conn) 
-	
+	public String add_user(UserDTO dto, Connection conn) throws Exception
 	{
 		PreparedStatement pst = null;
 		String result = "SAVE_FAILURE";
 		ResultSet rs = null;
-		Connection connection = null;
 		try 
 		{
-			connection = ConnectionManager.getConnection();
 			String salt = PasswordEncryptionUtil.generateSalt(512).get();
-			String hashPassword =  "VfVdrgVTVN5O2EUkOCeWNvXIQ7yR64JhQFqv7LvJlTrBKL2lx7gvcL1C1G+EILFa7PDKW6B2R2g2vVuy7R1fQQ==";
+			String hashPassword = PasswordEncryptionUtil.hashPassword(dto.getCid(), salt).get();
+			//String hashPassword =  "VfVdrgVTVN5O2EUkOCeWNvXIQ7yR64JhQFqv7LvJlTrBKL2lx7gvcL1C1G+EILFa7PDKW6B2R2g2vVuy7R1fQQ==";
 			
-			pst = connection.prepareStatement(INSERT_INTO_USER_MASTER);
+			pst = conn.prepareStatement(INSERT_INTO_USER_MASTER);
 			pst.setString(1, dto.getCid());
 			pst.setString(2, hashPassword);
 			pst.setString(3, salt);
@@ -138,40 +112,38 @@ public class UserDAO {
 			pst.setString(7, dto.getWorking_address());
 			pst.setString(8, dto.getUser_type_id());
 			pst.setString(9, dto.getRole_id());
-			
 			int count = pst.executeUpdate();
 					
 			if(count > 0) {
-				result = "SAVE_SUCCESS";
+				pst.close();
+				pst = conn.prepareStatement(INSERT_INTO_USER_GATE_MAPPING);
+				pst.setString(1, dto.getCid());
+				pst.setString(2, dto.getGate_id());
+				count = pst.executeUpdate();
 				
+				if(count > 0)
+					result = "SAVE_SUCCESS";
 			}
 		} 
-		catch (Exception e) 
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			result = "SAVE_FAILURE";
-			//ConnectionManager.rollbackConnection(conn);
-			
+			throw new Exception();
 		}
-		finally
-		{
-			ConnectionManager.close(connection, rs, pst);
+		finally {
+			ConnectionManager.close(null, rs, pst);
 		}
 		
 		return result;
 	}
 	
-public String edit_user(UserDTO dto, Connection conn) 
-	
+	public String edit_user(UserDTO dto, Connection conn) throws Exception 
 	{
-		PreparedStatement pst = null;
+		PreparedStatement pst = null, pst1 = null;
 		String result = "UPDATE_FAILURE";
-		ResultSet rs = null;
-		Connection connection = null;
 		try 
 		{
-			connection = ConnectionManager.getConnection();
-			pst = connection.prepareStatement(EDIT_USER_MASTER);
+			pst = conn.prepareStatement(EDIT_USER_MASTER);
 			pst.setString(1, dto.getCidedit());
 			pst.setString(2, dto.getEditfull_name());
 			pst.setString(3, dto.getEditmobile_number());
@@ -183,77 +155,72 @@ public String edit_user(UserDTO dto, Connection conn)
 			int count = pst.executeUpdate();
 					
 			if(count > 0) {
-				result = "UPDATE_SUCCESS";
+				pst1 = conn.prepareStatement(UPDATE_USER_GATE);
+				pst1.setString(1, dto.getGate_id());
+				pst1.setString(2, dto.getCid());
+				count = pst1.executeUpdate();
 				
+				if(count > 0)
+					result = "UPDATE_SUCCESS";
 			}
 		} 
-		catch (Exception e) 
-		{
+		catch (Exception e) {
 			e.printStackTrace();
 			result = "UPDATE_FAILURE";
-			//ConnectionManager.rollbackConnection(conn);
-			
+			throw new Exception();
 		}
-		finally
-		{
-			ConnectionManager.close(connection, rs, pst);
+		finally {
+			ConnectionManager.close(null, null, pst);
+			ConnectionManager.close(null, null, pst1);
 		}
 		
 		return result;
 	}
 
-public List<UserDTO> getTotalList()
-{
-	List<UserDTO> getTotalList = new ArrayList<UserDTO>();	 
-	Connection connection = null;
-	PreparedStatement prepareStatement = null;
-	ResultSet resultSet , resultSet1, resultSet2 = null;
-	//String query = null;
-	UserDTO dto = new UserDTO();
-	try {
-    	connection = ConnectionManager.getConnection();
-    	//query = "GET_LEAVEAPPLICATION_LIST";
-    	 prepareStatement = connection.prepareStatement(GET_ENTRY_LIST);
-    	 resultSet = prepareStatement.executeQuery();
-    	
-    	while(resultSet.next()){
-    		dto.setEntrycount(resultSet.getString("totalEntry"));
-    		
-    		prepareStatement = connection.prepareStatement(GET_EXIT_LIST);
-       	 	resultSet1 = prepareStatement.executeQuery();
-       	 	
-    		while(resultSet1.next()){
-    			dto.setExitcount(resultSet1.getString("totalExit"));
-    			
-    			prepareStatement = connection.prepareStatement(GET_FLAG_LIST);
-    	    	resultSet2 = prepareStatement.executeQuery();
-    	    	 
-    			while(resultSet2.next()){
-    	    	dto.setFlagcount(resultSet2.getString("totalFlag"));	
-    	    		
-    	    		getTotalList.add(dto);
-        		}
-        		
-    		}
-    		}
-    	}
-	
-	
-	catch (Exception e)
+	public List<UserDTO> getTotalList() throws Exception
 	{
-		/*connection.rollback();
+		List<UserDTO> getTotalList = new ArrayList<UserDTO>();	 
+		Connection connection = null;
+		PreparedStatement prepareStatement = null;
+		ResultSet resultSet , resultSet1, resultSet2 = null;
+		UserDTO dto = new UserDTO();
 		
-		throw new Exception("###Error at LeaveApplicationDAO[submitLeaveApplication]: exception:: "+e);*/
-	}
-	finally
-	{
+		try {
+	    	connection = ConnectionManager.getConnection();
+	    	 prepareStatement = connection.prepareStatement(GET_ENTRY_LIST);
+	    	 resultSet = prepareStatement.executeQuery();
+	    	
+	    	while(resultSet.next()){
+	    		dto.setEntrycount(resultSet.getString("totalEntry"));
+	    		
+	    		prepareStatement = connection.prepareStatement(GET_EXIT_LIST);
+	       	 	resultSet1 = prepareStatement.executeQuery();
+	       	 	
+	    		while(resultSet1.next()){
+	    			dto.setExitcount(resultSet1.getString("totalExit"));
+	    			
+	    			prepareStatement = connection.prepareStatement(GET_FLAG_LIST);
+	    	    	resultSet2 = prepareStatement.executeQuery();
+	    	    	 
+	    			while(resultSet2.next()){
+	    				dto.setFlagcount(resultSet2.getString("totalFlag"));	
+	    	    		getTotalList.add(dto);
+	        		}
+	    		}
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+			throw new Exception();
+		}
+		finally {
+			ConnectionManager.close(connection, null, prepareStatement);
+		}
 		
-		ConnectionManager.close(connection, null, prepareStatement);
+		return getTotalList;
+		
 	}
 	
-	return getTotalList;
-	
-}
+	private static final String INSERT_INTO_USER_GATE_MAPPING = "INSERT INTO `usergatemapping` (`cid`, `gate_id`) VALUES (?, ?);";
 
 	private static final String GET_USER_LIST = "SELECT "
 												+ "  a.`cid`, "
@@ -279,9 +246,9 @@ public List<UserDTO> getTotalList()
 													+ "  a.`designation`, "
 													+ "  a.`working_address`, "
 													+ "  a.`user_type_id`, "
-													+ "  a.`role_id` "
+													+ "  a.`role_id`, b.`gate_id` "
 													+ "FROM "
-													+ "  users a "
+													+ "  users a LEFT JOIN usergatemapping b ON a.`cid`=b.`cid` "
 													+ "WHERE  a.`cid` =?";
 	
 	private static final String INSERT_INTO_USER_MASTER = "INSERT INTO "
@@ -309,32 +276,22 @@ public List<UserDTO> getTotalList()
 															+ " ?)";
 	
 	private static final String EDIT_USER_MASTER="UPDATE "
-			+ "`users` "
-			+ "SET "
-			+ " cid =?, "
-			+ "`full_name`=?, "
-			+ "`mobile_number`=?, "
-			+ "`designation`=?, "
-			+ "`working_address`=?, "
-			+ "`user_type_id`=?, "
-			+ "`role_id`=? "
-			+ "WHERE cid=?";
+												+ "`users` "
+												+ "SET "
+												+ " cid =?, "
+												+ "`full_name`=?, "
+												+ "`mobile_number`=?, "
+												+ "`designation`=?, "
+												+ "`working_address`=?, "
+												+ "`user_type_id`=?, "
+												+ "`role_id`=? "
+												+ "WHERE cid=?";
+	
+	private static final String UPDATE_USER_GATE = "UPDATE usergatemapping a SET a.`gate_id`=? WHERE a.`cid`=?";
 	
 	private static final String GET_ENTRY_LIST = "SELECT COUNT(*)totalEntry FROM `guestlog` WHERE entry_or_exit = 'ENTRY'";
 	
 	private static final String GET_EXIT_LIST = "SELECT COUNT(*)totalExit FROM `guestlog` WHERE entry_or_exit = 'EXIT'";
 	
 	private static final String GET_FLAG_LIST = "SELECT COUNT(*)totalFlag FROM `guestlog` WHERE alert_flag = 'Y'";
-
-	private static final String EDIT_USER_MASTER = "UPDATE "
-													+ "`users` "
-													+ "SET "
-													+ " cid =?, "
-													+ "`full_name`=?, "
-													+ "`mobile_number`=?, "
-													+ "`designation`=?, "
-													+ "`working_address`=?, "
-													+ "`user_type_id`=?, "
-													+ "`role_id`=? "
-													+ "WHERE cid=?";
 }

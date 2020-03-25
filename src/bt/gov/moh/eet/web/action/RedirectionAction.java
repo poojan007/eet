@@ -38,7 +38,9 @@ public class RedirectionAction extends Action {
 					request.setAttribute("userDetails", userDetails);
 					List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
 					List<DropDownDTO> roleList = PopulateDropDownDAO.getInstance().getDropDownList("ROLE", parentId);
+					List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATELIST", parentId);
 					
+					request.setAttribute("gateList", gateList);
 					request.setAttribute("userTypeList", userTypeList);
 					request.setAttribute("roleList", roleList);
 					actionForward = param;

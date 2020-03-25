@@ -18,7 +18,35 @@ public class GuestLogDTO {
 	private String guestId;
 	private String identificationTypeDesc;
 	private String endPointUrl;
+	private String dob;
+	private String imagePath;
+	private String residenceFlag;
+	private String transactionType;
 	
+	public String getTransactionType() {
+		return transactionType;
+	}
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
+	public String getResidenceFlag() {
+		return residenceFlag;
+	}
+	public void setResidenceFlag(String residenceFlag) {
+		this.residenceFlag = residenceFlag;
+	}
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 	public String getIdentificationTypeDesc() {
 		return identificationTypeDesc;
 	}
