@@ -85,11 +85,6 @@
 				        <div class="col-lg-3 col-xs-6">
 				          <div class="small-box bg-red">
 				            <div class="inner">
-				              <h3>150</h3>
-	        
-				        <div class="col-lg-3 col-xs-6">
-				          <div class="small-box bg-red">
-				            <div class="inner">
 				              <h3><%=TOTALLIST.get(0).getFlagcount()%></h3>
 				              <p>Total Alert Flag Raised</p>
 				            </div>
