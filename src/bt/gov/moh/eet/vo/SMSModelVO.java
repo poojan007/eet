@@ -11,13 +11,27 @@ public class SMSModelVO implements Serializable{
 	private String smsType;
 	private List<String> recipentList;
 	private String smsContent;
-	private String activationLink;
+	private String mobileNo;
+	private String gateName;
+	private String transactionTime;
 	
-	public String getActivationLink() {
-		return activationLink;
+	public String getMobileNo() {
+		return mobileNo;
 	}
-	public void setActivationLink(String activationLink) {
-		this.activationLink = activationLink;
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+	public String getGateName() {
+		return gateName;
+	}
+	public void setGateName(String gateName) {
+		this.gateName = gateName;
+	}
+	public String getTransactionTime() {
+		return transactionTime;
+	}
+	public void setTransactionTime(String transactionTime) {
+		this.transactionTime = transactionTime;
 	}
 	public String getModuleType() {
 		return moduleType;

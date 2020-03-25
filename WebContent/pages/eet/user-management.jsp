@@ -33,7 +33,7 @@
 <section class="content">
 	<div class="row">
 		<div class="col-xs-12">
-		  <div id="messageDiv" style="display: none;"></div>
+		  
           <div class="box box-primary">
             <div class="box-header">
               <h3 class="box-title">Registered User List</h3>
@@ -51,11 +51,13 @@
                 <thead>
                 <tr>
                   <th>Sl.No.</th>
+                  <th>CID</th>
                   <th>Login ID</th>
                   <th>User Name</th>
                   <th>Mobile No</th>
                   <th>Designation</th>
                   <th>Working Address</th>
+				  <th>Role</th>
 				  <th></th>
                 </tr>
                 </thead>
@@ -65,7 +67,7 @@
 							<%
 							int i = index.intValue();
 							%>
-							<tr><%=++i %></tr>
+							<td><%=++i %></td>
 							 
 							<td><bean:write name="user" property="cid"/></td>
 							<td><bean:write name="user" property="full_name"/></td>
@@ -74,10 +76,9 @@
 							<td><bean:write name="user" property="working_address"/></td>
 							<td><bean:write name="user" property="user_type"/></td>
 							<td><bean:write name="user" property="role_name"/></td>
-							<td><a class="green" href="#" onclick="populateEditForm('<bean:write name="user" property="cid"/>',
-							'<bean:write name="user" property="full_name"/>','<bean:write name="user" property="mobile_number"/>',
-							'<bean:write name="user" property="designation"/>','<bean:write name="user" property="working_address"/>',
-							'<bean:write name="user" property="user_type"/>','<bean:write name="user" property="role_name"/>')"></a></td>
+							<td>
+							<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="getEditUsers('<bean:write name="user" property="cid"/>')"><i class="fa fa-pencil-square-o"></i></button>
+							</td>
 				</logic:iterate>
 				</logic:notEmpty>
                 </tbody>
@@ -88,7 +89,7 @@
         </div>
 	</div>
 </section>
-<html:form action="/master.html" styleClass="card form-horizontal" method="post" styleId="masterFormBean">
+<html:form action="/user.html" styleClass="form-horizontal" method="post" styleId="masterFormBean">
 <div id="user-add-modal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -97,95 +98,62 @@
 				<h4 class="blue bigger"><strong>Add New User</strong></h4>
 			</div>
 			 <div class="modal-body">
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">CID: </label>
-                                <div class="col-sm-9">
-									<html:text property="cid" styleId="add_cid" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Full Name: </label>
-                                <div class="col-sm-9">
-									<html:text property="full_name" styleId="add_full_name" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Mobile No: </label>
-                                <div class="col-sm-9">
-									<html:text property="mobile_number" styleId="add_mobile_number" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Designation: </label>
-                                <div class="col-sm-9">
-									<html:text property="designation" styleId="add_designation" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Working Address: </label>
-                                <div class="col-sm-9">
-									<html:text property="working_address" styleId="add_working_address" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">User Type: </label>
-                                <div class="col-sm-9">
-									<html:select property="role" styleClass="form-control" styleId="add_role">
+			 <div class="col-lg-12">
+				<div id="messageDiv" style="display: none;"></div>
+	       		<div class="box box-primary">
+	       			<div class="box-body">
+	       				<div class="form-group">
+	                   		<label class="control-label col-sm-2">CID&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="cid" styleId="add_cid" styleClass="form-control"></html:text>
+                  			</div>
+                  			<label class="control-label col-sm-2">Full Name&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="full_name" styleId="add_full_name" styleClass="form-control"></html:text>
+                  			</div>
+                   		</div>
+                   		<div class="form-group">
+	                   		<label class="control-label col-sm-2">Mobile No&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="mobile_number" styleId="add_mobile_number" styleClass="form-control"></html:text>
+                  			</div>
+                  			<label class="control-label col-sm-2">Designation&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="designation" styleId="add_designation" styleClass="form-control"></html:text>
+                  			</div>
+                   		</div>
+                   		<div class="form-group">
+	                   		<label class="control-label col-sm-2">Working Address&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="working_address" styleId="add_working_address" styleClass="form-control"></html:text>
+                  			</div>
+                  			<label class="control-label col-sm-2">User Type&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:select property="user_type_id" styleClass="form-control" styleId="add_user_type">
            								<html:option value="">--SELECT--</html:option>
             							<html:optionsCollection name="userTypeList" label="headerName" value="headerId"/>
-            						</html:select>
-                                </div>
-                            </div>
-
-                        </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Role: </label>
-                                <div class="col-sm-9">
-									<html:select property="role" styleClass="form-control" styleId="add_role">
+            					</html:select>
+                  			</div>
+                   		</div>
+                   		<div class="form-group">
+	                   		<label class="control-label col-sm-2">Role&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:select property="role_id" styleClass="form-control" styleId="add_role">
            								<html:option value="">--SELECT--</html:option>
             							<html:optionsCollection name="roleList" label="headerName" value="headerId"/>
             						</html:select>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-					</div>
-				</div>
+                  			</div>
+                  			
+                   		</div>
+                   		
+                   	</div>
+                 </div>
+               </div>
+				
+				
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-flat btn-primary" name="search" onclick="addUser()">
+					<button type="button" class="btn btn-flat btn-primary" name="add" onclick="addUser()">
 						<i class="ace-icon fa fa-plus"></i>
 						Add
 					</button>
@@ -193,118 +161,94 @@
 						<i class="ace-icon fa fa-times"></i>
 						Cancel
 					</button>
+					
 				 </div>
 		  </div>
 	</div>
 </div>
-
-<div id="user-edit-modal" class="modal fade" tabindex="-1">
+</html:form>
+<html:form action="/user.html" styleClass="form-horizontal" method="post" styleId="masterBean">
+<div id="edit-modal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="blue bigger"><strong>Edit User</strong></h4>
 			</div>
-			 <div class="modal-body">
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">CID: </label>
-                                <div class="col-sm-9">
-									<html:text property="cid" styleId="edit_cid" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Full Name: </label>
-                                <div class="col-sm-9">
-									<html:text property="full_name" styleId="edit_full_name" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Mobile No: </label>
-                                <div class="col-sm-9">
-									<html:text property="mobile_number" styleId="edit_mobile_number" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Designation: </label>
-                                <div class="col-sm-9">
-									<html:text property="designation" styleId="edit_designation" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Working Address: </label>
-                                <div class="col-sm-9">
-									<html:text property="working_address" styleId="edit_working_address" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">User Type: </label>
-                                <div class="col-sm-9">
-									<html:text property="user_type" styleId="edit_user_type" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"> 
-						<div class="col-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3">Role: </label>
-                                <div class="col-sm-9">
-									<html:text property="role" styleId="add_role" styleClass="form-control form-control-sm"></html:text>
-                                </div>
-                            </div>
-
-                        </div>
-                        
-					</div>
-				</div>
+		 <div class="modal-body">
+		 	<div class="col-lg-12">
+       			<div class="box box-primary">
+       				<div class="box-body">
+       					<div class="form-group">
+	                   		<label class="control-label col-sm-2">CID&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="cidedit" styleId="edit_cid" styleClass="form-control"></html:text>
+                  			</div>
+                  			<label class="control-label col-sm-2">Full Name&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="editfull_name" styleId="edit_full_name" styleClass="form-control"></html:text>
+                  			</div>
+                   		</div>
+                   		<div class="form-group">
+	                   		<label class="control-label col-sm-2">Mobile No&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="editmobile_number" styleId="edit_mobile_number" styleClass="form-control"></html:text>
+                  			</div>
+                  			<label class="control-label col-sm-2">Designation&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="editdesignation" styleId="edit_designation" styleClass="form-control"></html:text>
+                  			</div>
+                   		</div>
+                   		<div class="form-group">
+	                   		<label class="control-label col-sm-2">Working Address&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:text property="editworking_address" styleId="edit_working_address" styleClass="form-control"></html:text>
+                  			</div>
+                  			<label class="control-label col-sm-2">User Type&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:select property="edituser_type_id" styleClass="form-control" styleId="edit_user_type">
+                   				<html:select property="edituser_type" styleClass="form-control" styleId="edit_user_type">
+          								<html:option value="">--SELECT--</html:option>
+           							<html:optionsCollection name="userTypeList" label="headerName" value="headerId"/>
+           						</html:select>
+                  			</div>
+                   		</div>
+                   		<div class="form-group">
+	                   		<label class="control-label col-sm-2">Role&nbsp;<font color='red'>*</font></label>
+                   			<div class="col-sm-4">
+                   				<html:select property="editrole_id" styleClass="form-control" styleId="edit_role">
+                   				<html:select property="editrole_name" styleClass="form-control" styleId="edit_role">
+          								<html:option value="">--SELECT--</html:option>
+           							<html:optionsCollection name="roleList" label="headerName" value="headerId"/>
+           						</html:select>
+                  			</div>
+                  			
+                   		</div>
+                   		
+                   	</div>
+                 </div>
+               </div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-flat btn-primary" name="search" onclick="editUser()">
-						<i class="ace-icon fa fa-plus"></i>
-						Edit
-					</button>
-					<button class="btn btn-flat btn-danger" data-dismiss="modal">
-						<i class="ace-icon fa fa-times"></i>
-						Cancel
-					</button>
-				 </div>
-		  </div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-flat btn-primary" name="edit" onclick="editUser()">
+					<i class="ace-icon fa fa-plus"></i>
+					Edit
+				</button>
+				<button class="btn btn-flat btn-danger" data-dismiss="modal">
+					<i class="ace-icon fa fa-times"></i>
+					Cancel
+				</button>
+				<div id="messageDiv" style="display: none;"></div>
+			 </div>
+	 	 </div>
 	</div>
 </div>
+
 </html:form>
 <script>
 
 	var context = "<%=request.getContextPath()%>";
-
+	
 	$(function () {
 		$("#example1").DataTable({
 			dom: 'Bfrtip',
@@ -336,66 +280,197 @@
 	        ]
 	    });
 	});
-	
+	$(document).ready(function() {
+	 		$('#masterFormBean').validate({
+		 		  invalidHandler: function(form, validator) {
+		            var errors = validator.numberOfInvalids();
+		            if (errors) {                    
+		                var firstInvalidElement = $(validator.errorList[0].element);
+		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+		                firstInvalidElement.focus();
+		            }
+		        	  },
+		 		  rules: {
+		 			'add_cid':{
+		 				  required:true
+		 			  },
+		 			'add_full_name':{
+		 				  required:true
+		 			  },
+		 			  'add_mobile_number':{
+		 				  required:true
+		 			  },
+		 			  'add_designation':{
+		 				  required:true
+		 			  },
+		 			  'add_user_type':{
+		 				  required:true
+		 			  },
+		 			  'add_role':{
+		 				  required:true
+		 			  }
+		 		  },
+		 		  messages: {
+		 			  'add_cid':{
+		 				  required:"Please provide CID"
+		 			  },
+		 			 'add_full_name':{
+		 				  required:"Please provide full name"
+		 			  },
+		 			 'add_mobile_number':{
+		 				  required:"Please provide mobile number"
+		 			  },
+		 			 'add_designation':{
+		 				  required:"Please provide designation"
+		 			  },
+		 			 'add_user_type':{
+		 				  required:"Please provide user type"
+		 			  },
+		 			 'add_role':{
+		 				  required:"Please provide role"
+		 			  }
+		 		  }
+		 	  });
+	 		
+	 		  $('#masterBean').validate({
+		 		  invalidHandler: function(form, validator) {
+		            var errors = validator.numberOfInvalids();
+		            if (errors) {                    
+		                var firstInvalidElement = $(validator.errorList[0].element);
+		                $('html,body').scrollTop(firstInvalidElement.offset().top);
+		                firstInvalidElement.focus();
+		            }
+		        	  },
+		        	  rules: {
+				 			'edit_cid':{
+				 				  required:true
+				 			  },
+				 			'edit_full_name':{
+				 				  required:true
+				 			  },
+				 			  'edit_mobile_number':{
+				 				  required:true
+				 			  },
+				 			  'edit_designation':{
+				 				  required:true
+				 			  },
+				 			  'edit_user_type':{
+				 				  required:true
+				 			  },
+				 			  'edit_role':{
+				 				  required:true
+				 			  }
+				 		  },
+				 		  messages: {
+				 			  'add_cid':{
+				 				  required:"Please provide CID"
+				 			  },
+				 			 'add_full_name':{
+				 				  required:"Please provide full name"
+				 			  },
+				 			 'add_mobile_number':{
+				 				  required:"Please provide mobile number"
+				 			  },
+				 			 'add_designation':{
+				 				  required:"Please provide designation"
+				 			  },
+				 			 'add_user_type':{
+				 				  required:"Please provide user type"
+				 			  },
+				 			 'add_role':{
+				 			  'edit_cid':{
+				 				  required:"Please provide CID"
+				 			  },
+				 			 'edit_full_name':{
+				 				  required:"Please provide full name"
+				 			  },
+				 			 'edit_mobile_number':{
+				 				  required:"Please provide mobile number"
+				 			  },
+				 			 'edit_designation':{
+				 				  required:"Please provide designation"
+				 			  },
+				 			 'edit_user_type':{
+				 				  required:"Please provide user type"
+				 			  },
+				 			 'edit_role':{
+				 				  required:"Please provide role"
+				 			  }
+				 		  }
+				 	  });
+		 	  });
+	 	});
+  
 	function addUser(){
-		var add_cid = $("#add_cid").val();
-		var add_full_name = $("#add_full_name").val();
-		var add_mobile_number=$("#add_mobile_number").val();
-		var add_designation = $("#add_designation").val();
-		var add_working_address = $("#add_working_address").val();
-		var add_user_type=$("#add_user_type").val();
-		var add_role=$("#add_role").val();
 		$.ajax({
-					type : "POST",
-					url : context+ '/master.html?method=saveUser&add_cid='+add_cid+'&add_full_name='+add_full_name+'&add_mobile_number='+add_mobile_number+'&add_designation='+add_designation+'&add_working_address='+add_working_address+'&add_user_type='+add_user_type+'&add_role=+'add_role,
-					data : $('form').serialize(),
-					cache : false,
-					dataType : "html",
-					success : function(responseText) {
-						$("#categoryDiv").html(responseText);
-						$("#categoryDiv").show();
-						$('#SubmitMsgDiv').show();
-						setTimeout('hideStatus("SubmitMsgDiv")',2000);
-					}
-				});
-	}
-	function populateEditForm(cid, full_name, mobile_number, designation,working_address)
-			{
-				
-				$("#edit_cid").val(cid);
-				$("#edit_full_name").val(full_name);
-				$("#edit_mobile_number").val(mobile_number);
-				$("#edit_designation").val(designation);
-				$("#edit_working_address").val(working_address);
-				$("#edit_user_type").val(user_type);
-				$("#edit_role").val(role_name);
-				
-				$('#user-edit-modal').modal('show');
-				
+			type : "POST",
+			url : context+'/user.html?method=addUser',
+			data : $('form').serialize(),
+			cache : false,
+			dataType : "html",
+			success : function(responseText) {
+				$('#messageDiv').html(responseText);
+				$('#messageDiv').show();
+				setTimeout('hideStatus("messageDiv")',2000);
+				setTimeout('reloadPage("USER")', 3000);
 			}
-			
-	editAvgTime(){
-		var edit_cid = $("#edit_cid").val(cid);
-		var edit_full_name = $("#edit_full_name").val(full_name);
-		var edit_mobile_number = $("#edit_mobile_number").val(mobile_number);
-		var edit_designation = $("#edit_designation").val(designation);
-		var edit_working_address = $("#edit_working_address").val(working_address);
-		var edit_user_type = $("#edit_user_type").val(user_type);
-		var edit_role = $("#edit_role").val(role_name);
-				
+		});
+	}
+	
+	
+	
+	function getEditUsers(cid)
+	{
+	
+		var url;
+		 url = "";
+		 $.ajax({
+	         async: false,
+	         type: 'GET',
+	         url: "<%=request.getContextPath()%>/user.html?method=getEditUserDetails&cid="+cid,
+	         success: function(xml)
+	         {
+	             $(xml).find('xml-response').each(function()//we can parse through the xml tree using the find method
+	             { 
+	                 $('#edit_cid').val($(this).find('cid').text());
+	                 $('#edit_full_name').val($(this).find('name').text());
+	                 $('#edit_mobile_number').val($(this).find('mobile').text());
+	                 $('#edit_designation').val($(this).find('designation').text());
+	                 $('#edit_working_address').val($(this).find('address').text());
+	                 $('#edit_user_type').val($(this).find('usertype').text());
+	                 $('#edit_role').val($(this).find('rolename').text());
+	                 
+	                 $('#edit-modal').modal('show');
+	                 
+	             });
+	         },
+	         error: function(data, textStatus, errorThrown) {
+	           
+	         }
+	     });  
+	}
+	
+	function editUser(){
+		
 				$.ajax({
 					type : "POST",
-					url : context+ '/master.html?method=editUser&edit_cid='+edit_cid+'&edit_full_name='+edit_full_name+'&edit_mobile_number='+edit_mobile_number+'&edit_designation='+edit_designation+'&edit_working_address='+edit_working_address+'&edit_user_type='+edit_user_type+'&edit_role=+'edit_role,
+					url : context+ '/user.html?method=editUser',
 					data : $('form').serialize(),
 					cache : false,
 					dataType : "html",
 					success : function(responseText) {
-						$("#categoryDiv").html(responseText);
-						$("#categoryDiv").show();
-						$('#editSubmitMsgDiv').show();
-						setTimeout('hideStatus("editSubmitMsgDiv")',2000);
+						$('#messageDiv').html(responseText);
+						$('#messageDiv').show();
+						setTimeout('hideStatus("messageDiv")',2000);
+						setTimeout('reloadPage("USER")', 3000);
 					}
 				});
-			}
+			} 
+	
+	function reloadPage(userType){
+		var url = "<%=request.getContextPath()%>/redirect.html?q="+masterType
+		$("#contentDisplayDiv").load(url);
+		$('#contentDisplayDiv').show();
+	}
 	
 </script>

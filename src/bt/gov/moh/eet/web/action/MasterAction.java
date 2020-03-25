@@ -28,10 +28,14 @@ public class MasterAction extends DispatchAction {
 				String masterType = request.getParameter("masterType");
 				String gateName = request.getParameter("gateName");
 				String name = request.getParameter("name");
+				String pointOne = request.getParameter("pointOne");
+				String pointTwo = request.getParameter("pointTwo");
 				
 				dto.setMasterType(masterType);
 				dto.setGateName(gateName);
 				dto.setName(name);
+				dto.setPointOne(pointOne);
+				dto.setPointTwo(pointTwo);
 				
 				String result = MasterDAO.getInstance().addMaster(dto);
 				request.setAttribute("message", result);
@@ -64,12 +68,16 @@ public class MasterAction extends DispatchAction {
 				String gateName = request.getParameter("gateName");
 				String name = request.getParameter("name");
 				String id = request.getParameter("id");
+				String pointOne = request.getParameter("pointOne");
+				String pointTwo = request.getParameter("pointTwo");
 				
 				dto.setGateId(gateId);
 				dto.setMasterType(masterType);
 				dto.setGateName(gateName);
 				dto.setId(id);
 				dto.setName(name);
+				dto.setPointOne(pointOne);
+				dto.setPointTwo(pointTwo);
 				
 				String result = MasterDAO.getInstance().updateMaster(dto);
 				request.setAttribute("message", result);
@@ -87,6 +95,8 @@ public class MasterAction extends DispatchAction {
 		
 		return mapping.findForward(actionForward);
 	}
+	
+	
 	
 	public ActionForward deleteMaster(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
 	{

@@ -50,5 +50,20 @@
 	  <p>Data delete failed, please try again later.</p>
 	</div>
 <%
+	} else if(message.equalsIgnoreCase("GUESTLOG_ADD_SUCCESS")){
+		String status = (String) request.getAttribute("status");
+%>
+	<div class="alert alert-success" role="alert">
+	  <h4 class="alert-heading">Success!</h4>
+	  <p><b><%=status %></b> record has been recorded successfully</p>
+	</div>
+<%
+	} else if(message.equalsIgnoreCase("GUESTLOG_ADD_FAILURE")){
+%>
+	<div class="alert alert-danger" role="alert">
+	  <h4 class="alert-heading">Failure!</h4>
+	  <p>Data save failed, please try again later.</p>
+	</div>
+<%
 	}
 %>

@@ -10,9 +10,11 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import bt.gov.moh.eet.dao.MasterDAO;
 import bt.gov.moh.eet.dao.PopulateDropDownDAO;
 import bt.gov.moh.eet.dao.UserDAO;
 import bt.gov.moh.eet.dto.DropDownDTO;
+import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
 import bt.gov.moh.framework.common.Log;
@@ -31,8 +33,7 @@ public class RedirectionAction extends Action {
 			String parentId=null;
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
 				if(param.equalsIgnoreCase("MANAGE_USERS")) {
-					//public static final String USER_DROP_DOWN_FIELD_CONSTRUCTOR;
-					//pull list of user here
+					
 					List<UserDTO> userDetails = UserDAO.getInstance().getUserDetails();
 					request.setAttribute("userDetails", userDetails);
 					List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
@@ -41,6 +42,17 @@ public class RedirectionAction extends Action {
 					request.setAttribute("userTypeList", userTypeList);
 					request.setAttribute("roleList", roleList);
 					actionForward = param;
+				} else if(param.equalsIgnoreCase("MASTER_MANAGEMENT_GATES") || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES")
+						 || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")
+						 || param.equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_EXITREASONS") 
+						 || param.equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
+					List<MasterDTO> masterList = MasterDAO.getInstance().getMasterList(param);
+					request.setAttribute("masterList", masterList);
+					request.setAttribute("masterType", param);
+					
+					List<MasterDTO> gateList = MasterDAO.getInstance().getGateList();
+					request.setAttribute("gateList", gateList);
+					actionForward = "master-management";
 				}
 				if(param.equalsIgnoreCase("MANAGE_ENTRY_EXIT")) {
 					//pull list of master here
@@ -65,6 +77,13 @@ public class RedirectionAction extends Action {
 //			          request.setAttribute("GATELIST", gateList);
 			          actionForward = param;
 			        }
+				
+				if(param.equalsIgnoreCase("getTotalCounts")) {
+					
+					List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
+					request.setAttribute("TOTALLIST", TOTALLIST);
+					actionForward = "COUNT";
+				}
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";

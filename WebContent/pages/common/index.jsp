@@ -1,4 +1,6 @@
  <%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
+ <%@page import="java.util.List"%>
+ <%@page import="bt.gov.moh.eet.dto.UserDTO"%>
 <%
 	 response.setHeader("Cache-Control","no-cache");
 	 response.setHeader("Cache-Control","no-store");
@@ -10,6 +12,9 @@
  %> 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%
+ List<UserDTO> TOTALLIST=(List<UserDTO>) request.getAttribute("TOTALLIST");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -57,7 +62,7 @@
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-aqua">
 								<div class="inner">
-									<h3>100</h3>
+									<h3><%=TOTALLIST.get(0).getEntrycount() %></h3>
 									<p>Total Entry</p>
 								</div>
 								<div class="icon">
@@ -69,7 +74,7 @@
 						<div class="col-lg-3 col-xs-6">
 				          <div class="small-box bg-green">
 				            <div class="inner">
-				              <h3>200</h3>
+				              <h3><%=TOTALLIST.get(0).getExitcount() %></h3>
 				              <p>Total Exits</p>
 				            </div>
 				            <div class="icon">
@@ -81,6 +86,11 @@
 				          <div class="small-box bg-red">
 				            <div class="inner">
 				              <h3>150</h3>
+	        
+				        <div class="col-lg-3 col-xs-6">
+				          <div class="small-box bg-green">
+				            <div class="inner">
+				              <h3><%=TOTALLIST.get(0).getFlagcount()%></h3>
 				              <p>Total Flag</p>
 				            </div>
 				            <div class="icon">
@@ -102,6 +112,9 @@
 		{
 			generateApplicationToken();
 		}); */
+		
+		
+		
 		
 		function generateApplicationToken(){
 			$.ajax

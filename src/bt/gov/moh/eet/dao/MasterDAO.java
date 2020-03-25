@@ -97,6 +97,37 @@ public class MasterDAO {
 		return masterList;
 	}
 	
+	public List<MasterDTO> getGateList() throws Exception {
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		List<MasterDTO> masterList = new ArrayList<MasterDTO>();
+		MasterDTO dto = null;
+		
+		try {
+			conn = ConnectionManager.getConnection();
+			
+				pst = conn.prepareStatement(GET_GATE_LIST);
+				rs = pst.executeQuery();
+				while(rs.next()) {
+					dto = new MasterDTO();
+					dto.setGateId(rs.getString("gate_id"));
+					dto.setGateName(rs.getString("gate_name"));
+					masterList.add(dto);
+				}
+			
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			Log.error("###Error at MasterDAO[getMasterList]", e);
+			throw new Exception(e.getMessage());
+		} finally {
+			ConnectionManager.close(conn, rs, pst);
+		}
+		
+		return masterList;
+	}
+	
 	public String addMaster(MasterDTO dto) throws Exception {
 		Connection conn = null;
 		PreparedStatement pst = null;
@@ -125,9 +156,23 @@ public class MasterDAO {
 				count = pst.executeUpdate();
 				if(count > 0)
 					result = "SAVE_SUCCESS";
-			} else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")) {
-				pst = conn.prepareStatement(INSERT_INTO_NATIONALITY);
+			} else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES")) {
+				pst = conn.prepareStatement(INSERT_INTO_USERTYPES);
 				pst.setString(1, dto.getName());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "SAVE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_EXIT_REASONS")) {
+				pst = conn.prepareStatement(INSERT_INTO_EXIT_REASONS);
+				pst.setString(1, dto.getName());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "SAVE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
+				pst = conn.prepareStatement(INSERT_INTO_AVERAGE_TRAVEL_TIME);
+				pst.setString(1,dto.getPointTwo() );
+				pst.setString(2,dto.getPointOne());
+				pst.setString(3,dto.getName());
 				count = pst.executeUpdate();
 				if(count > 0)
 					result = "SAVE_SUCCESS";
@@ -175,6 +220,29 @@ public class MasterDAO {
 				count = pst.executeUpdate();
 				if(count > 0)
 					result = "UPDATE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES")) {
+				pst = conn.prepareStatement(UPDATE_USERTYPES);
+				pst.setString(1, dto.getName());
+				pst.setString(2, dto.getId());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "UPDATE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_EXIT_REASONS")) {
+				pst = conn.prepareStatement(UPDATE_EXIT_REASONS);
+				pst.setString(1, dto.getName());
+				pst.setString(2, dto.getId());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "UPDATE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
+				pst = conn.prepareStatement(UPDATE_AVERAGE_TRAVEL_TIME);
+				pst.setString(1,dto.getPointOne());
+				pst.setString(2,dto.getPointTwo());
+				pst.setString(3,dto.getName());
+				pst.setString(4,dto.getId());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "UPDATE_SUCCESS";
 			}
 		} catch (Exception e) {
 			result = "UPDATE_FAILURE";
@@ -212,6 +280,24 @@ public class MasterDAO {
 					result = "DELETE_SUCCESS";
 			} else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")) {
 				pst = conn.prepareStatement(DELETE_NATIONALITY);
+				pst.setString(1, dto.getId());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "DELETE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_USERTYPES")) {
+				pst = conn.prepareStatement(DELETE_USERTYPES);
+				pst.setString(1, dto.getId());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "DELETE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_EXIT_REASONS")) {
+				pst = conn.prepareStatement(DELETE_EXIT_REASONS);
+				pst.setString(1, dto.getId());
+				count = pst.executeUpdate();
+				if(count > 0)
+					result = "DELETE_SUCCESS";
+			}else if(dto.getMasterType().equalsIgnoreCase("MASTER_MANAGMENT_AVERAGE_TIME")) {
+				pst = conn.prepareStatement(DELETE_TRAVEL_TIME);
 				pst.setString(1, dto.getId());
 				count = pst.executeUpdate();
 				if(count > 0)
@@ -262,4 +348,22 @@ public class MasterDAO {
 	private static final String GET_EXIT_REASONS = "select `reason_id`,`reason`,`threshold_hour` from `exitreasons`";
 	
 	private static final String GET_AVERAGE_TIME = "select `id`, `point_one`, `point_two`, `average_time` from `averagetime`";
+	
+	private static final String INSERT_INTO_USERTYPES = "insert into `entry_exit_tracker`.`usertypes` (`user_type`) values (?)";
+	
+	private static final String INSERT_INTO_EXIT_REASONS = "insert into `entry_exit_tracker`.`exitreasons` (`reason`) values (?)";
+	
+	private static final String INSERT_INTO_AVERAGE_TRAVEL_TIME = "insert into `entry_exit_tracker`.`averagetime` (`point_one`,`point_two`,`average_time`) values (?,?,?)";
+	
+	private static final String UPDATE_USERTYPES = "update `entry_exit_tracker`.`usertypes` set `user_type` = ? where `user_type_id` = ?";
+	
+	private static final String UPDATE_EXIT_REASONS = "update `entry_exit_tracker`.`exitreasons` set `reason` = ? where `reason_id` = ?";
+	
+	private static final String UPDATE_AVERAGE_TRAVEL_TIME = "update `entry_exit_tracker`.`averagetime` set `point_one` = ?,`point_two` = ?,`average_time` = ? where `id` = ?";
+	
+	private static final String DELETE_USERTYPES = "delete from `entry_exit_tracker`.`usertypes` where `user_type_id` = ?";
+	
+	private static final String DELETE_EXIT_REASONS = "delete from `entry_exit_tracker`.`exitreasons` where `user_type_id` = ?";
+	
+	private static final String DELETE_TRAVEL_TIME = "delete from `entry_exit_tracker`.`averagetime` where `id` = ?";
 }
