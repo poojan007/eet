@@ -14,6 +14,13 @@
 	  <h4 class="alert-heading">Failure!</h4>
 	  <p>Data save failed, please try again later.</p>
 	</div>
+	<%
+	}else if(message.equalsIgnoreCase("DUPLICATE_ENTRY")){
+%>
+	<div class="alert alert-danger" role="alert">
+	  <h4 class="alert-heading">Failure!</h4>
+	  <p>Data already exist.Please try with new identification number</p>
+	</div>
 <%
 	} if(message.equalsIgnoreCase("UPDATE_SUCCESS")){
 %>

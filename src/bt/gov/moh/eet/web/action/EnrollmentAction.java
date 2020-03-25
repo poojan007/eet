@@ -26,7 +26,15 @@ public class EnrollmentAction extends Action {
 		try {
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {	
-				String result = EnrollmentDAO.insertEnrollmentData(enrollmentForm, request);
+				String duplicate = EnrollmentDAO.checkDuplicate(enrollmentForm.getIdentificationNo());
+				
+				String result = null;
+				if(duplicate.equalsIgnoreCase("1")){
+					result = EnrollmentDAO.insertEnrollmentData(enrollmentForm, request);
+				} else{
+					result = "DUPLICATE_ENTRY";
+				}
+				
 				request.setAttribute("message", result);
 				actionForward = "GLOBAL_REDIRECT_MESSAGE";
 			} else {

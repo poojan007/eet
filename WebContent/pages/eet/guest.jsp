@@ -1,6 +1,6 @@
-<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
-<%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+<%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
+<%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
+<%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <style>
 	#enrollmentForm .error { color: red; }
 	.booth {
@@ -10,7 +10,16 @@
 	    margin: 0 auto;
 	}
 </style>
+<link href="<%=request.getContextPath()%>/css/chosen.min.css"
+	rel="stylesheet" />
+<script src="<%=request.getContextPath()%>/js/chosen.jquery.min.js"></script>
+<script language="javascript" type="text/javascript">
+$(function() {
+	var context="<%=request.getContextPath()%>";
+	 $('.chzn-select').chosen();
+});
 
+</script>
 <section class="content-header">
   	 <h1> 
   	 	Guest Enrollment
@@ -146,7 +155,7 @@
 			autoclose: true
 		}).next().on('click', function() {
 			$(this).prev().focus();
-		});
+		})
 	});
 
 	$(document).ready(function() {
@@ -242,8 +251,7 @@
 			});
 		}
 	}
-	
-	
+
 	'use strict';
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');

@@ -82,7 +82,11 @@
 				            </div>
 				          </div>
 				        </div>
-				        
+				        <div class="col-lg-3 col-xs-6">
+				          <div class="small-box bg-red">
+				            <div class="inner">
+				              <h3>150</h3>
+	        
 				        <div class="col-lg-3 col-xs-6">
 				          <div class="small-box bg-red">
 				            <div class="inner">
@@ -94,7 +98,6 @@
 				            </div>
 				          </div>
 				        </div>
-				        
 					</div>
 				</section>
 			</div>
