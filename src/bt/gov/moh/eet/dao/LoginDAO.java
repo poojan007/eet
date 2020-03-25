@@ -66,6 +66,7 @@ public class LoginDAO {
 					vo.setGateId(rs.getString("gate_id"));
 					vo.setGateCode(rs.getString("gate_code"));
 					vo.setGateName(rs.getString("gate_name"));
+					vo.setRoleCode(rs.getString("role_desc"));
 					vo.setUserCheck("ok");
 				}
 			}
@@ -96,7 +97,7 @@ public class LoginDAO {
 			+ "  c.`role_name`, "
 			+ "  e.`gate_id`, "
 			+ "  e.`gate_code`, "
-			+ "  e.`gate_name` "
+			+ "  e.`gate_name`, c.role_desc "
 			+ "FROM "
 			+ "   users a "
 			+ "  LEFT JOIN usertypes b "

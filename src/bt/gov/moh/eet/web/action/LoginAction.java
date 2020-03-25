@@ -24,8 +24,13 @@ public class LoginAction extends Action
 		HttpSession session = request.getSession(true);
 		
 		try {
+			String param = request.getParameter("q");
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
-			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {	
+			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
+				List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
+				request.setAttribute("TOTALLIST", TOTALLIST);
+				forwarder = "success";
+			} else if(param.equals("dashboard") && vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")){
 				List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
 				request.setAttribute("TOTALLIST", TOTALLIST);
 				forwarder = "success";

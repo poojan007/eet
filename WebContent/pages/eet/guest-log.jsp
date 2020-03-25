@@ -46,7 +46,7 @@
 					<html:form styleClass="form-horizontal" styleId="guestLogForm" method="post" action="/guestlog.html">
 					
 						<div class="form-group">
-							<label class="control-label col-sm-4">Is he/she Entrying or Exiting?</label>
+							<label class="control-label col-sm-4">Is He/She Entrying or Exiting?</label>
 							<div class="col-sm-4">
 								<html:select property="entryOrExit" styleId="entryOrExit" styleClass="form-control" onchange="showForm(this.value)">
 									<html:option value=""></html:option>
@@ -86,8 +86,8 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-6">
-									<label class="control-label">Age<font color='red'>*</font></label>
-									<html:text property="age" styleId="age" styleClass="form-control"></html:text>
+									<label class="control-label">Date of Birth<font color='red'>*</font></label>
+									<html:text property="dob" styleId="dob" styleClass="form-control"></html:text>
 								</div>
 								<div class="col-sm-6">
 									<label class="control-label">Contact No<font color='red'>*</font></label>
@@ -103,14 +103,27 @@
 									</html:select>
 								</div>
 								<div class="col-sm-6">
+									<label class="control-label">
+	       								Resident Flag<font color='red'>*</font>
+	       								<a href="#" data-toggle="tooltip" data-html="true" data-placement="right" title="" data-original-title="Bhutanese living in India or Foreign Nationals living in Bhutan - Select YES. Else all should be selected as NO">
+	       									<i class="fa fa-question-circle fa-1x" style="padding-top: 3px;cursor:pointer"></i>
+	       								</a>
+	       							</label>
+	                   				<html:select property="residenceFlag" styleId="residenceFlag" styleClass="form-control">
+	                   					<html:option value=""></html:option>
+	                   					<html:option value="Y">Yes</html:option>
+	                   					<html:option value="N">No</html:option>
+	                   				</html:select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-6">
 									<label class="control-label">Reason<font color='red'>*</font></label>
 									<html:select property="reason" styleId="reason" styleClass="form-control" onchange="checkReasonType()">
 										<html:option value=""></html:option>
 										<html:options collection ="REASONLIST" property="headerId" labelProperty="headerName"/>
 									</html:select>
 								</div>
-							</div>
-							<div class="form-group">
 								<div class="col-sm-6" id="nextEntryGateDiv" style="display:none">
 									<label class="control-label" id="identificationLbl">Next Entry Gate<font color='red'>*</font></label>
 									<html:select property="nextEntryGate" styleId="nextEntryGate" styleClass="form-control">
@@ -118,16 +131,18 @@
 										<html:options collection ="GATELIST" property="headerId" labelProperty="headerName"/>
 									</html:select>
 								</div>
-								<div class="col-sm-6" id="thermometerReadingDiv" style="display:none">
-									<label class="control-label" id="identificationLbl">Thermometer Reading(Celsius)<font color='red'>*</font></label>
-									<html:text property="thermometerReading" styleId="thermometerReading" styleClass="form-control" value="0"></html:text>
-								</div>
 							</div>
 							<div class="form-group">
+								<div class="col-sm-6" id="thermometerDiv">
+									<label class="control-label" id="identificationLbl">Thermometer Reading(Celsius)<font color='red'>*</font></label>
+									<html:text property="thermometerReading" styleId="thermometerReading" styleClass="form-control"></html:text>
+								</div>
 								<div class="col-sm-6">
 									<label class="control-label" id="identificationLbl">Present Address<font color='red'>*</font></label>
 									<html:textarea property="presentAddress" styleId="presentAddress" styleClass="form-control"></html:textarea>
 								</div>
+							</div>
+							<div class="form-group">
 								<div class="col-sm-6">
 									<label class="control-label" id="identificationLbl">Remarks</label>
 									<html:textarea property="remarks" styleId="remarks" styleClass="form-control"></html:textarea>
@@ -140,8 +155,13 @@
 				</div>
 				<div class="box-footer" id="formFooter" style="display:none">
 					<div id="msgDiv" style="display:none;"></div>
+					<input type="hidden" id="imagePath"/>
        				<div class="text-right">
+       					<button class="btn btn-success" type="button" onclick="reloadPage()" ><i class="fa fa-refresh"></i>&nbsp;<span>Refresh Form</span></button>
+       					&nbsp;
        					<button class="btn btn-primary" type="button" onclick="submitForm()" ><i class="fa fa-plus"></i>&nbsp;<span id="btnLbl"></span></button>
+       					&nbsp;
+       					<button class="btn btn-danger" type="button" onclick="markAsFlagged()" ><i class="fa fa-check"></i>&nbsp;<span>Mark as Flagged</span></button>
        				</div>
 				</div>
 			</div>
@@ -153,6 +173,8 @@
 <script>
 
 	$(document).ready(function() {
+		$('[data-toggle="tooltip"]').tooltip();   
+		
 		$('#guestLogForm').validate({
 		  invalidHandler: function(form, validator) {
            var errors = validator.numberOfInvalids();
@@ -178,10 +200,8 @@
 			  'gender':{
 				  required:true
 			  },
-			  'age':{
-				  required:true,
-				  number: true,
-				  maxlength: 2
+			  'dob':{
+				  required:true
 			  },
 			  'contactNo':{
 				  required:true,
@@ -210,6 +230,9 @@
 			  },
 			  'presentAddress':{
 				  required:true
+			  },
+			  'residenceFlag':{
+				 required: true
 			  }
 		  },
 		  messages: {
@@ -228,10 +251,8 @@
 			  'gender':{
 				  required: "Please select a gender"
 			  },
-			  'age':{
-				  required: "Please enter an age",
-				  number: "Only numbers allowed",
-				  maxlength: "Age can be more then 2 digits"
+			  'dob':{
+				  required: "Please enter a date of birth"
 			  },
 			  'contactNo':{
 				  required: "Please enter a contact no",
@@ -256,6 +277,9 @@
 			  },
 			  'presentAddress':{
 				  required: "Please enter a present address"
+			  },
+			  'residenceFlag':{
+				  required: "Please select a residence flag"
 			  }
 		  	}
 	  	});
@@ -267,9 +291,11 @@
 		
 		if(type == "EXIT"){
 			$('#thermometerReading').val("0");
+			$('#thermometerDiv').hide();
 			$('#btnLbl').html("Save Exit Record");
 		} else {
-			$('#btnLbl').html("Save Entry Record")
+			$('#thermometerDiv').show();
+			$('#btnLbl').html("Save Entry Record");
 		}
 	}
 	
@@ -289,6 +315,12 @@
 		} else {
 			$('#identificationLbl').html('Identification Number<font color="red">*</font>');
 		}
+		
+		$('#identificationNo').val("");
+		$('#identificationNo').attr('readonly', false);
+		$('#nationality').attr("style", "");
+		$('#gender').attr("style", "");
+		$('#residenceFlag').attr("style", "");
 	}
 	
 	function checkReasonType(){
@@ -300,6 +332,11 @@
 		else {
 			$('#nextEntryGateDiv').hide();
 		}
+	}
+	
+	function refreshImage(){
+		var imagePath = $('#imagePath').val();
+		$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagePath);
 	}
 	
 	function getGuestDetails(idNo){
@@ -317,47 +354,105 @@
 	            $(xml).find('xml-response').each(function()
 	            { 
 					var guestId = $(this).find('guestId').text();
+					var cidNo = $(this).find('cidNo').text();
 					var name = $(this).find('name').text();
 					var gender = $(this).find('gender').text();
-					var age = $(this).find('age').text();
+					var dob = $(this).find('dob').text();
 					var contactno = $(this).find('contactno').text();
 					var nationality = $(this).find('nationality').text();
 					var presentAddress = $(this).find('presentAddress').text();
+					var residentflag = $(this).find('residentflag').text();
+					var imagepath = $(this).find('imagepath').text();
+					var dataType = $(this).find('data-type').text();
 					
-					$('#guestId').val(guestId);
-					$('#guestName').val(name);
-					$('#gender').val(gender);
-					$('#age').val(age);
-					$('#contactNo').val(contactno);
-					$('#nationality').val(nationality);
-					$('#presentAddress').val(presentAddress);
-					
-					$('#guestId').attr('readonly', true);
-					$('#guestName').attr('readonly', true);
-					$('#gender').attr('readonly', true);
-					$('#age').attr('readonly', true);
-					$('#contactNo').attr('readonly', true);
-					$('#nationality').attr('readonly', true);
-					$('#presentAddress').attr('readonly', true);
+					setFieldValues(guestId, cidNo, name, gender, dob, contactno, nationality, presentAddress, imagepath, dataType, residentflag);
 	            });
 	        }, error: function(data, textStatus, errorThrown) {
 	        	$('#guestId').val("");
 				$('#guestName').val("");
 				$('#gender').val("");
-				$('#age').val("");
+				$('#dob').val("");
 				$('#contactNo').val("");
 				$('#nationality').val("");
 				$('#presentAddress').val("");
+				$('#imagePath').val("");
+				$('#personImage').attr('src', '<%=request.getContextPath() %>/img/user2-160x160.jpg');
 				
 				$('#guestId').attr('readonly', false);
 				$('#guestName').attr('readonly', false);
 				$('#gender').attr('readonly', false);
-				$('#age').attr('readonly', false);
+				$('#dob').attr('readonly', false);
 				$('#contactNo').attr('readonly', false);
 				$('#nationality').attr('readonly', false);
 				$('#presentAddress').attr('readonly', false);
 	        }
 	    });
+	}
+	
+	function setFieldValues(guestId, cidNo, name, gender, dob, contactno, nationality, presentAddress, imagepath, dataType, residentFlag){
+		$('#identificationNo').attr('readonly', true);
+		$('#guestId').val(guestId);
+		$('#guestId').attr('readonly', true);
+		
+		if(dataType == "SYSTEM"){
+			$('#guestName').val(name);
+			$('#gender').val(gender);
+			$('#dob').val(dob);
+			$('#contactNo').val(contactno);
+			$('#nationality').val(nationality);
+			$('#presentAddress').val(presentAddress);
+			$('#residenceFlag').val(residentFlag);
+			$('#imagePath').val(imagepath);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			
+			$('#guestName').attr('readonly', true);
+			$('#dob').attr('readonly', true);
+			$('#contactNo').attr('readonly', true);
+			$('#presentAddress').attr('readonly', true);
+			$('#nationality').attr("style", "pointer-events: none;");
+			$('#gender').attr("style", "pointer-events: none;");
+			$('#residenceFlag').attr("style", "pointer-events: none;");
+		} else if(dataType == "CITIZEN_API"){
+			$('#guestName').val(name);
+			$('#gender').val(gender);
+			$('#dob').val(dob);
+			$("#nationality option:contains(Bhutan)").attr('selected', 'selected');
+			$('#imagePath').val(imagepath);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			
+			$('#guestName').attr('readonly', true);
+			$('#dob').attr('readonly', true);
+			$('#nationality').attr("style", "pointer-events: none;");
+			$('#gender').attr("style", "pointer-events: none;");
+		} else if(dataType == "RSTA_API"){
+			$('#identificationNo').val(cidNo);
+			$('#guestName').val(name);
+			$('#dob').val(dob);
+			$('#imagePath').val(imagepath);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			
+			$('#guestName').attr('readonly', true);
+			$('#dob').attr('readonly', true);
+		} else if(dataType == "IMMIGRATION_API"){
+			$('#guestName').val(name);
+			$('#gender').val(gender);
+			$('#presentAddress').val(presentAddress);
+			
+			$('#guestName').attr('readonly', true);
+			$('#gender').attr('readonly', true);
+			$('#presentAddress').attr('readonly', true);
+			$('#gender').attr("style", "pointer-events: none;");
+		} else if(dataType == "PASSPORT_API"){
+			$('#guestName').val(name);
+			$('#gender').val(gender);
+			$('#dob').val(dob);
+			$('#imagePath').val(imagepath);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			
+			$('#guestName').attr('readonly', true);
+			$('#gender').attr("style", "pointer-events: none;");
+			$('#dob').attr('readonly', true);
+		}
 	}
 	
 	function submitForm(){
@@ -377,12 +472,35 @@
 		      	} 
 	      	  });
 			   
-	  		var options = {target:'#msgDiv',url:'<%=request.getContextPath()%>/guestlog.html?method=guestLog',type:'POST',data: $("#guestLogForm").serialize()}; 
+	  		var options = {target:'#msgDiv',url:'<%=request.getContextPath()%>/guestlog.html?method=guestLog&transactionType=save',type:'POST',data: $("#guestLogForm").serialize()}; 
 			$("#guestLogForm").ajaxSubmit(options);
 			$('#msgDiv').show();
 			setTimeout($.unblockUI, 100);
-			setTimeout('reloadPage()', 3000);
+			//setTimeout('reloadPage()', 3000);
 		}
+	}
+	
+	function markAsFlagged(){
+		$('#thermometerReading').val("0");
+		$.blockUI
+  	  	({ 
+	      	css: 
+	      	{ 
+	            border: 'none', 
+	            padding: '15px', 
+	            backgroundColor: '#000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .5, 
+	            color: '#fff' 
+	      	} 
+   	  	});
+		   
+		var options = {target:'#msgDiv',url:'<%=request.getContextPath()%>/guestlog.html?method=guestLog&transactionType=mark',type:'POST',data: $("#guestLogForm").serialize()}; 
+		$("#guestLogForm").ajaxSubmit(options);
+		$('#msgDiv').show();
+		setTimeout($.unblockUI, 100);
+		//setTimeout('reloadPage()', 3000);
 	}
 	
 	function reloadPage(){
@@ -391,6 +509,4 @@
 	   	$('#contentDisplayDiv').show();
     }
 
-</script>
-</section>
-          
+</script>          

@@ -58,5 +58,30 @@
 	  <p>Data save failed, please try again later.</p>
 	</div>
 <%
+	} else if(message.equalsIgnoreCase("ALERT_FLAG_TRIGGERED")){
+		String status = (String) request.getAttribute("status");
+		String alertMsg = (String) request.getAttribute("FLAG_MESSAGES");
+%>
+	<div class="alert alert-warning" role="alert">
+	  <h4 class="alert-heading">Alert!!</h4>
+	  <p><b><%=status %></b> record has been recorded successfully. Following alerts were triggered:</p>
+	  <p><%=alertMsg %></p>
+	</div>
+<%
+	} else if(message.equalsIgnoreCase("GUESTLOG_MARK_SUCCESS")){
+		String status = (String) request.getAttribute("status");
+%>
+	<div class="alert alert-success" role="alert">
+	  <h4 class="alert-heading">Success!</h4>
+	  <p>Alert flag has been triggered against the above transaction</p>
+	</div>
+<%
+	} else if(message.equalsIgnoreCase("GUESTLOG_MARK_FAILURE")){
+%>
+	<div class="alert alert-danger" role="alert">
+	  <h4 class="alert-heading">Failure!</h4>
+	  <p>Something went wrong, please try again later.</p>
+	</div>
+<%
 	}
 %>

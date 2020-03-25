@@ -3,14 +3,11 @@
 	UserDetailsVO userDetails = null;
 	String userName = null;
 	String role = null;
-	String flag = null;
-	String agencyName = null;
-	String privilege = null;
 	if(session.getAttribute("userdetails")!=null)
 	{
 		userDetails = (UserDetailsVO) session.getAttribute("userdetails");
 		userName = userDetails.getFull_name().toUpperCase();
-		role = userDetails.getRole_name();
+		role = userDetails.getRoleCode();
 	}
 %>
 
@@ -35,6 +32,9 @@
 	        		<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 	        	</a>
 			</li>
+			<%
+				if(role.equalsIgnoreCase("ADMINISTRATOR")){
+			%>
 			<li>
 				<a href="#" onclick="loadPage('MANAGE_USERS')">
 					<i class="fa fa-users"></i>
@@ -43,31 +43,34 @@
 			</li>
 			<li class="treeview">
 		    	<a href="#">
-		    	   <i class="fa fa-users"></i>
+		    	   <i class="fa fa-table"></i>
 		           <span>Master Management</span>
 		           <span class="pull-right-container">
 		             <i class="fa fa-angle-left pull-right"></i>
 		           </span>	
 		    	</a>
 		    	<ul class="treeview-menu">
-		           <li><a href="#" onclick="loadPage('MASTER_MANAGEMENT_GATES')"><i class="fa fa-circle-o"></i><span> Gates</span></a></li>
+		           <!-- <li><a href="#" onclick="loadPage('MASTER_MANAGEMENT_GATES')"><i class="fa fa-circle-o"></i><span> Gates</span></a></li> -->
 		           <li><a href="#" onclick="loadPage('MASTER_MANAGEMENT_IDENTIFICATION_TYPES')"><i class="fa fa-circle-o"></i> Identification Types</a></li>
 		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_NATIONALITY')"><i class="fa fa-circle-o"></i> Nationality</a></li>
 		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_USERTYPES')"><i class="fa fa-circle-o"></i> User Types</a></li>
-		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_EXITREASONS')"><i class="fa fa-circle-o"></i> Exit Reasons</a></li>
+		           <!-- <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_EXITREASONS')"><i class="fa fa-circle-o"></i> Exit Reasons</a></li> -->
 		           <li><a href="#" onclick="loadPage('MASTER_MANAGMENT_AVERAGE_TIME')"><i class="fa fa-circle-o"></i> Average Travel Time</a></li>
 		    	</ul>
 		   	</li>
+		   	<%
+				}
+		   	%>
 		    <li>
 				<a href="#" onclick="loadPage('MANAGE_ENROLLMENT')">
-					<i class="fa fa-users"></i>
+					<i class="fa fa-address-book"></i>
 					<span>Enrollment</span>
 				</a>
 			</li>
 			<li>
 				<a href="#" onclick="loadPage('MANAGE_ENTRY_EXIT')">
-					<i class="fa fa-users"></i>
-					<span>Entry/Exit</span>
+					<i class="fa fa-check-square-o"></i>
+					<span>Record Entry and Exit</span>
 				</a>
 			</li>
 		</ul>

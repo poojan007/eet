@@ -63,7 +63,7 @@
 							<div class="small-box bg-aqua">
 								<div class="inner">
 									<h3><%=TOTALLIST.get(0).getEntrycount() %></h3>
-									<p>Total Entry</p>
+									<p>Total Entries</p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-archive"></i>
@@ -78,19 +78,19 @@
 				              <p>Total Exits</p>
 				            </div>
 				            <div class="icon">
-				              <i class="ion ion-exit"></i>
+				              <i class="ion ion-log-out"></i>
 				            </div>
 				          </div>
 				        </div>
 				        
 				        <div class="col-lg-3 col-xs-6">
-				          <div class="small-box bg-green">
+				          <div class="small-box bg-red">
 				            <div class="inner">
 				              <h3><%=TOTALLIST.get(0).getFlagcount()%></h3>
-				              <p>Total Flag</p>
+				              <p>Total Alert Flag Raised</p>
 				            </div>
 				            <div class="icon">
-				              <i class="ion ion-exit"></i>
+				              <i class="ion ion-flag"></i>
 				            </div>
 				          </div>
 				        </div>

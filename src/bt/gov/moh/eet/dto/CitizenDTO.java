@@ -5,6 +5,14 @@ public class CitizenDTO {
 	private String citizenName;
 	private String gender;
 	private String age;
+	private String dob;
+	
+	public String getDob() {
+		return dob;
+	}
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 	public String getCitizenName() {
 		return citizenName;
 	}

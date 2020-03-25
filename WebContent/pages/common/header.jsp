@@ -38,14 +38,13 @@
 	UserDetailsVO userDetails = null;
 	String userName = null;
 	String role = null;
-	String flag = null;
-	String agencyName = null;
-	int agencyId = 0;
+	String gateName = null;
 	if(session.getAttribute("userdetails")!=null)
 	{
 		userDetails = (UserDetailsVO) session.getAttribute("userdetails");
 		userName = userDetails.getFull_name().toUpperCase();
 		role = userDetails.getRole_name();
+		gateName = userDetails.getGateName();
 	}
 	
 %>
@@ -91,6 +90,7 @@
 	                <p>
 	                  <%=userName %> - <%=role %>
 	                </p>
+	                <small style="color:white;"><%=gateName %></small>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
