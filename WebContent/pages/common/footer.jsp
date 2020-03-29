@@ -60,4 +60,6 @@
 <script src="<%=request.getContextPath() %>/js/summernote.min.js"></script>
 <!-- Jquery clock timepicker -->
 <script src="<%=request.getContextPath() %>/js/jquery-clock-timepicker.js"></script>
+<!-- Offline js -->
+<script src="<%=request.getContextPath()%>/js/offline.min.js"></script>
 <script src="<%=request.getContextPath() %>/js/app.js"></script>

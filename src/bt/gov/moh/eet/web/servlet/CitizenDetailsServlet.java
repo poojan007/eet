@@ -10,19 +10,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.wso2.client.api.DCRC_CitizenDetailsAPI.DefaultApi;
-import org.wso2.client.model.DCRC_CitizenDetailsAPI.CitizenDetailsResponse;
-import org.wso2.client.model.DCRC_CitizenDetailsAPI.CitizendetailsObj;
+import org.wso2.client.api.DCRC_IndividualCitizenDetailAPI.DefaultApi;
+import org.wso2.client.model.DCRC_IndividualCitizenDetailAPI.CitizenOBJ;
+import org.wso2.client.model.DCRC_IndividualCitizenDetailAPI.CitizenResponse;
 
 import com.squareup.okhttp.OkHttpClient;
-
 import bt.gov.moh.eet.dto.CitizenDTO;
 
 /**
@@ -78,55 +76,42 @@ public class CitizenDetailsServlet extends HttpServlet {
 				apiClient.setHttpClient(httpClient);
 				apiClient.setBasePath(bundle.getString("getCitizenDetailsAPI.endPointURL"));
 				
-				/*
-				 * HttpSession session = request.getSession(); TokenDTO tokendto = (TokenDTO)
-				 * session.getAttribute("TOKEN");
-				 */
-				apiClient.setAccessToken("1c57772f-1829-3576-b9f0-d722083fb65c");
+				apiClient.setAccessToken("7dd8dc5b-a021-36f8-a8bb-99753c9c5cdb");
 				DefaultApi api = new DefaultApi(apiClient);
-				CitizenDetailsResponse citizenDetailsResponse = api.citizendetailsCidGet(cidNo);
-				System.out.println(citizenDetailsResponse);
-				CitizendetailsObj citizendetailsObj = null;
+				CitizenResponse citizenDetailsResponse = api.citizendetailCidGet(cidNo);
+				CitizenOBJ citizendetailsObj = null;
 				
-				if(citizenDetailsResponse.getCitizenDetailsResponse().getCitizenDetail()!=null && !citizenDetailsResponse.getCitizenDetailsResponse().getCitizenDetail().isEmpty() ){
-					citizendetailsObj = citizenDetailsResponse.getCitizenDetailsResponse().getCitizenDetail().get(0);
+				if(citizenDetailsResponse.getCitizendetails().getCitizendetail()!=null && !citizenDetailsResponse.getCitizendetails().getCitizendetail().isEmpty() ){
+					citizendetailsObj = citizenDetailsResponse.getCitizendetails().getCitizendetail().get(0);
 					
 					String firstName = citizendetailsObj.getFirstName();
-					String middleName = citizendetailsObj.getMiddleName();
+					String middleName = citizendetailsObj.getMiddlename();
 					String lastName = citizendetailsObj.getLastName();
 					String dob = citizendetailsObj.getDob();
 					String gender = citizendetailsObj.getGender();
 					
 					CitizenDTO dto = new CitizenDTO();
-					
-					/*
-					 * if(middleName.equals("null")){ middleName = ""; }
-					 */
-					
 					dto.setCitizenName(firstName+" "+middleName+" "+lastName);
 					dto.setGender(gender);
-					
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-					Date d = sdf.parse(dob);
-					Calendar c = Calendar.getInstance();
-					c.setTime(d);
-					int year = c.get(Calendar.YEAR);
-					int month = c.get(Calendar.MONTH) + 1;
-					int date = c.get(Calendar.DATE);
-					LocalDate l1 = LocalDate.of(year, month, date);
-					LocalDate now1 = LocalDate.now();
-					Period diff1 = Period.between(l1, now1);
-					dto.setAge(Integer.toString(diff1.getYears()));
+					dto.setDob(dob);
 					
 					buffer.append("<xml-response>");
-						buffer.append("<cid>"+citizendetailsObj.getCid()+"</cid>");
+						buffer.append("<guestId></guestId>");
+						buffer.append("<cidNo>"+citizendetailsObj.getCidNumber()+"</cidNo>");
 						buffer.append("<name>"+dto.getCitizenName()+"</name>");
 						buffer.append("<gender>"+dto.getGender()+"</gender>");
-						buffer.append("<age>"+dto.getAge()+"</age>");
+						buffer.append("<dob>"+dto.getDob()+"</dob>");
+						buffer.append("<contactno></contactno>");
+						buffer.append("<nationality></nationality>");
+						buffer.append("<presentAddress></presentAddress>");
+						buffer.append("<residentflag></residentflag>");
+						buffer.append("<imagepath></imagepath>");
+						buffer.append("<data-type>CITIZEN_API</data-type>");
 					buffer.append("</xml-response>");
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("Error at GetCitizenDetails[doAction]"+e);
 		}
 		

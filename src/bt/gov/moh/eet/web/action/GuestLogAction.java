@@ -44,16 +44,27 @@ public class GuestLogAction extends DispatchAction {
 				if(result.equalsIgnoreCase("GUESTLOG_ADD_SUCCESS") || 
 						result.equalsIgnoreCase("GUESTLOG_MARK_SUCCESS") ||
 							result.equalsIgnoreCase("NO_EXIT_RECORD_FOUND") || 
-								result.equalsIgnoreCase("NO_ENTRY_RECORD_FOUND")) {
+								result.equalsIgnoreCase("NO_ENTRY_RECORD_FOUND") ||
+									result.equalsIgnoreCase("MULTIPLE_EXITS_WITHOUT_ENTRY") ||
+										result.equalsIgnoreCase("MULTIPLE_ENTRIES_WITHOUT_EXIT") ||
+											result.equalsIgnoreCase("TEMPERATURE_ABOVE_THRESHOLD")) {
 					conn.commit();
 					
 					if(result.equalsIgnoreCase("NO_EXIT_RECORD_FOUND")) {
 						result = "ALERT_FLAG_TRIGGERED";
 						request.setAttribute("FLAG_MESSAGES", "No EXIT record found\n");
-					}
-					else if(result.equalsIgnoreCase("NO_ENTRY_RECORD_FOUND")) {
+					} else if(result.equalsIgnoreCase("NO_ENTRY_RECORD_FOUND")) {
 						result = "ALERT_FLAG_TRIGGERED";
 						request.setAttribute("FLAG_MESSAGES",  "No ENTRY record found\n");
+					} else if(result.equalsIgnoreCase("MULTIPLE_EXITS_WITHOUT_ENTRY")) {
+						result = "ALERT_FLAG_TRIGGERED";
+						request.setAttribute("FLAG_MESSAGES",  "Multiple exits without entry record\n");
+					} else if(result.equalsIgnoreCase("MULTIPLE_ENTRIES_WITHOUT_EXIT")) {
+						result = "ALERT_FLAG_TRIGGERED";
+						request.setAttribute("FLAG_MESSAGES",  "Multiple entries without exit record\n");
+					} else if(result.equalsIgnoreCase("TEMPERATURE_ABOVE_THRESHOLD")) {
+						result = "ALERT_FLAG_TRIGGERED";
+						request.setAttribute("FLAG_MESSAGES",  "Temperature is above the permitted threshold. \n");
 					}
 					
 					if(result.equalsIgnoreCase("GUESTLOG_ADD_SUCCESS")) {

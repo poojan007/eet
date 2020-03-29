@@ -10,7 +10,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import bt.gov.moh.eet.dao.LoginDAO;
 import bt.gov.moh.eet.dao.UserDAO;
+import bt.gov.moh.eet.dto.StatisticDTO;
 import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
 import bt.gov.moh.framework.common.Log;
@@ -27,12 +29,12 @@ public class LoginAction extends Action
 			String param = request.getParameter("q");
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
-				List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
-				request.setAttribute("TOTALLIST", TOTALLIST);
+				StatisticDTO dto = LoginDAO.getInstance().getDashboardStatistics(vo);
+				request.setAttribute("stats", dto);
 				forwarder = "success";
 			} else if(param.equals("dashboard") && vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")){
-				List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
-				request.setAttribute("TOTALLIST", TOTALLIST);
+				StatisticDTO dto = LoginDAO.getInstance().getDashboardStatistics(vo);
+				request.setAttribute("stats", dto);
 				forwarder = "success";
 			} else {
 				forwarder = "failure";
@@ -40,10 +42,9 @@ public class LoginAction extends Action
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e);
 			Log.error("###Login error ----> ", e);
-			request.setAttribute("ERROR", e.getMessage());
-			forwarder = "GLOBAL_REDIRECT_ERROR";
+			request.setAttribute("FAILURE", "failure");
+			forwarder = "GLOBAL_REDIRECT_LOGIN";
 		}
 		
 		return mapping.findForward(forwarder);

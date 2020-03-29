@@ -691,7 +691,6 @@
 	                				<tr>
 					                	<th>Sl.No.</th>
 					                	<th>User Type</th>
-					                	<th>Description</th>
 										<th></th>
 	                				</tr>
 	                			</thead>
@@ -1143,9 +1142,8 @@
 				                			<td><bean:write name="master" property="averageTime"/></td>
 				                			<td align="center">
 												<div class="box-tools pull-right">
-													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="populateEditForm('<bean:write name="master" property="pointOne"/>','<bean:write name="master" property="pointTwo"/>','<bean:write name="master" property="id"/>','<bean:write name="master" property="averageTime"/>')"><i class="fa fa-pencil-square-o"></i></button>
+													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="populateEditForm('<bean:write name="master" property="pointOneId"/>','<bean:write name="master" property="pointTwoId"/>','<bean:write name="master" property="id"/>','<bean:write name="master" property="averageTime"/>')"><i class="fa fa-pencil-square-o"></i></button>
 													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_AVERAGE_TIME')"><i class="fa fa-trash"></i></button>
-													<button type="button" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Edit" onclick="showConfirmDialog('<bean:write name="master" property="id"/>','MASTER_MANAGMENT_TRAVEL_TIME')"><i class="fa fa-trash"></i></button>
 												</div>
 											</td>
 				                		</tr>
@@ -1226,6 +1224,7 @@
                										<label class="control-label col-sm-2">Point One&nbsp;<font color='red'>*</font></label>
                  									<div class="col-sm-4">
 														<select id="editpointOne" name="editpointOne" class="form-control">
+															<option value=""></option>
 														    <logic:iterate id="master" name="gateList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
 												 	 		   	<option value="<bean:write name="master" property="gateId"/>"><bean:write name="master" property="gateName"/></option>
 															</logic:iterate>
@@ -1234,6 +1233,7 @@
                 									<label class="control-label col-sm-2">Point Two&nbsp;<font color='red'>*</font></label>
                  									<div class="col-sm-4">
                 										<select id="editpointTwo" name="editpointTwo" class="form-control">
+                											<option value=""></option>
 	                										<logic:iterate id="master" name="gateList" type="bt.gov.moh.eet.dto.MasterDTO" indexId="index">
 													  			<option value="<bean:write name="master" property="gateId"/>"><bean:write name="master" property="gateName"/></option>
 															</logic:iterate>
@@ -1348,7 +1348,7 @@
 			 		 	 }
 		 		 	}
 		 		 	
-		 		 	function populateEditForm(pointOne,pointTwo,id, averageTime){
+		 		 	function populateEditForm(pointOne, pointTwo, id, averageTime){
 		 		 		$('#id').val(id);
 		 		 		$('editpointOne').val(pointOne);
 		 		 		$('editpointTwo').val(pointTwo);

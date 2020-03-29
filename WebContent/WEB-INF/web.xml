@@ -60,17 +60,22 @@
   	<servlet-class>bt.gov.moh.eet.web.servlet.GetApplicationToken</servlet-class>
   	<init-param>
       <param-name>CONSUMER_KEY</param-name>
-      <param-value>wkuvh4Pdu60mkHZlesOI1dfMNbka</param-value>
+      <param-value>csUB7neVBglNFjIPVzbFwD5sO3wa</param-value>
     </init-param>
     <init-param>
       <param-name>CONSUMER_SECRET</param-name>
-      <param-value>NVlIBRIxHkM61YICzH_szd8uvVUa</param-value>
+      <param-value>TIgmLfSiVJft80PpkJqYr8otH_oa</param-value>
     </init-param>
     <init-param>
       <param-name>TOKEN_ENDPOINT</param-name>
       <param-value>https://datahub-apim.dit.gov.bt/token</param-value>
     </init-param>
   </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>ApplicationTokenClient</servlet-name>
+  	<url-pattern>/getApplicationToken</url-pattern>
+  </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>action</servlet-name>

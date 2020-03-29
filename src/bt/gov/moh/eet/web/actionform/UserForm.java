@@ -27,7 +27,21 @@ private static final long serialVersionUID = 1L;
 	private String editgate_id;
 	private String edituser_type;
 	private String editrole_name;
+	private String dzongkhag_id;
+	private String edit_dzongkhag_id;
 	
+	public String getEdit_dzongkhag_id() {
+		return edit_dzongkhag_id;
+	}
+	public void setEdit_dzongkhag_id(String edit_dzongkhag_id) {
+		this.edit_dzongkhag_id = edit_dzongkhag_id;
+	}
+	public String getDzongkhag_id() {
+		return dzongkhag_id;
+	}
+	public void setDzongkhag_id(String dzongkhag_id) {
+		this.dzongkhag_id = dzongkhag_id;
+	}
 	public String getEditgate_id() {
 		return editgate_id;
 	}

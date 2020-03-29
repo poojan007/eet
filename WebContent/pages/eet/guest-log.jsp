@@ -1,17 +1,28 @@
+<%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
 <%@taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@taglib uri="/WEB-INF/struts-nested.tld" prefix="nested"%>
+<link href="<%=request.getContextPath()%>/css/chosen.min.css" rel="stylesheet" />
+<script src="<%=request.getContextPath()%>/js/chosen.jquery.min.js"></script>
 <style>
 	#guestLogForm .error { color: red; }
 	
 	.booth {
-	    width: 180px;;
 	    background-color: #ccc;
 	    border: 10px solid #ddd;
 	    margin: 0 auto;
 	}
 </style>
+ <%
+	UserDetailsVO userDetails = null;
+	String gateId = null;
+	if(session.getAttribute("userdetails")!=null)
+	{
+		userDetails = (UserDetailsVO) session.getAttribute("userdetails");
+		gateId = userDetails.getGateId();
+	}
+%>
 <section class="content-header">
   <h1>
        Manage Entry and Exit
@@ -37,6 +48,16 @@
 					</button>
 				</div>
 			</div>
+			<div class="box box-primary" id="qrDisplayDiv" style="display:none">
+				<div class="box-header">
+					<h4 class="box-title">Guest QR Code</h4>
+				</div>
+				<div class="box-body">
+					<div class="booth" align="center">
+						<img id="qrImg"/>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<div class="col-md-9">
@@ -53,6 +74,12 @@
 									<html:option value="ENTRY">Entry</html:option>
 									<html:option value="EXIT">Exit</html:option>
 								</html:select>
+							</div>
+							<div class="col-sm-4" align="center">
+								<div class="hidden-lg hidden-md"><br/></div>
+								<button type="button" id="qrScannerBtn" class="btn btn-primary" onclick="triggerCamera()" data-toggle="modal" data-target="#scan-modal" style="display:none;">
+									<i class="fa fa-search"></i> Scan QR Code
+								</button>
 							</div>
 						</div>
 						<hr/>
@@ -126,10 +153,11 @@
 								</div>
 								<div class="col-sm-6" id="nextEntryGateDiv" style="display:none">
 									<label class="control-label" id="identificationLbl">Next Entry Gate<font color='red'>*</font></label>
-									<html:select property="nextEntryGate" styleId="nextEntryGate" styleClass="form-control">
+									<html:select property="nextEntryGate" styleId="nextEntryGate" styleClass="form-control" onchange="checkGate(this.value)">
 										<html:option value="0"></html:option>
 										<html:options collection ="GATELIST" property="headerId" labelProperty="headerName"/>
 									</html:select>
+									<span id="nextGateError" style="display:none"></span>
 								</div>
 							</div>
 							<div class="form-group">
@@ -156,21 +184,46 @@
 				<div class="box-footer" id="formFooter" style="display:none">
 					<div id="msgDiv" style="display:none;"></div>
 					<input type="hidden" id="imagePath"/>
-       				<div class="text-right">
-       					<button class="btn btn-success" type="button" onclick="reloadPage()" ><i class="fa fa-refresh"></i>&nbsp;<span>Refresh Form</span></button>
-       					&nbsp;
-       					<button class="btn btn-primary" type="button" onclick="submitForm()" ><i class="fa fa-plus"></i>&nbsp;<span id="btnLbl"></span></button>
-       					&nbsp;
-       					<button class="btn btn-danger" type="button" onclick="markAsFlagged()" ><i class="fa fa-check"></i>&nbsp;<span>Mark as Flagged</span></button>
+					<input type="hidden" id="imageId" name="imageId"/>
+       				<div class="col-sm-12">
+       					<button class="btn btn-success col-sm-4" type="button" onclick="reloadPage()" ><i class="fa fa-refresh"></i>&nbsp;<span>Refresh Form</span></button>
+       					<button class="btn btn-primary col-sm-4" type="button" onclick="submitForm()" id="submitBtn"><i class="fa fa-plus"></i>&nbsp;<span id="btnLbl"></span></button>
+       					<button class="btn btn-danger col-sm-4" type="button" onclick="markAsFlagged()" id="markBtn"><i class="fa fa-check"></i>&nbsp;<span>Mark as Flagged</span></button>
        				</div>
 				</div>
 			</div>
 		</div>
-		
 	</div>
 </section>
 
+<div id="scan-modal" class="modal fade" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="blue bigger">Scan QR Code</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12" align="center"> 
+          				<video id="preview" style="width:100%"></video>
+          				<audio id="myAudio">
+						  <source src="<%=request.getContextPath() %>/sound/beep.mp3" type="audio/mpeg">
+						</audio>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 <script>
+
+	$(function() {
+		var context="<%=request.getContextPath()%>";
+	 	$('.chzn-select').chosen();
+	});
 
 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip();   
@@ -222,10 +275,8 @@
 			  },
 			  'thermometerReading':{
 				  required: function () {
-		                return $("#entryOrExit").val() == "ENTRY";
-            		},
-				  number: true,
-				  maxlength: 3,
+	                return $("#entryOrExit").val() == "ENTRY";
+           		  },
 				  minlength: 2
 			  },
 			  'presentAddress':{
@@ -271,8 +322,6 @@
 			  },
 			  'thermometerReading':{
 				  required: "Please enter a thermometer reading",
-				  number: "Only numbers allowed",
-				  maxlength: "Reading cannot be more then 3 digits",
 				  minlength: "Reading cannot be less then 2 digits"
 			  },
 			  'presentAddress':{
@@ -284,10 +333,22 @@
 		  	}
 	  	});
 	});
+	
+	function checkGate(selectedGateId){
+		var userGateId = "<%=gateId%>";
+		if(selectedGateId == userGateId){
+			$('#nextEntryGate').val('');
+			$('#nextGateError').html('<font color="red">Requested gate cannot be same as current gate</font>');
+			$('#nextGateError').show();
+		} else {
+			$('#nextGateError').hide();
+		}
+	}
 
 	function showForm(type){
 		$('#formDiv').show();
 		$('#formFooter').show();
+		$('#qrScannerBtn').show();
 		
 		if(type == "EXIT"){
 			$('#thermometerReading').val("0");
@@ -336,10 +397,26 @@
 	
 	function refreshImage(){
 		var imagePath = $('#imagePath').val();
-		$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagePath);
+		
+		if(imagePath == ""){
+			var cidNo = $('#identificationNo').val();
+			$('#personImage').attr('src', 'https://www.citizenservices.gov.bt/BtImgWS/ImageServlet?type=PH&cidNo='+cidNo);
+		} else {
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagePath);
+		}
 	}
 	
 	function getGuestDetails(idNo){
+		$('#guestId').val("");
+		$('#guestName').val("");
+		$('#gender').val("");
+		$('#dob').val("");
+		$('#contactNo').val("");
+		$('#nationality').val("");
+		$('#presentAddress').val("");
+		$('#imagePath').val("");
+		$('#personImage').attr('src', '<%=request.getContextPath() %>/img/user2-160x160.jpg');
+		
 		var entryOrExit = $('#entryOrExit').val();
 		var identificationType = $('#identificationType').val();
 		
@@ -412,43 +489,74 @@
 			$('#nationality').attr("style", "pointer-events: none;");
 			$('#gender').attr("style", "pointer-events: none;");
 			$('#residenceFlag').attr("style", "pointer-events: none;");
+			$('#nationality').attr('readonly', true);
+			$('#gender').attr('readonly', true);
+			$('#residenceFlag').attr('readonly', true);
 		} else if(dataType == "CITIZEN_API"){
 			$('#guestName').val(name);
 			$('#gender').val(gender);
 			$('#dob').val(dob);
+			$("#identificationType option:contains(CID)").attr('selected', 'selected');
 			$("#nationality option:contains(Bhutan)").attr('selected', 'selected');
-			$('#imagePath').val(imagepath);
-			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			
+			var imagePathArray = new Array();
+			imagePathArray = imagepath.split("#");
+			$('#imageId').val(imagePathArray[0]);
+			$('#imagePath').val(imagePathArray[1]);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagePathArray[1]);
+			//$('#personImage').attr('src', 'https://www.citizenservices.gov.bt/BtImgWS/ImageServlet?type=PH&cidNo='+cidNo);
 			
 			$('#guestName').attr('readonly', true);
 			$('#dob').attr('readonly', true);
+			$('#nationality').attr('readonly', true);
+			$('#gender').attr('readonly', true);
 			$('#nationality').attr("style", "pointer-events: none;");
 			$('#gender').attr("style", "pointer-events: none;");
 		} else if(dataType == "RSTA_API"){
 			$('#identificationNo').val(cidNo);
 			$('#guestName').val(name);
 			$('#dob').val(dob);
-			$('#imagePath').val(imagepath);
-			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			$("#identificationType option:contains(CID)").attr('selected', 'selected');
+			$("#nationality option:contains(Bhutan)").attr('selected', 'selected');
+			
+			var imagePathArray = new Array();
+			imagePathArray = imagepath.split("#");
+			$('#imageId').val(imagePathArray[0]);
+			$('#imagePath').val(imagePathArray[1]);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagePathArray[1]);
+			//$('#personImage').attr('src', 'https://www.citizenservices.gov.bt/BtImgWS/ImageServlet?type=PH&cidNo='+cidNo);
 			
 			$('#guestName').attr('readonly', true);
 			$('#dob').attr('readonly', true);
 		} else if(dataType == "IMMIGRATION_API"){
 			$('#guestName').val(name);
 			$('#gender').val(gender);
+			$('#nationality').val(nationality);
 			$('#presentAddress').val(presentAddress);
+			$('#dob').addClass('datepicker');
 			
 			$('#guestName').attr('readonly', true);
 			$('#gender').attr('readonly', true);
 			$('#presentAddress').attr('readonly', true);
+			$('#dob').attr('readonly', true);
+			$('#nationality').attr('readonly', true);
+			$('#nationality').attr("style", "pointer-events: none;");
 			$('#gender').attr("style", "pointer-events: none;");
 		} else if(dataType == "PASSPORT_API"){
 			$('#guestName').val(name);
 			$('#gender').val(gender);
 			$('#dob').val(dob);
-			$('#imagePath').val(imagepath);
-			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagepath);
+			$("#identificationType option:contains(CID)").attr('selected', 'selected');
+			$("#nationality option:contains(Bhutan)").attr('selected', 'selected');
 			
+			var imagePathArray = new Array();
+			imagePathArray = imagepath.split("#");
+			$('#imageId').val(imagePathArray[0]);
+			$('#imagePath').val(imagePathArray[1]);
+			$('#personImage').attr('src', '<%=request.getContextPath()%>/getImage?url='+imagePathArray[1]);
+			//$('#personImage').attr('src', 'https://www.citizenservices.gov.bt/BtImgWS/ImageServlet?type=PH&cidNo='+cidNo);
+			
+			$('#gender').attr('readonly', true);
 			$('#guestName').attr('readonly', true);
 			$('#gender').attr("style", "pointer-events: none;");
 			$('#dob').attr('readonly', true);
@@ -458,6 +566,12 @@
 	function submitForm(){
 		if($('#guestLogForm').valid()) 
 		{
+			$('#submitBtn').attr('disabled', 'disabled');
+			$('#markBtn').attr('disabled', 'disabled');
+			
+			var identificationNo = $('#identificationNo').val();
+			var identificationType = $('#identificationType').val();
+			
 			$.blockUI
 	    	  ({ 
 		      	css: 
@@ -476,11 +590,19 @@
 			$("#guestLogForm").ajaxSubmit(options);
 			$('#msgDiv').show();
 			setTimeout($.unblockUI, 100);
-			//setTimeout('reloadPage()', 3000);
+			
+			var identificationTypeTxt = $("#identificationType option:selected").text();
+			
+			if(identificationTypeTxt != "QR Code"){
+				generateQRCode(identificationNo, identificationType);
+			}
 		}
 	}
 	
 	function markAsFlagged(){
+		$('#submitBtn').attr('disabled', 'disabled');
+		$('#markBtn').attr('disabled', 'disabled');
+		
 		$('#thermometerReading').val("0");
 		$.blockUI
   	  	({ 
@@ -500,7 +622,66 @@
 		$("#guestLogForm").ajaxSubmit(options);
 		$('#msgDiv').show();
 		setTimeout($.unblockUI, 100);
-		//setTimeout('reloadPage()', 3000);
+	}
+	
+	function generateQRCode(identificationNo, identificationType){
+		$('#qrImg').attr('src', '<%=request.getContextPath()%>/guestqrcode?qrCodeText='+identificationNo+'&type='+identificationType+'&width=200&height=200');
+		$('#qrDisplayDiv').show();
+	}
+	
+	function triggerCamera(){
+		var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
+		scanner.addListener('scan',function(content){
+			getIdentificationTypeByIdNo(content);
+			var x = document.getElementById("myAudio"); 
+			x.play();
+			scanner.stop();
+		});
+		
+		Instascan.Camera.getCameras().then(function (cameras){
+			if(cameras.length>0){
+				scanner.start(cameras[0]);
+				$('[name="options"]').on('change',function(){
+					if($(this).val()==1){
+						if(cameras[0]!=""){
+							scanner.start(cameras[0]);
+						}else{
+							alert('No Front camera found!');
+						}
+					}else if($(this).val()==2){
+						if(cameras[1]!=""){
+							scanner.start(cameras[1]);
+						}else{
+							alert('No Back camera found!');
+						}
+					}
+				});
+			}else{
+				console.error('No cameras found.');
+			}
+		})
+	}
+	
+	var identificationNo, identificationType;
+	function getIdentificationTypeByIdNo(content){
+		
+		if(content.indexOf('#') > 0){
+			var contentArray = new Array();
+			contentArray = content.split("#");
+			identificationNo = contentArray[0];
+			identificationType = contentArray[1];
+			$('#identificationNo').val(identificationNo);
+			$('#identificationType').val(identificationType);
+			
+			getGuestDetails(identificationNo);
+		} else {
+			$('#identificationNo').val(content);
+			$("#identificationType option:contains(QR Code)").attr('selected', 'selected');
+			
+			getGuestDetails(content);
+		}
+		
+		$('#scan-modal').modal('hide');
 	}
 	
 	function reloadPage(){

@@ -33,7 +33,7 @@
 	        	</a>
 			</li>
 			<%
-				if(role.equalsIgnoreCase("ADMINISTRATOR")){
+				if(role.equalsIgnoreCase("SUPER_ADMIN") || role.equalsIgnoreCase("ADMINISTRATOR")){
 			%>
 			<li>
 				<a href="#" onclick="loadPage('MANAGE_USERS')">
@@ -41,6 +41,9 @@
 					<span>User Management</span>
 				</a>
 			</li>
+				<%
+					if(role.equalsIgnoreCase("SUPER_ADMIN")){
+				%>
 			<li class="treeview">
 		    	<a href="#">
 		    	   <i class="fa fa-table"></i>
@@ -59,7 +62,8 @@
 		    	</ul>
 		   	</li>
 		   	<%
-				}
+					}
+				} else if(role.equalsIgnoreCase("DATA_MANAGER")){
 		   	%>
 		    <li>
 				<a href="#" onclick="loadPage('MANAGE_ENROLLMENT')">
@@ -72,6 +76,14 @@
 					<i class="fa fa-check-square-o"></i>
 					<span>Record Entry and Exit</span>
 				</a>
+			</li>
+			<%
+				}
+			%>
+			<li>
+				<a href="#" onclick="loadPage('historical_report')">
+	        		<i class="fa fa-database"></i> <span>Reports</span>
+	        	</a>
 			</li>
 		</ul>
 	

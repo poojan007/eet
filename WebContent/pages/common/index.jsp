@@ -1,4 +1,5 @@
- <%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
+ <%@page import="bt.gov.moh.eet.dto.StatisticDTO"%>
+<%@page import="bt.gov.moh.eet.vo.UserDetailsVO"%>
  <%@page import="java.util.List"%>
  <%@page import="bt.gov.moh.eet.dto.UserDTO"%>
 <%
@@ -13,7 +14,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%
- List<UserDTO> TOTALLIST=(List<UserDTO>) request.getAttribute("TOTALLIST");
+ StatisticDTO dto = (StatisticDTO) request.getAttribute("stats");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -62,38 +63,44 @@
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-aqua">
 								<div class="inner">
-									<h3><%=TOTALLIST.get(0).getEntrycount() %></h3>
+									<h3><%=dto.getTotalEntry() %></h3>
 									<p>Total Entries</p>
 								</div>
 								<div class="icon">
 									<i class="ion ion-archive"></i>
 								</div>
+								<a href="#" class="small-box-footer" onclick="generateReport('ENTRY')">View <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
 						
 						<div class="col-lg-3 col-xs-6">
 				          <div class="small-box bg-green">
 				            <div class="inner">
-				              <h3><%=TOTALLIST.get(0).getExitcount() %></h3>
+				              <h3><%=dto.getTotalExit() %></h3>
 				              <p>Total Exits</p>
 				            </div>
 				            <div class="icon">
 				              <i class="ion ion-log-out"></i>
 				            </div>
+				            <a href="#" class="small-box-footer" onclick="generateReport('EXIT')">View <i class="fa fa-arrow-circle-right"></i></a>
 				          </div>
 				        </div>
 				        <div class="col-lg-3 col-xs-6">
 				          <div class="small-box bg-red">
 				            <div class="inner">
-				              <h3><%=TOTALLIST.get(0).getFlagcount()%></h3>
+				              <h3><%=dto.getTotalAlertFlag()%></h3>
 				              <p>Total Alert Flag Raised</p>
 				            </div>
 				            <div class="icon">
 				              <i class="ion ion-flag"></i>
 				            </div>
+				            <a href="#" class="small-box-footer" onclick="generateReport('ALERT')">View <i class="fa fa-arrow-circle-right"></i></a>
 				          </div>
 				        </div>
 					</div>
+					
+					<div class="row" id="resultDiv" style="display:none"></div>
+					
 				</section>
 			</div>
 		</div>
@@ -103,13 +110,10 @@
 	</div>
 	<script>
 	
-		/* $(document).ready(function() 
+		$(document).ready(function() 
 		{
 			generateApplicationToken();
-		}); */
-		
-		
-		
+		});
 		
 		function generateApplicationToken(){
 			$.ajax
@@ -122,10 +126,39 @@
 				success : function(responseText) {}
 			});
 		}
+		
+		function generateReport(type){
+			$.blockUI
+	  	  	({ 
+		      	css: 
+		      	{ 
+		            border: 'none', 
+		            padding: '15px', 
+		            backgroundColor: '#000', 
+		            '-webkit-border-radius': '10px', 
+		            '-moz-border-radius': '10px', 
+		            opacity: .5, 
+		            color: '#fff' 
+		      	} 
+	   	  	});
+			$.ajax
+			({
+				type : "POST",
+				url : "<%=request.getContextPath()%>/redirect.html?q=report&type="+type,
+				data : $('form').serialize(),
+				cache : false,
+				dataType : "html",
+				success : function(responseText) {
+					$('#resultDiv').html(responseText);
+					$('#resultDiv').show();
+					setTimeout($.unblockUI, 100);
+				}
+			});
+		}
 	
 		$.idleTimeout('#idletimeout', '#idletimeout a', 
 		{
-			idleAfter: 300,
+			idleAfter: 500,
 			pollingInterval: 2,
 			serverResponseEquals: 'OK',
 			onTimeout: function()

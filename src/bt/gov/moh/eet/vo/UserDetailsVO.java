@@ -17,7 +17,21 @@ public class UserDetailsVO implements java.io.Serializable
 	private String gateCode;
 	private String gateName;
 	private String roleCode;
+	private String dzongkhagId;
+	private String dzongkhagName;
 	
+	public String getDzongkhagName() {
+		return dzongkhagName;
+	}
+	public void setDzongkhagName(String dzongkhagName) {
+		this.dzongkhagName = dzongkhagName;
+	}
+	public String getDzongkhagId() {
+		return dzongkhagId;
+	}
+	public void setDzongkhagId(String dzongkhagId) {
+		this.dzongkhagId = dzongkhagId;
+	}
 	public String getRoleCode() {
 		return roleCode;
 	}

@@ -48,7 +48,8 @@ public class PasswordEncryptionUtil {
 	}
 	
 	  
-	  public static void main(String[] args) { String password = "test"; String
+	  public static void main(String[] args) { 
+		  String password = "f1ghtC0vid"; String
 	  salt = PasswordEncryptionUtil.generateSalt(512).get();
 	  System.out.println("Salt:"+salt); String hashPassword =
 	  PasswordEncryptionUtil.hashPassword(password, salt).get();

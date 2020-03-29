@@ -26,6 +26,10 @@
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/sweetalert.css">
   <!-- Summer Note -->
   <link rel="stylesheet" href="<%=request.getContextPath() %>/css/summernote.css">
+  <!-- Offline style css -->
+  	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/offline-language-english.css">
+  <!-- Offline style -->
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/offline-theme-slide.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,14 +43,17 @@
 	String userName = null;
 	String role = null;
 	String gateName = null;
+	String dzongkhagName = null;
+	String roleCode = null;
 	if(session.getAttribute("userdetails")!=null)
 	{
 		userDetails = (UserDetailsVO) session.getAttribute("userdetails");
 		userName = userDetails.getFull_name().toUpperCase();
 		role = userDetails.getRole_name();
 		gateName = userDetails.getGateName();
+		dzongkhagName = userDetails.getDzongkhagName();
+		roleCode = userDetails.getRoleCode();
 	}
-	
 %>
 
 <style type="text/css">
@@ -90,12 +97,25 @@
 	                <p>
 	                  <%=userName %> - <%=role %>
 	                </p>
-	                <small style="color:white;"><%=gateName %></small>
+	                <%
+	                	if(roleCode.equalsIgnoreCase("DATA_MANAGER")){
+	                %>
+	                	<small style="color:white;"><%=gateName %></small>
+	                <%
+	                	} else {
+	                %>
+	                	<small style="color:white;"><%=dzongkhagName %></small>
+	                <%
+	                	}
+	                %>
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
+              	<div class="pull-left">
+                  <a href="#" onclick="openProfile()" class="btn btn-success btn-flat"><i class="fa fa-user"></i>&nbsp;Profile</a>
+                </div>
                 <div class="pull-right">
-                  <a href="<%=request.getContextPath() %>/logout.html" class="btn btn-default btn-flat logout"><i class="fa fa-sign-out"></i>&nbsp;Sign out</a>
+                  <a href="<%=request.getContextPath() %>/logout.html" class="btn btn-danger btn-flat logout"><i class="fa fa-sign-out"></i>&nbsp;Sign out</a>
                 </div>
               </li>
             </ul>
@@ -106,5 +126,11 @@
   </header>
   
   <script>
+  
+  	function openProfile(){
+		var url = "<%=request.getContextPath()%>/redirect.html?q=profile"
+		$("#contentDisplayDiv").load(url);
+		$('#contentDisplayDiv').show();
+	}
   
   </script>

@@ -41,39 +41,40 @@ public class FlagGuestHelper {
 			
 			if(guestId > 0 && (residenceFlag.equalsIgnoreCase("N") && nationality.equalsIgnoreCase("BHUTAN")) || 
 					(residenceFlag.equalsIgnoreCase("Y") && !nationality.equalsIgnoreCase("BHUTAN"))) {
+				
+				pst.close();
+				rs.close();
+				pst = conn.prepareStatement(GET_EXIT_LOG);
+				pst.setInt(1, guestId);
+				rs = pst.executeQuery();
+				rs.first();
+				exit.setExitCount(rs.getString("exitCount"));
+				exit.setEntryOfExit(rs.getString("entry_or_exit"));
+				exit.setTransactionDateTime(rs.getString("transaction_date_time"));
+				exit.setReasonId(rs.getString("reason_id"));
+				exit.setReason(rs.getString("reason"));
+				exit.setRequestedGateId(rs.getString("requested_gate_id"));
+				exit.setGateId(rs.getString("gate_id"));
+				exit.setLogId(rs.getInt("log_id"));
+				
+				pst.close();
+				rs.close();
+				pst = conn.prepareStatement(GET_ENTRY_LOG);
+				pst.setInt(1, guestId);
+				rs = pst.executeQuery();
+				rs.first();
+				entry.setEntryCount(rs.getString("entryCount"));
+				entry.setEntryOfExit(rs.getString("entry_or_exit"));
+				entry.setTransactionDateTime(rs.getString("transaction_date_time"));
+				entry.setReasonId(rs.getString("reason_id"));
+				entry.setReason(rs.getString("reason"));
+				entry.setRequestedGateId(rs.getString("requested_gate_id"));
+				entry.setGateId(rs.getString("gate_id"));
+				entry.setTemperatureCheck(rs.getString("temperatureCheck"));
+				entry.setTemperatureThreshold(rs.getString("temperatureThreshold"));
+				entry.setLogId(rs.getInt("log_id"));
+				
 				if(transactionType.equalsIgnoreCase("ENTRY")) {
-					pst.close();
-					rs.close();
-					pst = conn.prepareStatement(GET_EXIT_LOG);
-					pst.setInt(1, guestId);
-					rs = pst.executeQuery();
-					rs.first();
-					exit.setExitCount(rs.getString("exitCount"));
-					exit.setEntryOfExit(rs.getString("entry_or_exit"));
-					exit.setTransactionDateTime(rs.getString("transaction_date_time"));
-					exit.setReasonId(rs.getString("reason_id"));
-					exit.setReason(rs.getString("reason"));
-					exit.setRequestedGateId(rs.getString("requested_gate_id"));
-					exit.setGateId(rs.getString("gate_id"));
-					exit.setLogId(rs.getInt("log_id"));
-					
-					pst.close();
-					rs.close();
-					pst = conn.prepareStatement(GET_ENTRY_LOG);
-					pst.setInt(1, guestId);
-					rs = pst.executeQuery();
-					rs.first();
-					entry.setEntryCount(rs.getString("entryCount"));
-					entry.setEntryOfExit(rs.getString("entry_or_exit"));
-					entry.setTransactionDateTime(rs.getString("transaction_date_time"));
-					entry.setReasonId(rs.getString("reason_id"));
-					entry.setReason(rs.getString("reason"));
-					entry.setRequestedGateId(rs.getString("requested_gate_id"));
-					entry.setGateId(rs.getString("gate_id"));
-					entry.setTemperatureCheck(rs.getString("temperatureCheck"));
-					entry.setTemperatureThreshold(rs.getString("temperatureThreshold"));
-					entry.setLogId(rs.getInt("log_id"));
-					
 					int timeGap = 0;
 					if(!exit.getReason().equalsIgnoreCase("TRAVEL")) {
 						pst.close();
@@ -176,7 +177,8 @@ public class FlagGuestHelper {
 				transactionLogId = entry.getLogId() > exit.getLogId() ? entry.getLogId() : exit.getLogId();
 				
 				pst = conn.prepareStatement(UPDATE_ALERT_FLAG);
-				pst.setInt(1, transactionLogId);
+				pst.setString(1, message.toString());
+				pst.setInt(2, transactionLogId);
 				int count = pst.executeUpdate();
 				
 				if(count > 0) {
@@ -191,6 +193,16 @@ public class FlagGuestHelper {
 					conn.commit();
 				}
 			} else {
+				if(Integer.parseInt(entry.getEntryCount()) > 0 && Integer.parseInt(exit.getExitCount()) > 0) {
+					pst = conn.prepareStatement(UPDATE_RECORD_STATUS);
+					pst.setInt(1, entry.getLogId());
+					pst.executeUpdate();
+					
+					pst = conn.prepareStatement(UPDATE_RECORD_STATUS);
+					pst.setInt(1, exit.getLogId());
+					pst.executeUpdate();
+				}
+				
 				message.append("NO_ALERT_TRIGGERED");
 				conn.commit();
 			}
@@ -207,7 +219,7 @@ public class FlagGuestHelper {
 	
 	private static final String UPDATE_RECORD_STATUS = "UPDATE `guestlog` a SET a.`record_status`='H' WHERE a.`log_id`=?";
 	
-	private static final String UPDATE_ALERT_FLAG = "UPDATE `guestlog` a SET a.`alert_flag` = 'Y', a.`alert_update_time` = CURRENT_TIMESTAMP WHERE a.`log_id`=?";
+	private static final String UPDATE_ALERT_FLAG = "UPDATE `guestlog` a SET a.`alert_flag` = 'Y', a.`alert_update_time` = CURRENT_TIMESTAMP, a.alert_remarks=? WHERE a.`log_id`=?";
 	
 	private static final String GET_THRESHOLD_HOURS_FOR_NON_TRAVEL_REASONS = "SELECT a.`threshold_hour` FROM `exitreasons` a WHERE a.`reason_id`=?";
 	

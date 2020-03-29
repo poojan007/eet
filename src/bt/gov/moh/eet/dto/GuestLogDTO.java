@@ -22,7 +22,42 @@ public class GuestLogDTO {
 	private String imagePath;
 	private String residenceFlag;
 	private String transactionType;
+	private String imageId;
+	private String transactionTime;
+	private String gateName;
+	private String dzongkhagName;
+	private String alertRemarks;
 	
+	public String getAlertRemarks() {
+		return alertRemarks;
+	}
+	public void setAlertRemarks(String alertRemarks) {
+		this.alertRemarks = alertRemarks;
+	}
+	public String getGateName() {
+		return gateName;
+	}
+	public void setGateName(String gateName) {
+		this.gateName = gateName;
+	}
+	public String getDzongkhagName() {
+		return dzongkhagName;
+	}
+	public void setDzongkhagName(String dzongkhagName) {
+		this.dzongkhagName = dzongkhagName;
+	}
+	public String getTransactionTime() {
+		return transactionTime;
+	}
+	public void setTransactionTime(String transactionTime) {
+		this.transactionTime = transactionTime;
+	}
+	public String getImageId() {
+		return imageId;
+	}
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
 	public String getTransactionType() {
 		return transactionType;
 	}

@@ -11,6 +11,8 @@ public class MasterDTO implements Serializable {
 	private String id;
 	private String pointOne;
 	private String pointTwo;
+	private String pointOneId;
+	private String pointTwoId;
 	private String averageTime;
 	private String reasonId;
 	private String reason;
@@ -23,6 +25,18 @@ public class MasterDTO implements Serializable {
 	private String userType;
 	private String name;
 	
+	public String getPointOneId() {
+		return pointOneId;
+	}
+	public void setPointOneId(String pointOneId) {
+		this.pointOneId = pointOneId;
+	}
+	public String getPointTwoId() {
+		return pointTwoId;
+	}
+	public void setPointTwoId(String pointTwoId) {
+		this.pointTwoId = pointTwoId;
+	}
 	public String getName() {
 		return name;
 	}

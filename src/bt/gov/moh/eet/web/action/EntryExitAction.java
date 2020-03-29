@@ -71,7 +71,7 @@ public class EntryExitAction extends DispatchAction {
 				GuestDao guestDao = new GuestDao();
 
 				BeanUtils.copyProperties(dto, formBean);
-				dto = flagGuestHelper.run(dto);
+			//	dto = flagGuestHelper.run(dto);
 
 				//String result = guestDao.getInstance().addGuestLog(dto, conn);
 				//request.setAttribute("MESSAGE", result);
