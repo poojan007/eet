@@ -27,33 +27,30 @@ public class PopulateDropDownDAO {
 		String query = null;
 		ArrayList<DropDownDTO> dropDownList = new ArrayList<DropDownDTO>();
 		
-		if (CommonWebConstant.IDENTIFICATION_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+		if (CommonWebConstant.IDENTIFICATION_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor))
 			query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
-		}
-		if (CommonWebConstant.NATIONALITY_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
-			query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
-		}
-		if (CommonWebConstant.REASON_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+		else if (CommonWebConstant.NATIONALITY_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor))
+			query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality ORDER BY rank";
+		else if (CommonWebConstant.REASON_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor))
 			query = "SELECT reason_id AS HEADER_ID, reason AS HEADER_NAME FROM exitreasons";
-		}
-		if (CommonWebConstant.GATE_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor)) {
+		else if (CommonWebConstant.GATE_TYPE_FIELD_CONSTRUCTOR.equalsIgnoreCase(fieldConstructor))
 			query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
-		}
-		if ("USER".equalsIgnoreCase(fieldConstructor)) 
+		else if ("USER".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_USER_TYPE_LIST_QUERY;
-		
-		if ("ROLE".equalsIgnoreCase(fieldConstructor)) 
+		else if ("ROLE".equalsIgnoreCase(fieldConstructor)) 
 			query = GET_ROLE_LIST_QUERY;
-		if ("IDENTIFICATIONTYPELIST".equalsIgnoreCase(fieldConstructor)) {
-      query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
-    }
-    if ("NATIONALITYLIST".equalsIgnoreCase(fieldConstructor)) {
-      query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
-    }
-    if ("GATELIST".equalsIgnoreCase(fieldConstructor)) {
-      query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
-    } else if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
+		else if ("IDENTIFICATIONTYPELIST".equalsIgnoreCase(fieldConstructor))
+			query = "SELECT identification_type_id AS HEADER_ID, identification_type AS HEADER_NAME FROM identificationtypes";
+		else if ("NATIONALITYLIST".equalsIgnoreCase(fieldConstructor))
+			query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality ORDER BY rank";
+		else if ("GATELIST".equalsIgnoreCase(fieldConstructor))
+	      query = "SELECT gate_id AS HEADER_ID, gate_name AS HEADER_NAME FROM gates";
+	    else if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
 			query = GET_IDENTIFICATION_ENDPOINT_URL_LIST;
+	    else if("ALL_DZONGKHAG_LIST".equalsIgnoreCase(fieldConstructor))
+	    	query = GET_DZONGKHAG_LIST;
+	    else if("GATE_LIST_FOR_ADMINISTRATOR".equalsIgnoreCase(fieldConstructor))
+	    	query = GET_GATE_LIST_FOR_ADMINISTRATOR;
     
 		try {
 			conn = ConnectionManager.getConnection();
@@ -61,8 +58,10 @@ public class PopulateDropDownDAO {
 				
 				pst = conn.prepareStatement(query);
 				
-				if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor))
+				if("IDENTIFICATION_TYPE_ENDPOINT_LIST".equalsIgnoreCase(fieldConstructor) ||
+						"GATE_LIST_FOR_ADMINISTRATOR".equalsIgnoreCase(fieldConstructor)) {
 					pst.setString(1, parentId);
+				}
 				
 				rs = pst.executeQuery();
 				while(rs.next()) {
@@ -122,7 +121,7 @@ public class PopulateDropDownDAO {
 		ArrayList<DropDownDTO> dropDownList = new ArrayList<DropDownDTO>();
 		
 		
-		query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality";
+		query = "SELECT nationality_id AS HEADER_ID, nationality AS HEADER_NAME FROM nationality ORDER BY rank";
 		try {
 			conn = ConnectionManager.getConnection();
 			if(conn != null) {
@@ -177,6 +176,21 @@ public class PopulateDropDownDAO {
 		
 		return dropDownList;
 	}
+	
+	private static final String GET_GATE_LIST_FOR_ADMINISTRATOR = "select "
+			+ "  a.`gate_id` HEADER_ID, "
+			+ "  a.`gate_name` HEADER_NAME "
+			+ "from "
+			+ "  gates a "
+			+ "  left join gewog_gate_mapping b "
+			+ "    on a.`gate_id` = b.`gate_id` "
+			+ "  left join gewogs c "
+			+ "    on b.`gewog_id` = c.`gewog_id` "
+			+ "  left join dzongkhags d "
+			+ "    on c.`dzongkhag_id` = d.`dzongkhag_id` "
+			+ "where d.`dzongkhag_id` = ?";
+	
+	private static final String GET_DZONGKHAG_LIST = "select `dzongkhag_id` HEADER_ID, `dzongkhag` HEADER_NAME from `dzongkhags`";
 	
 	private static final String GET_USER_TYPE_LIST_QUERY = "SELECT "
 			+ "  a.`user_type_id` AS HEADER_ID, "

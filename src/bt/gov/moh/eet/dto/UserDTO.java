@@ -17,11 +17,9 @@ public class UserDTO implements Serializable{
 	private String gate_id;
 	private String user_type;
 	private String role_name;
-
 	private String entrycount;
 	private String exitcount;
 	private String flagcount;
-
 	private String cidedit;
 	private String editfull_name;
 	private String editmobile_number;
@@ -32,7 +30,35 @@ public class UserDTO implements Serializable{
 	private String editgate_id;
 	private String edituser_type;
 	private String editrole_name;
+	private String dzongkhag_id;
+	private String edit_dzongkhag_id;
+	private String gateName;
+	private String dzongkhagName;
 
+	public String getGateName() {
+		return gateName;
+	}
+	public void setGateName(String gateName) {
+		this.gateName = gateName;
+	}
+	public String getDzongkhagName() {
+		return dzongkhagName;
+	}
+	public void setDzongkhagName(String dzongkhagName) {
+		this.dzongkhagName = dzongkhagName;
+	}
+	public String getEdit_dzongkhag_id() {
+		return edit_dzongkhag_id;
+	}
+	public void setEdit_dzongkhag_id(String edit_dzongkhag_id) {
+		this.edit_dzongkhag_id = edit_dzongkhag_id;
+	}
+	public String getDzongkhag_id() {
+		return dzongkhag_id;
+	}
+	public void setDzongkhag_id(String dzongkhag_id) {
+		this.dzongkhag_id = dzongkhag_id;
+	}
 	public String getExitcount() {
 		return exitcount;
 	}

@@ -108,22 +108,17 @@ public class GetApplicationToken extends HttpServlet {
 					result.append(line);
 				}
 				
-				System.out.println("<------------- Data-hub Response : START ----------> ");
-				System.out.println("JSON: "+result.toString());
 				JsonParser parser = new JsonParser(); 
 				JsonObject json = (JsonObject) parser.parse(result.toString());
 				
 				String accessToken = json.get("access_token").getAsString();
 				String tokenExpiryTime = json.get("expires_in").getAsString();
-				System.out.println("Parsed Token: "+accessToken);
-				System.out.println("Parsed Expiry Time: "+tokenExpiryTime);
 				
 				HttpSession session = request.getSession();
 				TokenDTO dto = new TokenDTO();
 				dto.setAccessToken(accessToken);
 				dto.setTokenExpiryTime(tokenExpiryTime);
 				session.setAttribute("TOKEN", dto);
-				System.out.println(" <------------- Data-hub Response : END -----------> ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -29,7 +29,7 @@ public class EnrollmentAction extends Action {
 				String duplicate = EnrollmentDAO.checkDuplicate(enrollmentForm.getIdentificationNo());
 				
 				String result = null;
-				if(duplicate.equalsIgnoreCase("1")){
+				if(duplicate.equalsIgnoreCase("NO_DUPLICATE")){
 					result = EnrollmentDAO.insertEnrollmentData(enrollmentForm, request);
 				} else{
 					result = "DUPLICATE_ENTRY";

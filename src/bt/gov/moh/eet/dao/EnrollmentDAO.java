@@ -81,18 +81,18 @@ public class EnrollmentDAO {
 	}
 
 	public static String checkDuplicate(String identificationNo) {
-		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		String result =null;
+		String result = "NO_DUPLICATE";
 		try {
 			conn = ConnectionManager.getConnection();
 			pst = conn.prepareStatement(GET_DUPLICATE_ENTRY);
 			pst.setString(1, identificationNo);
 			rs = pst.executeQuery();
-			while(rs.next()){
-				result = rs.getString("duplicateIdNo");
+			rs.first();
+			if(rs.getInt("duplicateIdNo") > 0) {
+				result = "DUPLICATE_ENTRY";
 			}
 		} catch (Exception e) {
 			System.out.println(e);
@@ -103,7 +103,7 @@ public class EnrollmentDAO {
 		return result;
 	}
 	
-	private static final String GET_DUPLICATE_ENTRY = "SELECT COUNT(identification_no) AS duplicateIdNo FROM guests  WHERE identification_no = ? ";
+	private static final String GET_DUPLICATE_ENTRY = "SELECT COUNT(identification_no) AS duplicateIdNo FROM guests WHERE identification_no = ? ";
 	
 	private static String uploadImage(EnrollmentForm enrollmentForm, HttpServletRequest request) throws Exception 
 	{

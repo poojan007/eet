@@ -12,8 +12,10 @@ import org.apache.struts.action.ActionMapping;
 
 import bt.gov.moh.eet.dao.MasterDAO;
 import bt.gov.moh.eet.dao.PopulateDropDownDAO;
+import bt.gov.moh.eet.dao.ReportDAO;
 import bt.gov.moh.eet.dao.UserDAO;
 import bt.gov.moh.eet.dto.DropDownDTO;
+import bt.gov.moh.eet.dto.GuestLogDTO;
 import bt.gov.moh.eet.dto.MasterDTO;
 import bt.gov.moh.eet.dto.UserDTO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
@@ -31,18 +33,24 @@ public class RedirectionAction extends Action {
 			UserDetailsVO vo = (UserDetailsVO)session.getAttribute("userdetails");
 			String param = request.getParameter("q");
 			String parentId=null;
+			
 			if(vo != null && vo.getRole_id() != null && vo.getUserCheck().equalsIgnoreCase("ok")) {
-				if(param.equalsIgnoreCase("MANAGE_USERS")) {
+				if(param.equalsIgnoreCase("profile")) {
+					UserDTO dto = UserDAO.getInstance().getLoggedInUserDetails(vo.getCid());
+					request.setAttribute("loggedInUser", dto);
+					actionForward = param;
+				} else if(param.equalsIgnoreCase("MANAGE_USERS")) {
 					
-					List<UserDTO> userDetails = UserDAO.getInstance().getUserDetails();
+					List<UserDTO> userDetails = UserDAO.getInstance().getUserDetails(vo.getRoleCode(), vo.getDzongkhagId());
 					request.setAttribute("userDetails", userDetails);
 					List<DropDownDTO> userTypeList = PopulateDropDownDAO.getInstance().getDropDownList("USER", parentId);
-					List<DropDownDTO> roleList = PopulateDropDownDAO.getInstance().getDropDownList("ROLE", parentId);
-					List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATELIST", parentId);
+					List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATE_LIST_FOR_ADMINISTRATOR", vo.getDzongkhagId());
+					List<DropDownDTO> allDzongkhagList = PopulateDropDownDAO.getInstance().getDropDownList("ALL_DZONGKHAG_LIST", parentId);
 					
 					request.setAttribute("gateList", gateList);
 					request.setAttribute("userTypeList", userTypeList);
-					request.setAttribute("roleList", roleList);
+					request.setAttribute("dzongkhagList", allDzongkhagList);
+					//request.setAttribute("roleList", roleList);
 					actionForward = param;
 				} else if(param.equalsIgnoreCase("MASTER_MANAGEMENT_GATES") || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES")
 						 || param.equalsIgnoreCase("MASTER_MANAGEMENT_IDENTIFICATION_TYPES") || param.equalsIgnoreCase("MASTER_MANAGMENT_NATIONALITY")
@@ -74,18 +82,17 @@ public class RedirectionAction extends Action {
 			          request.setAttribute("IDENTIFICATIONTYPELIST", identificationTypeList);
 			          List<DropDownDTO> nationalityList = PopulateDropDownDAO.getInstance().getDropDownList("NATIONALITYLIST", null);
 			          request.setAttribute("NATIONALITYLIST", nationalityList);
-			          
-//			          List<DropDownDTO> gateList = PopulateDropDownDAO.getInstance().getDropDownList("GATELIST", null);
-//			          request.setAttribute("GATELIST", gateList);
 			          actionForward = param;
-			        }
-				
-				if(param.equalsIgnoreCase("getTotalCounts")) {
-					
-					List<UserDTO> TOTALLIST = UserDAO.getInstance().getTotalList();
-					request.setAttribute("TOTALLIST", TOTALLIST);
-					actionForward = "COUNT";
-				}
+		        } else if(param.equalsIgnoreCase("report")) {
+		        	String type = request.getParameter("type");
+		        	List<GuestLogDTO> reportList = ReportDAO.getInstance().getReportList(type, vo);
+		        	request.setAttribute("reportList", reportList);
+		        	request.setAttribute("type", type);
+
+		        	actionForward = param;
+		        } else if(param.equalsIgnoreCase("HISTORICAL_REPORT")) {
+		        	actionForward = param;
+		        }
 			}
 			else {
 				actionForward = "GLOBAL_REDIRECT_LOGIN";

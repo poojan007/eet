@@ -16,6 +16,10 @@
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/ionicons.min.css">
 	<!-- Theme style -->
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/AdminLTE.min.css">
+	<!-- Offline style css -->
+  	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/offline-language-english.css">
+	<!-- Offline style -->
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/offline-theme-slide.css">
 	
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -65,6 +69,8 @@
 <script src="<%=request.getContextPath() %>/js/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
+<!-- Offline js -->
+<script src="<%=request.getContextPath()%>/js/offline.min.js"></script>
 
 <%
 	String msg = null;
@@ -84,15 +90,6 @@
 		
 		if("failure" == failureMsg) {
 			displayMsg = "<div class='alert alert-danger'>The credentials you provided cannot be determined to be authentic</div>";
-		}
-		else if("loggedIn" == failureMsg) {
-			displayMsg = "<div class='alert alert-danger'>Login restricted, this user is already logged in to the system</div>";
-		}
-		else if("deactivated" == failureMsg) {
-			displayMsg = "<div class='alert alert-danger'>Your account has been deactivated by the administrator, Contact your administrator for further information</div>";
-		}
-		else if("deleted" == failureMsg) {
-			displayMsg = "<div class='alert alert-danger'>Your account has been deleted by the administrator, Contact your administrator for further information</div>";
 		}
 		else if("UNAUTHORIZED" == failureMsg){
 			displayMsg = "<div class='alert alert-warning'>Unauthorized access, please login to access the specified task</div>";

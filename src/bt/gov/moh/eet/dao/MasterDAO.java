@@ -80,8 +80,10 @@ public class MasterDAO {
 				while(rs.next()) {
 					dto = new MasterDTO();
 					dto.setId(rs.getString("id"));
-					dto.setPointOne(rs.getString("point_one"));
-					dto.setPointTwo(rs.getString("point_two"));
+					dto.setPointOneId(rs.getString("point_one"));
+					dto.setPointTwoId(rs.getString("point_two"));
+					dto.setPointOne(rs.getString("pointOne"));
+					dto.setPointTwo(rs.getString("pointTwo"));
 					dto.setAverageTime(rs.getString("average_time"));
 					masterList.add(dto);
 				}
@@ -347,7 +349,18 @@ public class MasterDAO {
 	
 	private static final String GET_EXIT_REASONS = "select `reason_id`,`reason`,`threshold_hour` from `exitreasons`";
 	
-	private static final String GET_AVERAGE_TIME = "select `id`, `point_one`, `point_two`, `average_time` from `averagetime`";
+	private static final String GET_AVERAGE_TIME = "select "
+			+ "  `id`, "
+			+ "  a.`point_one`, "
+			+ "  a.`point_two`, "
+			+ "  b.`gate_name` pointOne, "
+			+ "  c.`gate_name` pointTwo, "
+			+ "  `average_time` "
+			+ "from "
+			+ "  `averagetime` a "
+			+ "  left join gates b on a.`point_one`=b.`gate_id` "
+			+ "  left join gates c on a.`point_two`=c.`gate_id` "
+			+ "  order by a.`point_one`";
 	
 	private static final String INSERT_INTO_USERTYPES = "insert into `entry_exit_tracker`.`usertypes` (`user_type`) values (?)";
 	

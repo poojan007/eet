@@ -21,7 +21,14 @@ public class GuestLogForm extends ActionForm {
 	private String guestId;
 	private String dob;
 	private String residenceFlag;
+	private String imageId;
 	
+	public String getImageId() {
+		return imageId;
+	}
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
 	public String getResidenceFlag() {
 		return residenceFlag;
 	}
