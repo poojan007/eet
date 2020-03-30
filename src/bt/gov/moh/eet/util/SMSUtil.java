@@ -52,8 +52,9 @@ public final class SMSUtil implements Runnable {
 			String SMSBody = SMSObj.getSmsContent();
 			if (SMSBody != null && !SMSBody.trim().equals("")) 
 			{
-				SMSBody = SMSBody.replaceAll("#GATE_NAME#", SMSObj.getGateName());
-				SMSBody = SMSBody.replaceAll("#TRANSACTION_TIME#", SMSObj.getTransactionTime());
+//				SMSBody = SMSBody.replaceAll("#GATE_NAME#", SMSObj.getGateName());
+//				SMSBody = SMSBody.replaceAll("#TRANSACTION_TIME#", SMSObj.getTransactionTime());
+				SMSBody = SMSBody.replaceAll("#GUEST_ID#", SMSObj.getGuestId());
 				SMSObj.setSmsContent(SMSBody);
 			}
 
@@ -268,6 +269,7 @@ public final class SMSUtil implements Runnable {
 			smsObject.setSmsContent(smsObj.getSmsContent());
 			smsObject.setGateName(smsObj.getGateName());
 			smsObject.setTransactionTime(smsObj.getTransactionTime());
+			smsObject.setGuestId(smsObj.getGuestId());
 			
 			Thread thread = new Thread(new SMSUtil(smsObject));
 			thread.start();
@@ -363,7 +365,7 @@ public final class SMSUtil implements Runnable {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				smsObject.setSmsContent(rs.getString("TEMPLATE_SMS_BODY"));				
+				smsObject.setSmsContent(rs.getString("sms_body"));				
 			}
 		} catch (Exception ee) {
 			Log.error("##### Error in SMSDAO[getMailTemplate]",ee);
