@@ -14,7 +14,21 @@ public class SMSModelVO implements Serializable{
 	private String mobileNo;
 	private String gateName;
 	private String transactionTime;
+	private String keyword;
+	private String guestId;
 	
+	public String getGuestId() {
+		return guestId;
+	}
+	public void setGuestId(String guestId) {
+		this.guestId = guestId;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	public String getMobileNo() {
 		return mobileNo;
 	}

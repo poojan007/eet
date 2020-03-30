@@ -6,31 +6,39 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Hashtable;
+
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import bt.gov.moh.eet.dao.GuestLogDAO;
 import bt.gov.moh.framework.common.Log;
 
-@WebServlet("/guestqrcode")
-public class GenerateQRCodeServlet extends HttpServlet {
+/**
+ * Servlet implementation class GenerateGuestQRCodeServlet
+ */
+@WebServlet("/guestQRCode")
+public class GenerateGuestQRCodeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GenerateQRCodeServlet() {
+    public GenerateGuestQRCodeServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
-	/**
+    /**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,22 +63,18 @@ public class GenerateQRCodeServlet extends HttpServlet {
 		response.setContentType("image/jpeg");
 		
 		try {
-			String qrCodeText = request.getParameter("qrCodeText");
-			String type = request.getParameter("type");
-			String width = request.getParameter("width");
-			String height = request.getParameter("height");
 			
-			if(type.equalsIgnoreCase("BARCODE_NUMBER")) {
-				qrCodeText += "#5";
-			} else {
-				qrCodeText += "#"+type;
-			}
+			String guestId = request.getParameter("id");
+			String result = GuestLogDAO.getInstance().getGuestIdentification(guestId);
+			
+			String[] resultArray = result.split("#");
+			String qrCodeText = resultArray[0]+"#"+resultArray[1];
 			
 			// Create the ByteMatrix for the QR-Code that encodes the given String
 			Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<>();
 			hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
 			QRCodeWriter qrCodeWriter = new QRCodeWriter();
-			BitMatrix byteMatrix = qrCodeWriter.encode(qrCodeText, BarcodeFormat.QR_CODE, Integer.parseInt(width), Integer.parseInt(height), hintMap);
+			BitMatrix byteMatrix = qrCodeWriter.encode(qrCodeText, BarcodeFormat.QR_CODE, 250, 250, hintMap);
 			
 			// Make the BufferedImage that are to hold the QRCode
 			int matrixWidth = byteMatrix.getWidth();

@@ -4,11 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import bt.gov.moh.eet.dto.GuestLogDTO;
 import bt.gov.moh.eet.dto.NotificationDTO;
 import bt.gov.moh.eet.util.ConnectionManager;
 import bt.gov.moh.eet.util.FlagGuestHelper;
+import bt.gov.moh.eet.util.SMSUtil;
+import bt.gov.moh.eet.vo.SMSModelVO;
 import bt.gov.moh.eet.vo.UserDetailsVO;
 
 public class GuestLogDAO {
@@ -121,6 +125,13 @@ public class GuestLogDAO {
 						pst.setString(2, rs.getString("guest_image_id"));
 						count = pst.executeUpdate();
 					}
+					
+					NotificationDTO notifyDTO = new NotificationDTO();
+					notifyDTO.setMobileNo(dto.getContactNo());
+					notifyDTO.setGuestId(Integer.toString(guestId));
+					SMSModelVO smsvo = new SMSModelVO();
+					smsvo.setSmsType("QR_CODE_LINK");
+					sendSMSToUser(smsvo, notifyDTO);
 				}
 				
 				pst.close();
@@ -303,6 +314,30 @@ public class GuestLogDAO {
 		return exists;
 	}
 	
+	public String getGuestIdentification(String guestId) throws Exception {
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String result = "";
+		
+		try {
+			String query = "SELECT a.`identification_no`, a.`identification_type_id` FROM guests a WHERE a.`guest_id`=?";
+			conn = ConnectionManager.getConnection();
+			pst = conn.prepareStatement(query);
+			pst.setString(1, guestId);
+			rs = pst.executeQuery();
+			rs.first();
+			result = rs.getString("identification_no")+"#"+rs.getString("identification_type_id");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e.getMessage());
+		} finally {
+			ConnectionManager.close(conn, rs, pst);
+		}
+		
+		return result;
+	}
+	
 	public NotificationDTO guestLog(String keyword, String mobileNo, String gateCode) throws Exception {
 		Connection conn = null;
 		PreparedStatement pst = null;
@@ -397,6 +432,23 @@ public class GuestLogDAO {
 		}
 		
 		return dto;
+	}
+	
+	/**
+	 * @param smsObject the sms object
+	 * @param NotificationDTO
+	 * @throws exception
+	 */  
+	private void sendSMSToUser(SMSModelVO smsObject, NotificationDTO dto) throws Exception {
+		String mobileNo = dto.getMobileNo();
+
+		if (mobileNo != null && !mobileNo.trim().isEmpty()) {
+			List<String> recipientList = new ArrayList<String>();
+			recipientList.add(mobileNo);
+			smsObject.setRecipentList(recipientList);
+			smsObject.setGuestId(dto.getGuestId());
+			new SMSUtil().sendSMS(smsObject);
+		}
 	}
 	
 	private static final String TEMPERATURE_CHECK = "select "

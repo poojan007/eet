@@ -54,7 +54,7 @@
 				</div>
 				<div class="box-body">
 					<div class="booth" align="center">
-						<img id="qrImg"/>
+						<img id="qrImg" class="img-responsive"/>
 					</div>
 				</div>
 			</div>
@@ -528,7 +528,7 @@
 			
 			$('#guestName').attr('readonly', true);
 			$('#dob').attr('readonly', true);
-		} else if(dataType == "IMMIGRATION_API"){
+		} else if(dataType == "IMMIGRATION_WORK_PERMIT_API"){
 			$('#guestName').val(name);
 			$('#gender').val(gender);
 			$('#nationality').val(nationality);
@@ -560,6 +560,31 @@
 			$('#guestName').attr('readonly', true);
 			$('#gender').attr("style", "pointer-events: none;");
 			$('#dob').attr('readonly', true);
+		} else if(dataType == "IMMIGRATION_TRADER_PERMIT_API"){
+			$('#guestName').val(name);
+			$('#gender').val(gender);
+			$('#presentAddress').val(presentAddress);
+			$('#dob').addClass('datepicker');
+			
+			$('#guestName').attr('readonly', true);
+			$('#gender').attr('readonly', true);
+			$('#gender').attr("style", "pointer-events: none;");
+			$('#presentAddress').attr('readonly', true);
+			$('#dob').attr('readonly', true);
+		} else if(dataType == "IMMIGRATION_DEPENDENT_PERMIT_API"){
+			$('#guestName').val(name);
+			$('#gender').val(gender);
+			$('#nationality').val(nationality);
+			$('#presentAddress').val(presentAddress);
+			$('#dob').addClass('datepicker');
+			
+			$('#guestName').attr('readonly', true);
+			$('#gender').attr('readonly', true);
+			$('#presentAddress').attr('readonly', true);
+			$('#dob').attr('readonly', true);
+			$('#nationality').attr('readonly', true);
+			$('#nationality').attr("style", "pointer-events: none;");
+			$('#gender').attr("style", "pointer-events: none;");
 		}
 	}
 	
@@ -625,7 +650,7 @@
 	}
 	
 	function generateQRCode(identificationNo, identificationType){
-		$('#qrImg').attr('src', '<%=request.getContextPath()%>/guestqrcode?qrCodeText='+identificationNo+'&type='+identificationType+'&width=200&height=200');
+		$('#qrImg').attr('src', '<%=request.getContextPath()%>/guestqrcode?qrCodeText='+identificationNo+'&type='+identificationType+'&width=300&height=300');
 		$('#qrDisplayDiv').show();
 	}
 	

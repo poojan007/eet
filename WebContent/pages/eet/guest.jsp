@@ -73,7 +73,7 @@
 					</div>
 					<div class="box-body">
 						<div class="booth" align="center">
-							<img id="qrImg"/>
+							<img id="qrImg" class="img-responsive"/>
 						</div>
 					</div>
 				</div>

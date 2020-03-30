@@ -8,7 +8,14 @@ public class NotificationDTO implements Serializable {
 	private String status;
 	private String mobileNo;
 	private String keyword;
+	private String guestId;
 	
+	public String getGuestId() {
+		return guestId;
+	}
+	public void setGuestId(String guestId) {
+		this.guestId = guestId;
+	}
 	public String getStatus() {
 		return status;
 	}

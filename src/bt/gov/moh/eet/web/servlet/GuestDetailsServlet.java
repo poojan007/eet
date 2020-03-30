@@ -12,8 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.wso2.client.model.COVID_ImmigrantDetailsAPI.DependentOBJ;
+import org.wso2.client.model.COVID_ImmigrantDetailsAPI.DependentResponse;
 import org.wso2.client.model.COVID_ImmigrantDetailsAPI.ImmigrantOBJ;
 import org.wso2.client.model.COVID_ImmigrantDetailsAPI.ImmigrantResponse;
+import org.wso2.client.model.COVID_ImmigrantDetailsAPI.TraderOBJ;
+import org.wso2.client.model.COVID_ImmigrantDetailsAPI.TraderResponse;
 import org.wso2.client.model.DCRC_IndividualCitizenDetailAPI.CitizenOBJ;
 import org.wso2.client.model.DCRC_IndividualCitizenDetailAPI.CitizenResponse;
 import org.wso2.client.model.DCRC_RestCitizenImageAPI.CitizenImageObj;
@@ -128,9 +132,11 @@ public class GuestDetailsServlet extends HttpServlet {
 			} else if (identificationTypeList.get(0).getHeaderId().equalsIgnoreCase("DRIVING_LICENSE")) {
 				request.setAttribute("licenseNo", idNo);
 				buffer = getDrivingLicenseDetails(request, response, idNo, identificationTypeList.get(0).getHeaderName(), accessToken, guestId);
-			} else if (identificationTypeList.get(0).getHeaderId().equalsIgnoreCase("WORK_PERMIT")) {
+			} else if (identificationTypeList.get(0).getHeaderId().equalsIgnoreCase("WORK_PERMIT") ||
+							identificationTypeList.get(0).getHeaderId().equalsIgnoreCase("TRADE_CARD_HOLDER") ||
+								identificationTypeList.get(0).getHeaderId().equalsIgnoreCase("DEPENDENT_PERMIT")) {
 				request.setAttribute("workPermitNo", idNo);
-				buffer = getWorkPermitDetails(request, response, idNo, identificationTypeList.get(0).getHeaderName(), accessToken);
+				buffer = getWorkPermitDetails(request, response, idNo, identificationTypeList.get(0).getHeaderName(), accessToken, identificationTypeList.get(0).getHeaderId());
 			} else if (identificationTypeList.get(0).getHeaderId().equalsIgnoreCase("PASSPORT")) {
 				request.setAttribute("passportNo", idNo);
 				buffer = getPassportDetails(request, response, idNo, identificationTypeList.get(0).getHeaderName(), accessToken, guestId);
@@ -241,7 +247,7 @@ public class GuestDetailsServlet extends HttpServlet {
 		return buffer;
 	}
 
-	protected StringBuffer getWorkPermitDetails(HttpServletRequest request, HttpServletResponse response, String workPermitNo, String endPointUrl, String accessToken) throws ServletException, IOException {
+	protected StringBuffer getWorkPermitDetails(HttpServletRequest request, HttpServletResponse response, String workPermitNo, String endPointUrl, String accessToken, String identificationType) throws ServletException, IOException {
 		StringBuffer buffer = new StringBuffer();
 
 		try {
@@ -256,32 +262,75 @@ public class GuestDetailsServlet extends HttpServlet {
 			apiClient.setAccessToken(accessToken);
 			org.wso2.client.api.COVID_ImmigrantDetailsAPI.DefaultApi api = new org.wso2.client.api.COVID_ImmigrantDetailsAPI.DefaultApi(apiClient);
 
-			ImmigrantResponse immigrantResponse = api.immigrantdetailWorkeridGet(workPermitNo);
-			ImmigrantOBJ immigrantObj = null;
+			if(identificationType.equalsIgnoreCase("WORK_PERMIT")) {
+				ImmigrantResponse immigrantResponse = api.immigrantdetailWorkeridGet(workPermitNo);
+				ImmigrantOBJ immigrantObj = null;
+				if (immigrantResponse.getImmigrantdetails().getImmigrantdetail() != null
+						&& !immigrantResponse.getImmigrantdetails().getImmigrantdetail().isEmpty()) {
+					immigrantObj = immigrantResponse.getImmigrantdetails().getImmigrantdetail().get(0);
 
-			if (immigrantResponse.getImmigrantdetails().getImmigrantdetail() != null
-					&& !immigrantResponse.getImmigrantdetails().getImmigrantdetail().isEmpty()) {
-				immigrantObj = immigrantResponse.getImmigrantdetails().getImmigrantdetail().get(0);
+					String gender = "";
+					if (immigrantObj.getGender().equalsIgnoreCase("MALE"))
+						gender = "M";
+					else
+						gender = "F";
 
-				String gender = "";
-				if (immigrantObj.getGender().equalsIgnoreCase("MALE"))
-					gender = "M";
-				else
-					gender = "F";
-
-				buffer.append("<xml-response>");
-				buffer.append("<guestId></guestId>");
-				buffer.append("<cidNo></cidNo>");
-				buffer.append("<name>" + immigrantObj.getName() + "</name>");
-				buffer.append("<gender>" + gender + "</gender>");
-				buffer.append("<dob></dob>");
-				buffer.append("<contactno></contactno>");
-				buffer.append("<nationality>" +immigrantObj.getNationality()+ "</nationality>");
-				buffer.append("<presentAddress>" + immigrantObj.getWorkLocation() + "</presentAddress>");
-				buffer.append("<residentflag></residentflag>");
-				buffer.append("<imagepath></imagepath>");
-				buffer.append("<data-type>IMMIGRATION_API</data-type>");
-				buffer.append("</xml-response>");
+					buffer.append("<xml-response>");
+					buffer.append("<guestId></guestId>");
+					buffer.append("<cidNo></cidNo>");
+					buffer.append("<name>" + immigrantObj.getName() + "</name>");
+					buffer.append("<gender>" + gender + "</gender>");
+					buffer.append("<dob></dob>");
+					buffer.append("<contactno></contactno>");
+					buffer.append("<nationality>" +immigrantObj.getNationality()+ "</nationality>");
+					buffer.append("<presentAddress>" + immigrantObj.getWorkLocation() + "</presentAddress>");
+					buffer.append("<residentflag></residentflag>");
+					buffer.append("<imagepath></imagepath>");
+					buffer.append("<data-type>IMMIGRATION_WORK_PERMIT_API</data-type>");
+					buffer.append("</xml-response>");
+				}
+			} else if(identificationType.equalsIgnoreCase("TRADE_CARD_HOLDER")) {
+				TraderResponse traderResponse = api.traderdetailPermitnoGet(Integer.parseInt(workPermitNo));
+				TraderOBJ traderObj = null;
+				
+				if(traderResponse.getTraderpermits().getTraderpermit() != null) {
+					traderObj = traderResponse.getTraderpermits().getTraderpermit().get(0);
+					
+					buffer.append("<xml-response>");
+						buffer.append("<guestId></guestId>");
+						buffer.append("<cidNo></cidNo>");
+						buffer.append("<name>" + traderObj.getName() + "</name>");
+						buffer.append("<gender>" + traderObj.getGender() + "</gender>");
+						buffer.append("<dob></dob>");
+						buffer.append("<contactno></contactno>");
+						buffer.append("<nationality></nationality>");
+						buffer.append("<presentAddress>" + traderObj.getLocation() + "</presentAddress>");
+						buffer.append("<residentflag></residentflag>");
+						buffer.append("<imagepath></imagepath>");
+						buffer.append("<data-type>IMMIGRATION_TRADER_PERMIT_API</data-type>");
+					buffer.append("</xml-response>");
+				}
+			} else if(identificationType.equalsIgnoreCase("DEPENDENT_PERMIT")) {
+				DependentResponse dependentResponse = api.dependentdetailPermitnoGet(Integer.parseInt(workPermitNo));
+				DependentOBJ dependentObj = null;
+				
+				if(dependentResponse.getDependentdetails().getDependentdetail() != null) {
+					dependentObj = dependentResponse.getDependentdetails().getDependentdetail().get(0);
+					
+					buffer.append("<xml-response>");
+						buffer.append("<guestId></guestId>");
+						buffer.append("<cidNo></cidNo>");
+						buffer.append("<name>" + dependentObj.getName() + "</name>");
+						buffer.append("<gender>" + dependentObj.getGender() + "</gender>");
+						buffer.append("<dob></dob>");
+						buffer.append("<contactno></contactno>");
+						buffer.append("<nationality> "+dependentObj.getCountryName()+" </nationality>");
+						buffer.append("<presentAddress>" + dependentObj.getPermanentAddress() + "</presentAddress>");
+						buffer.append("<residentflag></residentflag>");
+						buffer.append("<imagepath></imagepath>");
+						buffer.append("<data-type>IMMIGRATION_DEPENDENT_PERMIT_API</data-type>");
+					buffer.append("</xml-response>");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
